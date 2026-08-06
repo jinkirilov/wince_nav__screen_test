@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A1B2C3D4-1111-4E22-9A33-0123456789AB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MobisHaims</RootNamespace>
+    <AssemblyName>MobisHaims.App</AssemblyName>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.2</OSVersion>
+    <DeployDirSuffix>MobisHaims.App</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Debug\</OutputPath>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Release\</OutputPath>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\FooterControl.Designer.cs">
+      <DependentUpon>FooterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ui\Theme.cs" />
+    <Compile Include="Core\AppTypes.cs" />
+    <Compile Include="Nav\ScreenId.cs" />
+    <Compile Include="Nav\ScreenBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Nav\Navigation.cs" />
+    <Compile Include="Data\Json.cs" />
+    <Compile Include="Data\IfClient.cs" />
+    <Compile Include="Controls\HeaderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HeaderControl.Designer.cs">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FooterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\JumpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\JumpForm.Designer.cs">
+      <DependentUpon>JumpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShellForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShellForm.Designer.cs">
+      <DependentUpon>ShellForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\S000_MainMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\S000_MainMenu.Designer.cs">
+      <DependentUpon>S000_MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\S100_InboundMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\S100_InboundMenu.Designer.cs">
+      <DependentUpon>S100_InboundMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\S120_SiteInboundClassify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\S120_SiteInboundClassify.Designer.cs">
+      <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="DesignTimeAttributes.xmta" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\FooterControl.resx">
+      <DependentUpon>FooterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\HeaderControl.resx">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\JumpForm.resx">
+      <DependentUpon>JumpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\S000_MainMenu.resx">
+      <DependentUpon>S000_MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\S100_InboundMenu.resx">
+      <DependentUpon>S100_InboundMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\S120_SiteInboundClassify.resx">
+      <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShellForm.resx">
+      <DependentUpon>ShellForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

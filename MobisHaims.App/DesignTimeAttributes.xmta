@@ -1,0 +1,26 @@
+﻿<Classes xmlns="http://schemas.microsoft.com/VisualStudio/2004/03/SmartDevices/XMTA.xsd">
+  <Class Name="MobisHaims.Controls.HeaderControl">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Controls.FooterControl">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Nav.ScreenBase">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S000_MainMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S100_InboundMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S120_SiteInboundClassify">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+</Classes>
