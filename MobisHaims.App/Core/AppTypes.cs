@@ -1,4 +1,5 @@
 using MobisHaims.Data;
+using MobisHaims.Devices;
 using MobisHaims.Nav;
 
 namespace MobisHaims.Core
@@ -31,5 +32,6 @@ namespace MobisHaims.Core
         void ShowMessage(string text, MsgLevel level); // 푸터 갱신
         SessionContext Session { get; }
         IfClient If { get; }                            // 데몬 /if 통신
+        IScanner Scanner { get; }                       // 바코드 스캐너(웨지/하드웨어 공통)
     }
 }

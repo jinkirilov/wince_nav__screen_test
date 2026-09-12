@@ -41,16 +41,16 @@ namespace MobisHaims.Controls
             this.btnJump.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold);
             this.btnJump.Location = new System.Drawing.Point(0, 0);
             this.btnJump.Name = "btnJump";
-            this.btnJump.Size = new System.Drawing.Size(52, 20);
+            this.btnJump.Size = new System.Drawing.Size(76, 52);
             this.btnJump.TabIndex = 0;
             this.btnJump.Text = "JUMP";
             this.btnJump.Click += new System.EventHandler(this.OnJumpClick);
-            //
+            // 
             // FooterControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Name = "FooterControl";
-            this.Size = new System.Drawing.Size(444, 233);
+            this.Size = new System.Drawing.Size(370, 35);
             this.ResumeLayout(false);
 
         }

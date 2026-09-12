@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using MobisHaims.Core;
 using MobisHaims.Data;
 using MobisHaims.Nav;
-using MobisHaims.Ui;
 
 namespace MobisHaims.Screens
 {
     // [120] 사업소입고분류 : 부번 스캔 -> 조회 -> 수량 입력 -> 저장
     //
-    // 좌표를 코드로 계산하던 LayoutFields()/LayoutButtons()를 제거했다.
-    // 배치는 전적으로 S120_SiteInboundClassify.Designer.cs (VS2008 디자이너)에서 결정한다.
-    // ScaleToClient()가 디자이너 좌표/폰트를 실행 해상도에 비례 변환하므로
-    // VGA(480x640)에서는 디자인 그대로, QVGA(240x320)에서는 축소되어 동일 배치로 보인다.
+    // 좌표와 크기, 색, 폰트는 전부 S120_SiteInboundClassify.Designer.cs (VS2008 디자이너)에서 관리한다.
+    // QVGA 축소는 ShellForm 의 AutoScaleMode.Dpi 가 처리하므로
+    // 이 화면에서는 좌표를 계산하지 않는다.
     public sealed partial class S120_SiteInboundClassify : ScreenBase
     {
         public override int ScreenNo { get { return ScreenId.SiteInboundClassify; } }
@@ -24,49 +21,6 @@ namespace MobisHaims.Screens
         {
             InitializeComponent();
             if (IsDesignMode) return;
-
-            ApplyTheme();
-            CaptureDesignLayout();   // 이 시점의 좌표/폰트가 스케일 기준값
-            ScaleToClient();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            ScaleToClient();
-        }
-
-        // Designer.cs 의 리터럴 색상은 미리보기용. 런타임 기준값은 Theme.
-        private void ApplyTheme()
-        {
-            this.BackColor = Theme.WorkBack;
-            _fields.BackColor = Theme.WorkBack;
-            _buttons.BackColor = Theme.WorkBack;
-
-            lblPrefix.BackColor = Theme.HeaderBack;
-            lblPrefix.ForeColor = Color.White;
-            txtPart.BackColor = Theme.ScanBack;
-            txtPart.Font = Theme.BodyFont;
-
-            lblReserveCap.ForeColor = Theme.Accent;
-            lblReserve.ForeColor = Theme.Accent;
-            lblReserve.Font = Theme.BigFont;
-            lblAssign.Font = Theme.BigFont;
-
-            txtQty.BackColor = Theme.QtyBack;
-            txtQty.Font = Theme.BigFont;
-
-            Label[] body = { lblPartCap, lblPrefix, lblReserveCap, lblAssignCap, lblLocCap, lblLoc,
-                             lblAssignCntCap, lblAssignCnt, lblCurStockCap, lblCurStock,
-                             lblQtyCap, lblNotRecvCap, lblNotRecv };
-            for (int i = 0; i < body.Length; i++) body[i].Font = Theme.BodyFont;
-
-            foreach (Control c in _buttons.Controls)
-            {
-                c.Font = Theme.BtnFont;
-                c.BackColor = Theme.MenuBtnBack;
-                c.ForeColor = Color.White;
-            }
         }
 
         public override void OnEnter(NavArgs args)

@@ -21,10 +21,12 @@ namespace MobisHaims.Controls
             lblTitle.ForeColor = Theme.HeaderFore;
             lblTitle.BackColor = Theme.HeaderBack;
             lblTitle.Font = Theme.TitleFont;
+            lblTitle.Align = VAlign.MiddleLeft;
             btnMenu.BackColor = Theme.HeaderBack;
             btnMenu.ForeColor = Theme.HeaderFore;
             btnClose.BackColor = Theme.HeaderBack;
             btnClose.ForeColor = Theme.HeaderFore;
+
         }
 
         public void SetTitle(int no, string name)
@@ -41,5 +43,6 @@ namespace MobisHaims.Controls
         {
             if (CloseClicked != null) CloseClicked(this, EventArgs.Empty);
         }
+
     }
 }

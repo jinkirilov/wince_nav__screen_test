@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MobisHaims.Controls;
 using MobisHaims.Core;
 using MobisHaims.Data;
+using MobisHaims.Devices;
 using MobisHaims.Nav;
 using MobisHaims.Screens;
 
@@ -17,6 +18,7 @@ namespace MobisHaims
         private readonly NavigationManager _nav;
         private readonly SessionContext _session;
         private readonly IfClient _if;
+        private IScanner _scanner;
 
         public ShellForm()
         {
@@ -31,8 +33,36 @@ namespace MobisHaims
             _nav = new NavigationManager(_content, _registry, this);
             _nav.CurrentChanged += delegate { SyncHeader(); };
 
+            // 스캐너는 앱 수명과 같이 간다. 벤더 드라이버 -> 실패 시 키보드 웨지.
+            _scanner = ScannerFactory.Create(this);
+            _scanner.Scanned += new ScanEventHandler(OnScanned);
+
             DoLogin();
             _nav.Navigate(ScreenId.Main, NavArgs.Empty);
+        }
+
+        // 스캔은 현재 화면에만 전달한다. 화면은 ScreenBase.OnScan 을 override 하면 된다.
+        private void OnScanned(object sender, ScanData data)
+        {
+            ScreenBase cur = _nav.Current;
+            if (cur == null) return;
+            try { cur.OnScan(data); }
+            catch (Exception ex) { ShowMessage(ex.Message, MsgLevel.Error); }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            if (_scanner != null)
+            {
+                try
+                {
+                    _scanner.Scanned -= new ScanEventHandler(OnScanned);
+                    _scanner.Dispose();
+                }
+                catch { }
+                _scanner = null;
+            }
+            base.OnClosed(e);
         }
 
         // 스타터에서는 구현된 3개 화면만 등록. 나머지는 JUMP/버튼 시 "미등록" 안내.
@@ -43,17 +73,22 @@ namespace MobisHaims
             _registry.Register(ScreenId.SiteInboundClassify, delegate { return new S120_SiteInboundClassify(); });
         }
 
+        // 로그인은 Program.Main 의 LoginForm 에서 이미 끝났다.
+        // 여기서는 HAIMS 세션값을 셸 세션으로 옮겨 담기만 한다.
         private void DoLogin()
         {
-            IfMessage res = _if.Send("IF_LOGIN", null);
-            if (res.IsSuccess)
+            HaimsPda.Net.UserInfo u = HaimsPda.Net.Session.User;
+            if (u == null)
             {
-                _session.UserId = res.ItemStr("userId");
-                _session.UserName = res.ItemStr("userName");
-                _session.OrgName = res.ItemStr("orgName");
-                _session.WhCode = res.ItemStr("whCode");
+                _session.UserName = "게스트";
+                _session.OrgName = "-";
+                return;
             }
-            else { _session.UserName = "게스트"; _session.OrgName = "-"; }
+
+            _session.UserId = u.UserId;
+            _session.UserName = u.UserNm;
+            _session.OrgName = u.AgtNm;
+            _session.WhCode = u.AgtCd;
         }
 
         private void SyncHeader()
@@ -103,5 +138,6 @@ namespace MobisHaims
         public void ShowMessage(string text, MsgLevel level) { _footer.SetMessage(text, level); }
         public SessionContext Session { get { return _session; } }
         public IfClient If { get { return _if; } }
+        public IScanner Scanner { get { return _scanner; } }
     }
 }

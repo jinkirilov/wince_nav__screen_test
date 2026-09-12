@@ -44,6 +44,9 @@ namespace MobisHaims.Nav
         public const int WhTransfer = 430;         // 창고이전(출고/입고)
         public const int WhMigrate = 440;          // 창고이관(출고/입고)
 
+        // 배송관리 [500]
+        public const int DeliveryMenu = 500;        // 배송메뉴
+
         // 조회관리 [600]
         public const int InquiryMenu = 600;
         public const int CaseInquiry = 603;        // CASE내역조회
