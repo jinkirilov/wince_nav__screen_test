@@ -214,8 +214,20 @@ namespace HaimsPda
                     UserInfo u = Session.User;
                     Async.Run(this, delegate { AuthService.SaveLoginLog(u); return null; }, null);
 
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    // 메뉴/메시지/공통코드 (웹 getMenuAndMessageAndCommonCode).
+                    // 메시지 코드(MP***)를 화면에서 쓰려면 이게 먼저 채워져 있어야 한다.
+                    SetBusy(true);
+                    Async.Run(this,
+                        delegate { AuthService.LoadCommonData(); return null; },
+                        delegate(object r2, Exception e2)
+                        {
+                            SetBusy(false);
+                            if (e2 != null)
+                                MessageBox.Show("공통 데이터를 불러오지 못했습니다.\r\n" + e2.Message);
+
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        });
                 });
         }
 

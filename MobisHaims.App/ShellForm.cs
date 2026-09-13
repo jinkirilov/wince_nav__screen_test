@@ -71,6 +71,12 @@ namespace MobisHaims
             _registry.Register(ScreenId.Main, delegate { return new S000_MainMenu(); });
             _registry.Register(ScreenId.InboundMenu, delegate { return new S100_InboundMenu(); });
             _registry.Register(ScreenId.SiteInboundClassify, delegate { return new S120_SiteInboundClassify(); });
+            _registry.Register(ScreenId.InboundSave, delegate { return new S140_InboundSave(); });
+            _registry.Register(ScreenId.StockMenu, delegate { return new S300_StockMenu(); });
+            _registry.Register(ScreenId.StockByLoc, delegate { return new S320_LocStock(); });
+            _registry.Register(ScreenId.StockByPart, delegate { return new S321_PartStock(); });
+            _registry.Register(ScreenId.StockDetail, delegate { return new S322_StockDetail(); });
+            _registry.Register(ScreenId.PartInfo, delegate { return new S324_PartInfo(); });
         }
 
         // 로그인은 Program.Main 의 LoginForm 에서 이미 끝났다.
@@ -78,10 +84,13 @@ namespace MobisHaims
         private void DoLogin()
         {
             HaimsPda.Net.UserInfo u = HaimsPda.Net.Session.User;
+            _session.LoginAt = DateTime.Now;
+
             if (u == null)
             {
                 _session.UserName = "게스트";
                 _session.OrgName = "-";
+                _footer.SetDefaultText(_session.UserDisplay);
                 return;
             }
 
@@ -89,6 +98,9 @@ namespace MobisHaims
             _session.UserName = u.UserNm;
             _session.OrgName = u.AgtNm;
             _session.WhCode = u.AgtCd;
+
+            // 푸터 상시 문구 : 대리점명 사용자명 접속시각
+            _footer.SetDefaultText(_session.UserDisplay);
         }
 
         private void SyncHeader()
@@ -96,9 +108,9 @@ namespace MobisHaims
             ScreenBase cur = _nav.Current;
             if (cur == null) return;
             _header.SetTitle(cur.ScreenNo, cur.ScreenName);
-            // 메인화면 진입 시 작업자(소속)를 상시 노출
+            // 메인화면 진입 시 로그인 정보를 다시 노출
             if (cur.ScreenNo == ScreenId.Main)
-                ShowMessage(_session.WorkerDisplay, MsgLevel.Info);
+                _footer.ShowDefault();
         }
 
         private void OnMenu()

@@ -27,14 +27,15 @@ namespace MobisHaims.Nav
 
         // 재고관리 [300]
         public const int StockMenu = 300;
-        public const int LocInventory = 301;       // LOC 재물조사
+        public const int LocInventory = 301;       // 재물조사(LOC)
+        public const int Inventory = 302;          // 재물조사
         public const int InventoryTarget = 310;    // 재물조사대상조회
         public const int StockByLoc = 320;         // LOC별재고조회
         public const int StockByPart = 321;        // 파트별재고조회
         public const int StockDetail = 322;        // 재고세부내역
         public const int PartMoveHist = 323;       // 부품수불이력조회
         public const int PartInfo = 324;           // 부품정보조회
-        public const int InventoryResult = 330;    // 재물조사결과
+        public const int StockAdjust = 330;        // 재고조정 (서버 메뉴 P190 기준)
 
         // LOC관리 [400]
         public const int LocMenu = 400;

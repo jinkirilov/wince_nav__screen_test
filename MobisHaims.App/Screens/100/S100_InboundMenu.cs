@@ -35,7 +35,10 @@ namespace MobisHaims.Screens
         private void OnMenuClick(object sender, EventArgs e)
         {
             Control c = sender as Control;
-            if (c == null || c.Tag == null || Shell == null) return;
+            
+            if (c == null || c.Tag == null || Shell == null) 
+                return;
+            
             Shell.Navigate(Convert.ToInt32(c.Tag), NavArgs.Empty);
         }
 

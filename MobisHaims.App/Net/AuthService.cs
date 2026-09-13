@@ -17,6 +17,11 @@ namespace HaimsPda.Net
         /// <summary>로그인 화면에서 붙는 공통 파라미터 (document.title == 'LoginPage' 분기)</summary>
         private static void AddLoginCommon(TitRequest r)
         {
+            AddLoginCommon(r, HaimsHttp.NewSessionNo());
+        }
+
+        private static void AddLoginCommon(TitRequest r, string sessionNo)
+        {
             r.AddParam("actionName", ActionMobile);
             r.AddParam("cmd", "execute");
             r.AddParam("_USR_USRID", "");
@@ -33,11 +38,11 @@ namespace HaimsPda.Net
             r.AddParam("_USR_STD_LOC", "");
             r.AddParam("_ORG_USR_USRID", "");
             r.AddParam("_MACHINE", "3");
-            r.AddParam("_SESSION_NO", HaimsHttp.NewSessionNo());
+            r.AddParam("_SESSION_NO", sessionNo);
         }
 
         /// <summary>로그인 후 화면에서 붙는 공통 파라미터</summary>
-        private static void AddSessionCommon(TitRequest r)
+        internal static void AddSessionCommon(TitRequest r)
         {
             UserInfo u = Session.User;
             r.AddParam("actionName", ActionMobile);
@@ -78,6 +83,7 @@ namespace HaimsPda.Net
         public static UserInfo Login(string userId, string password)
         {
             string hash = Crypto.Sha256Hex(password);
+            string sessionNo = HaimsHttp.NewSessionNo();
 
             TitRequest r = new TitRequest();
             r.AddSearch("common:HS00_W01_S01");
@@ -86,7 +92,7 @@ namespace HaimsPda.Net
             r.AddParam("USER_SMARTPW", hash);
             r.AddParam("_TIT_LOGIN_REQ_YN", "Y");
             r.AddParam("_MAC_USIM", "");   // 브라우저도 빈 값으로 전송함
-            AddLoginCommon(r);
+            AddLoginCommon(r, sessionNo);
 
             // dsUserInfo 첫 레코드만 잡는다. _dsForSqlLog(응답의 대부분)는 흘려보낸다.
             UserInfo[] hit = new UserInfo[1];
@@ -110,7 +116,9 @@ namespace HaimsPda.Net
             if (u["DEL_YN"] == "N")
                 throw new HaimsException("삭제된 사용자 계정입니다.");
 
-            u.SessionNo = res.Param("_SESSION_NO").Replace("-", "");
+            // 웹은 응답이 아니라 자기가 보낸 요청값(ref/root/params)의 _SESSION_NO 를 세션으로 삼는다.
+            // fn_Login 응답에는 _SESSION_NO 가 들어오지 않으므로 응답에서 읽으면 빈 값이 된다.
+            u.SessionNo = sessionNo.Replace("-", "");
             u.SysDate = DateTime.Now.ToString("yyyyMMdd");
             return u;
         }
@@ -130,7 +138,8 @@ namespace HaimsPda.Net
                 r.AddParam("USRMAC", "MOBILEPDA");
                 AddLoginCommon(r);
 
-                HaimsHttp.PostStream("Login.xml", "fn_LogSave", r.Build(), null);
+                // 지금 우선 막는다.
+                //HaimsHttp.PostStream("Login.xml", "fn_LogSave", r.Build(), null);
             }
             catch { /* 원본 JS 도 실패를 무시함 */ }
         }
@@ -201,6 +210,17 @@ namespace HaimsPda.Net
                 new RecordCallback(CommonCache.Accept));
 
             if (res.IsError) throw new HaimsException(res.ErrorMsg);
+
+            // 컬럼명이 틀리면 레코드는 파싱돼도 캐시가 0건이 된다. 건수로 바로 확인한다.
+            Log.Write("CommonCache menu=" + CommonCache.Menu.Count
+                    + " msg=" + CommonCache.Message.Count
+                    + " code=" + CommonCache.Code.Count
+                    + " ven=" + CommonCache.Vendor.Count
+                    + " / MP101=" + CommonCache.Msg("MP101", "(없음)"));
+
+            // LoadCommonData 끝에 임시로
+            foreach (System.Collections.DictionaryEntry e in CommonCache.MenuPath)
+                Log.Write("MENU " + e.Key + " " + CommonCache.Menu[e.Key] + " -> " + e.Value);
         }
     }
 
@@ -213,14 +233,15 @@ namespace HaimsPda.Net
     /// </summary>
     public static class CommonCache
     {
-        public static readonly Hashtable Menu = new Hashtable();      // 화면번호 -> 화면명
+        public static readonly Hashtable Menu = new Hashtable();      // 화면ID(P140) -> 화면명
+        public static readonly Hashtable MenuPath = new Hashtable();  // 화면ID -> 원본 xml 경로
         public static readonly Hashtable Message = new Hashtable();   // 메시지ID -> 메시지
-        public static readonly Hashtable Code = new Hashtable();      // "그룹|코드" -> 코드명
+        public static readonly Hashtable Code = new Hashtable();      // "대분류|중분류|코드" -> 코드명
         public static readonly Hashtable Vendor = new Hashtable();    // 업체코드 -> 업체명
 
         public static void Clear()
         {
-            Menu.Clear(); Message.Clear(); Code.Clear(); Vendor.Clear();
+            Menu.Clear(); MenuPath.Clear(); Message.Clear(); Code.Clear(); Vendor.Clear();
         }
 
         internal static void Accept(string ds, Row row)
@@ -230,26 +251,38 @@ namespace HaimsPda.Net
             // 응답의 대부분을 차지하는 SQL 로그는 즉시 버린다
             if (ds == "_dsForSqlLog") return;
 
-            if (ds.IndexOf("Menu") >= 0)
+            // 데이터셋 id 는 Login.xml 의 fn_AfterSelect 에서 확인한 실제 이름이다.
+            if (ds == "ds_Menu")
             {
-                string id = First(row, "SCR_ID", "MENU_ID", "SCRID");
-                if (id.Length > 0) Menu[id] = First(row, "SCR_NM", "MENU_NM", "SCRNM");
+                // 실기 응답 확인 : MNU_SCRID(P140) / SID_SCRNM_S(짧은 화면명) / SID_JAVA_CLASS(원본 xml 경로)
+                string id = row["MNU_SCRID"];
+                if (id.Length > 0)
+                {
+                    string nm = row["SID_SCRNM_S"];
+                    if (nm.Length == 0) nm = row["SID_SCRNM_L"];
+                    Menu[id] = nm;
+                    MenuPath[id] = row["SID_JAVA_CLASS"];
+                }
             }
-            else if (ds.IndexOf("Message") >= 0 || ds.IndexOf("Msg") >= 0)
+            else if (ds == "ds_Message")
             {
-                string id = First(row, "MSG_ID", "MSGID");
-                if (id.Length > 0) Message[id] = First(row, "MSG_CONT", "MSG_NM", "MSG");
+                // plus.js gfn_GetMsg_Plus 가 쓰는 컬럼 : MSG_MSGCD -> MSG_TEXT
+                string id = row["MSG_MSGCD"];
+                if (id.Length > 0) Message[id] = row["MSG_TEXT"];
             }
-            else if (ds.IndexOf("Code") >= 0 && ds.IndexOf("Vendor") < 0)
+            else if (ds == "ds_CommonCode")
             {
-                string grp = First(row, "CD_GRP", "GRP_CD", "CDGRP");
-                string cd = First(row, "CD_ID", "CD", "CDID");
-                if (cd.Length > 0) Code[grp + "|" + cd] = First(row, "CD_NM", "CDNM", "CD_NAME");
+                // plus.js gfn_SearchComCode_Plus 가 쓰는 그룹 컬럼 : CDM_LRG_GRP / CDM_MID_GRP
+                string lrg = row["CDM_LRG_GRP"];
+                string mid = row["CDM_MID_GRP"];
+                string cd = First(row, "CDM_CD", "CDM_SML_GRP", "CD_ID", "CD");
+                if (cd.Length > 0)
+                    Code[lrg + "|" + mid + "|" + cd] = First(row, "CDM_NM", "CDM_CDNM", "CD_NM", "CDNM");
             }
-            else if (ds.IndexOf("Vendor") >= 0 || ds.IndexOf("Agt") >= 0)
+            else if (ds == "ds_ven")
             {
-                string cd = First(row, "AGT_CD", "VEN_CD", "CUST_CD");
-                if (cd.Length > 0) Vendor[cd] = First(row, "AGT_NM", "VEN_NM", "CUST_NM");
+                string cd = First(row, "VEN_CD", "AGT_CD", "CUST_CD");
+                if (cd.Length > 0) Vendor[cd] = First(row, "VEN_NM", "AGT_NM", "CUST_NM");
             }
         }
 
@@ -268,13 +301,43 @@ namespace HaimsPda.Net
 
         public static string Msg(string id)
         {
-            object o = Message[id];
-            return (o == null) ? id : (string)o;
+            return Msg(id, null, null);
         }
 
-        public static string CodeName(string group, string code)
+        /// <summary>코드 테이블에 없으면 fallback 을 쓴다(웹은 코드 문자열을 그대로 노출).</summary>
+        public static string Msg(string id, string fallback)
         {
-            object o = Code[group + "|" + code];
+            return Msg(id, fallback, null);
+        }
+
+        /// <summary>
+        /// plus.js gfn_GetMsg_Plus + gfn_ShowAlert_Plus 와 동일한 처리.
+        /// 본문의 ${} 를 args 로 순서대로 치환하고, 남은 %s 는 제거한다.
+        /// </summary>
+        public static string Msg(string id, string fallback, string[] args)
+        {
+            object o = Message[id];
+            string m = (o == null) ? "" : (string)o;
+
+            if (m.Trim().Length == 0) m = (fallback == null) ? id : fallback;
+
+            if (args != null)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    int p = m.IndexOf("${}");
+                    if (p < 0) break;
+                    m = m.Substring(0, p) + args[i] + m.Substring(p + 3);
+                }
+            }
+
+            return m.Replace("%s", "");
+        }
+
+        /// <summary>공통코드명 (대분류|중분류|코드)</summary>
+        public static string CodeName(string lrgGrp, string midGrp, string code)
+        {
+            object o = Code[lrgGrp + "|" + midGrp + "|" + code];
             return (o == null) ? code : (string)o;
         }
     }

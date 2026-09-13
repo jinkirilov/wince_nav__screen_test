@@ -32,5 +32,6 @@ namespace MobisHaims.Ui
         public static readonly Font BodyFont = new Font("Gulim", 9f, FontStyle.Regular);
         public static readonly Font BigFont = new Font("Gulim", 12f, FontStyle.Bold);
         public static readonly Font BtnFont = new Font("Gulim", 9f, FontStyle.Bold);
+        public static readonly Font FooterMsgFont = new Font("Gulim", 7f, FontStyle.Regular);
     }
 }

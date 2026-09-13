@@ -27,7 +27,7 @@ namespace HaimsPda.Net
         public static LogLevel Level = LogLevel.Full;
 
         /// <summary>본문 로그 최대 길이(문자). 넘으면 잘라서 찍는다.</summary>
-        public static int BodyCap = 8192;
+        public static int BodyCap = 65536;   // 8192 -> 개발 중 상향
 
         /// <summary>한 줄 최대 길이. 디버그 채널이 긴 줄을 자르는 장비가 있어 쪼갠다.</summary>
         public static int LineCap = 512;

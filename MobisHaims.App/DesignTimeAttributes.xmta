@@ -23,4 +23,33 @@
     <DesignTimeVisible>true</DesignTimeVisible>
     <DesktopCompatible>true</DesktopCompatible>
   </Class>
+  <Class Name="MobisHaims.Controls.VAlign">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Controls.VLabel">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+    <Property Name="Align">
+      <Browsable>true</Browsable>
+      <Category>Appearance</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+  </Class>
+  <Class Name="MobisHaims.Screens.S140_InboundSave">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S300_StockMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S321_PartStock">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="MobisHaims.Screens.S324_PartInfo">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
 </Classes>

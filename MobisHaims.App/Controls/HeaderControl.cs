@@ -22,10 +22,10 @@ namespace MobisHaims.Controls
             lblTitle.BackColor = Theme.HeaderBack;
             lblTitle.Font = Theme.TitleFont;
             lblTitle.Align = VAlign.MiddleLeft;
-            btnMenu.BackColor = Theme.HeaderBack;
-            btnMenu.ForeColor = Theme.HeaderFore;
-            btnClose.BackColor = Theme.HeaderBack;
-            btnClose.ForeColor = Theme.HeaderFore;
+            //btnMenu.BackColor = Theme.HeaderBack;
+            //btnMenu.ForeColor = Theme.HeaderFore;
+            //btnClose.BackColor = Theme.HeaderBack;
+            //btnClose.ForeColor = Theme.HeaderFore;
 
         }
 

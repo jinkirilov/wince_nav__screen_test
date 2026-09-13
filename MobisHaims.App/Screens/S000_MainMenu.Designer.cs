@@ -24,60 +24,60 @@ namespace MobisHaims.Screens
             // 
             // btnInbound
             // 
-            this.btnInbound.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnInbound.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
             this.btnInbound.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
-            this.btnInbound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnInbound.ForeColor = System.Drawing.Color.White;
             this.btnInbound.Location = new System.Drawing.Point(8, 8);
             this.btnInbound.Name = "btnInbound";
-            this.btnInbound.Size = new System.Drawing.Size(464, 96);
+            this.btnInbound.Size = new System.Drawing.Size(464, 77);
             this.btnInbound.TabIndex = 0;
             this.btnInbound.Text = "입고메뉴";
             this.btnInbound.Click += new System.EventHandler(this.OnTileClick);
             // 
             // btnOutbound
             // 
-            this.btnOutbound.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnOutbound.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
             this.btnOutbound.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
-            this.btnOutbound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnOutbound.ForeColor = System.Drawing.Color.White;
             this.btnOutbound.Location = new System.Drawing.Point(8, 112);
             this.btnOutbound.Name = "btnOutbound";
-            this.btnOutbound.Size = new System.Drawing.Size(464, 96);
+            this.btnOutbound.Size = new System.Drawing.Size(464, 77);
             this.btnOutbound.TabIndex = 1;
             this.btnOutbound.Text = "출고메뉴";
             this.btnOutbound.Click += new System.EventHandler(this.OnTileClick);
             // 
             // btnStock
             // 
-            this.btnStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
             this.btnStock.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
-            this.btnStock.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnStock.ForeColor = System.Drawing.Color.White;
             this.btnStock.Location = new System.Drawing.Point(8, 216);
             this.btnStock.Name = "btnStock";
-            this.btnStock.Size = new System.Drawing.Size(464, 96);
+            this.btnStock.Size = new System.Drawing.Size(464, 77);
             this.btnStock.TabIndex = 2;
             this.btnStock.Text = "재고메뉴";
             this.btnStock.Click += new System.EventHandler(this.OnTileClick);
             // 
             // btnInquiry
             // 
-            this.btnInquiry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnInquiry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
             this.btnInquiry.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
-            this.btnInquiry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnInquiry.ForeColor = System.Drawing.Color.White;
             this.btnInquiry.Location = new System.Drawing.Point(8, 320);
             this.btnInquiry.Name = "btnInquiry";
-            this.btnInquiry.Size = new System.Drawing.Size(464, 96);
+            this.btnInquiry.Size = new System.Drawing.Size(464, 77);
             this.btnInquiry.TabIndex = 3;
             this.btnInquiry.Text = "조회메뉴";
             this.btnInquiry.Click += new System.EventHandler(this.OnTileClick);
             // 
             // btnDelivery
             // 
-            this.btnDelivery.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnDelivery.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
             this.btnDelivery.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
-            this.btnDelivery.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnDelivery.ForeColor = System.Drawing.Color.White;
             this.btnDelivery.Location = new System.Drawing.Point(8, 424);
             this.btnDelivery.Name = "btnDelivery";
-            this.btnDelivery.Size = new System.Drawing.Size(464, 96);
+            this.btnDelivery.Size = new System.Drawing.Size(464, 77);
             this.btnDelivery.TabIndex = 4;
             this.btnDelivery.Text = "배송메뉴";
             this.btnDelivery.Click += new System.EventHandler(this.OnTileClick);
@@ -85,14 +85,14 @@ namespace MobisHaims.Screens
             // S000_MainMenu
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(64)))), ((int)(((byte)(106)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(105)))), ((int)(((byte)(125)))));
             this.Controls.Add(this.btnInbound);
             this.Controls.Add(this.btnOutbound);
             this.Controls.Add(this.btnStock);
             this.Controls.Add(this.btnInquiry);
             this.Controls.Add(this.btnDelivery);
             this.Name = "S000_MainMenu";
-            this.Size = new System.Drawing.Size(480, 528);
+            this.Size = new System.Drawing.Size(480, 536);
             this.ResumeLayout(false);
 
         }

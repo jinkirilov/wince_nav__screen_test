@@ -79,6 +79,11 @@
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Net\AuthService.cs" />
+    <Compile Include="Net\Formats.cs" />
+    <Compile Include="Net\InboundService.cs" />
+    <Compile Include="Net\StockService.cs" />
+    <Compile Include="Net\LocStockService.cs" />
+    <Compile Include="Net\PartInfoService.cs" />
     <Compile Include="Net\SHA256ManagedSimple.cs" />
     <Compile Include="Net\TitProtocol.cs" />
     <Compile Include="Program.cs" />
@@ -129,22 +134,56 @@
     <Compile Include="Screens\S000_MainMenu.Designer.cs">
       <DependentUpon>S000_MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\S100_InboundMenu.cs">
+    <Compile Include="Screens\100\S100_InboundMenu.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Screens\S100_InboundMenu.Designer.cs">
+    <Compile Include="Screens\100\S100_InboundMenu.Designer.cs">
       <DependentUpon>S100_InboundMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\S120_SiteInboundClassify.cs">
+    <Compile Include="Screens\100\S120_SiteInboundClassify.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Screens\S120_SiteInboundClassify.Designer.cs">
+    <Compile Include="Screens\100\S120_SiteInboundClassify.Designer.cs">
       <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S140_InboundSave.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S140_InboundSave.Designer.cs">
+      <DependentUpon>S140_InboundSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S300_StockMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S300_StockMenu.Designer.cs">
+      <DependentUpon>S300_StockMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S320_LocStock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S320_LocStock.Designer.cs">
+      <DependentUpon>S320_LocStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S321_PartStock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S321_PartStock.Designer.cs">
+      <DependentUpon>S321_PartStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S322_StockDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S322_StockDetail.Designer.cs">
+      <DependentUpon>S322_StockDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S324_PartInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S324_PartInfo.Designer.cs">
+      <DependentUpon>S324_PartInfo.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="DesignTimeAttributes.xmta" />
   </ItemGroup>
   <ItemGroup>
@@ -163,11 +202,26 @@
     <EmbeddedResource Include="Screens\S000_MainMenu.resx">
       <DependentUpon>S000_MainMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Screens\S100_InboundMenu.resx">
+    <EmbeddedResource Include="Screens\100\S100_InboundMenu.resx">
       <DependentUpon>S100_InboundMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Screens\S120_SiteInboundClassify.resx">
+    <EmbeddedResource Include="Screens\100\S120_SiteInboundClassify.resx">
       <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\100\S140_InboundSave.resx">
+      <DependentUpon>S140_InboundSave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S320_LocStock.resx">
+      <DependentUpon>S320_LocStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S321_PartStock.resx">
+      <DependentUpon>S321_PartStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S322_StockDetail.resx">
+      <DependentUpon>S322_StockDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S324_PartInfo.resx">
+      <DependentUpon>S324_PartInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShellForm.resx">
       <DependentUpon>ShellForm.cs</DependentUpon>

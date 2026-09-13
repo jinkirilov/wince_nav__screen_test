@@ -1,3 +1,4 @@
+using System;
 using MobisHaims.Data;
 using MobisHaims.Devices;
 using MobisHaims.Nav;
@@ -16,6 +17,20 @@ namespace MobisHaims.Core
         public string WhCode;      // 창고코드
         public string ServerUrl = "http://192.168.0.10:8080"; // 데몬 주소
         public bool MockMode = true;   // true: 목데이터로 화면검증, false: 실제 /if 호출
+        public DateTime LoginAt = DateTime.Now;   // 로그인 성공 시각
+
+        // 푸터 상시 노출 문구. 원본 웹(gfn_setUserInfoToScreen_Plus)과 같은 형식.
+        //   "테스트대리점 최상 2026-09-13 10:16"
+        public string UserDisplay
+        {
+            get
+            {
+                LoginAt = DateTime.Now;
+                return (OrgName == null ? "-" : OrgName)
+                     + " " + (UserName == null ? "-" : UserName)
+                     + " " + LoginAt.ToString("yyyy-MM-dd HH:mm");
+            }
+        }
 
         // 푸터에 상시 노출되는 작업자(소속) 표기
         public string WorkerDisplay

@@ -139,4 +139,43 @@ namespace HaimsPda.Ui
                  + " fontScale=" + _fontScale.ToString("0.00");
         }
     }
+
+    public static class WinApi
+    {
+        [DllImport("coredll.dll")]
+        public static extern uint SendMessage(IntPtr hwnd, uint msg, uint wparam, uint lparam);
+
+        private static void SetListViewStyle(IntPtr hwnd, uint style, bool enable)
+        {
+            uint currentStyle = SendMessage(hwnd, LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
+
+            if (enable)
+            {
+                SendMessage(hwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, currentStyle | style);
+            }
+            else
+            {
+                SendMessage(hwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, currentStyle & ~style);
+            }
+        }
+
+        private const uint LVM_FIRST = 0x1000;
+        private const uint LVM_SETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 54;
+        private const uint LVM_GETEXTENDEDLISTVIEWSTYLE = LVM_FIRST + 55;
+
+        private const uint LVS_EX_GRIDLINES = 0x00000001;
+        private const uint LVS_EX_DOUBLEBUFFER = 0x00010000;
+
+        public static void DoubleBuffering(IntPtr hwnd, bool enable)
+        {
+            SetListViewStyle(hwnd, LVS_EX_DOUBLEBUFFER, enable);
+        }
+
+        public static void GridLines(IntPtr hwnd, bool enable)
+        {
+            SetListViewStyle(hwnd, LVS_EX_GRIDLINES, enable);
+        }
+
+    }
+
 }

@@ -117,6 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAL5JREFUaEPt1LENgCAQQFF3cgGncQ7XcA7XcCfNtXyuICGEn3DJa34hXIHbtt+f
+        GoINgg2CDYINgg2CDYINgg2CDYINgg1C4jif77rfYeK88g5VCIn46MiJ88o7VCEk1gKN030B/RuYFoIN
+        gg2CDYINQkL/F4qPjpw4r7xDFUJiLdA43RfQv4FpIdgg2CDYINggJPR/ofjoyInzyjtUISTWAo3TfQH9
+        G5gWgg2CDYINgg2CDYINgg2CDYINgswPsoME0btevXYAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAbhJREFUaEPVmC1LREEUhjf6E/wZgslmEqPVZjIIJrtstFldsKnNIAgLpjXYNFkM
+        hpvEIiwsiCyIV87CyDLPnbnzKZwDT3kYZt73srNhBoP1UasaCG1AaANCGxDagNAGhDYgtAGhDQhtQGgD
+        IoDN/dt2ZeMcPpekfSE8yOYvzbSVmc7m7fbhGGtSWNu9bpu32d++q1sXWOMEwsPO0d3iEDNf8+/sEhJe
+        Qi/PcPSEdU4gPMiXkdDLk1OiK7yM/JTstU4getgbTuzzkkq4wkd9fQEigNwSxcILEIGkligaXoCIILZE
+        8fACRCShJaqEFyAS6CtRLbwAkYirxMHJQ73wAkQGXSV+bFEyvACRSVeJ5SkaXoAowPHZo517MZfjV6zN
+        BiIT14WV6fp3ygYiA194M8VLQCTiCn9z39iqbAmIBFzhzYXtutjFSkBE0hfeUK0ERASh4Q1VSkAEEhve
+        ULwERACp4Q1FS0D0kBveUKwEhAd5lXj/+LTPjQ5vcJX4t1cJmdTwhq4SUXtCeLBfJaIO8mCXqPoqIXfg
+        9Oo5/rfaQ/K+ENqA0AaENiC0AaENCG1AaANCGxDagFDGL1e7UZ/Q/bamAAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="$this.FormFactorShadowProperty" xml:space="preserve">
     <value>Pocket_PC_Phone_VGA</value>
   </metadata>
