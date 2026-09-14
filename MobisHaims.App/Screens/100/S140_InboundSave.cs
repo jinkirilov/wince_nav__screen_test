@@ -25,6 +25,7 @@ namespace MobisHaims.Screens
 
         private string _lep = "H";
         private InboundSearchResult _search;
+        private string _searchedPtno = "";   // 원본 GV_SelectSave
         private string _vchym = "";
         private string _vapSysdt = "";
         private string _vapSysdtL = "";
@@ -204,10 +205,19 @@ namespace MobisHaims.Screens
                         return;
                     }
 
-                    // 계열이 2개 이상이면 원본은 선택 팝업을 띄운다. 우선 첫 번째로 진행한다.
-                    _lep = (string)leps[0];
+                    // 계열이 2건 이상이면 선택 팝업을 띄운다 (원본 lep_popup)
+                    int idx = MobisHaims.Controls.LepSelect.Pick(
+                                  leps, "계열 선택 - " + PartNo.Display(txtPart.Text));
+                    if (idx < 0)
+                    {
+                        End("취소했습니다.", MsgLevel.Info);
+                        txtPart.Focus();
+                        txtPart.SelectAll();
+                        return;
+                    }
+
+                    _lep = (string)leps[idx];
                     lblPrefix.Text = _lep;
-                    if (leps.Count > 1) Msg("계열 " + leps.Count + "건 - 첫 건(" + _lep + ")으로 조회", MsgLevel.Info);
 
                     SearchClass(ptno);
                 });
@@ -258,6 +268,7 @@ namespace MobisHaims.Screens
 
                     InboundSearchResult sr = (InboundSearchResult)r;
                     _search = sr;
+                    _searchedPtno = ptno;
 
                     if (!sr.HasAlloc)
                     {
@@ -299,6 +310,15 @@ namespace MobisHaims.Screens
                 return;
             }
 
+            // 원본 fn_Save 첫 줄 : 조회했던 부번과 지금 입력된 부번이 달라지면 막는다
+            if (PartNo.Key(txtPart.Text) != _searchedPtno)
+            {
+                Report(MP_PTNO, "부품번호를 확인하세요!", MsgLevel.Warn);
+                txtPart.Focus();
+                txtPart.SelectAll();
+                return;
+            }
+
             string ptno = PartNo.Key(txtPart.Text);
             Row a = _search.FirstAlloc;
             string vchnoList = InboundService.QuoteVchnoList(_search.Allocs);
@@ -326,9 +346,78 @@ namespace MobisHaims.Screens
                     if (allocCnt != c.TotCnt) { ClearAll(); ReportText("입고된 할당내역이 있습니다. 다시 조회 후 입고하세요.", MsgLevel.Error); return; }
                     if (c.VchnoCnt > 0) { ClearAll(); ReportText("입고된 할당내역입니다. 헬프데스크에 문의하세요.", MsgLevel.Error); return; }
 
-                    // 여기까지가 원본 fn_SaveChkAfter. 다음이 fn_Save 커밋 체인.
-                    ReportText("검증 통과 - 입고 커밋(fn_Save) 미구현", MsgLevel.Warn);
+                    // 검증 통과. 이제 실제 커밋으로 넘어간다 (원본 fn_SaveChkAfter -> fn_Save).
+                    Commit();
                 });
+        }
+
+        // ------------------------------------------------------------------
+        // 입고 커밋 (fn_Save -> fn_Save_After -> fn_SaveAfter2)
+        //
+        // 서버 호출 두 번. 1) 증표채번 + 업체집계 상태  2) 실제 쓰기.
+        // 두 호출을 한 작업 스레드에서 이어서 돌린다.
+        // ------------------------------------------------------------------
+        private void Commit()
+        {
+            // 다건 할당은 원본이 할당내역 팝업(PL140_P01)이 넘겨준 dsInput 을 쓴다.
+            // 그 팝업이 아직 없으므로 여기서 막는다. 잘못 커밋하면 되돌릴 수 없다.
+            if (_search.Allocs.Count > 1)
+            {
+                ReportText("할당내역이 " + _search.Allocs.Count + "건입니다.\r\n"
+                         + "다건 입고는 할당내역 선택 화면이 있어야 합니다.", MsgLevel.Warn);
+                return;
+            }
+
+            Row a = _search.FirstAlloc;
+
+            CommitInput c = CommitInput.From(a);
+            c.Lep = _lep;
+            c.Ptno = PartNo.Key(txtPart.Text);
+            c.Whscd = CurrentWh();
+            c.VapSysdt = _vapSysdt;
+            c.VapSysdtL = _vapSysdtL;
+            c.Vchym = _vchym;
+            c.CtlQty = 0;      // 미수령 화면 미구현
+            c.CtlCd = "";
+
+            if (!Confirm("입고 저장하시겠습니까?\r\n"
+                       + "부번 " + PartNo.Display(c.Ptno) + " / 수량 " + c.WsfQt
+                       + " / 창고 " + c.Whscd + " / LOC " + Loc.Display(c.Locno)))
+                return;
+
+            Begin("저장중...");
+            Async.Run(this,
+                delegate
+                {
+                    // 이미 분류(2)된 건은 증표를 새로 따지 않는다. 원본도 1단계를 건너뛴다.
+                    CommitPrepare p = c.IsClassified ? null
+                                                     : InboundService.CommitPrepareCall(c);
+                    InboundService.Commit(c, p);
+                    return p;
+                },
+                delegate(object r, Exception ex)
+                {
+                    if (Fail(ex)) return;
+
+                    CommitPrepare p = r as CommitPrepare;
+                    string vchno = (p == null) ? c.WsfVchno1 : p.Vchno;
+
+                    string msg = CommonCache.Msg("MP102", "정상 처리되었습니다.");
+                    if (vchno != null && vchno.Length > 0) msg += "  (증표 " + vchno + ")";
+
+                    // fn_SaveAfter2 : 성공하면 화면을 초기화하고 다음 부번을 받는다
+                    ClearAll();
+                    End(msg, MsgLevel.Success);
+                    MessageBox.Show(msg, "[140] " + ScreenName);
+                    txtPart.Focus();
+                });
+        }
+
+        private bool Confirm(string text)
+        {
+            return MessageBox.Show(text, "[140] " + ScreenName,
+                       MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                       MessageBoxDefaultButton.Button2) == DialogResult.Yes;
         }
 
         // ------------------------------------------------------------------

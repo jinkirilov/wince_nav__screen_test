@@ -29,6 +29,7 @@ namespace HaimsPda.Net
     {
         private readonly StringBuilder _params = new StringBuilder();
         private readonly StringBuilder _cmds = new StringBuilder();
+        private readonly StringBuilder _datasets = new StringBuilder();
 
         private const string ColInfo =
             "<colinfo id=\"TX_NAME\" size=\"100\" summ=\"default\" type=\"STRING\"/>" +
@@ -74,6 +75,39 @@ namespace HaimsPda.Net
             return AddRecord(sqlId, "M");
         }
 
+        /// <summary>
+        /// tit_CreateDataset - 빈 데이터셋. 프로시저 결과를 받을 자리를 미리 만들어 둔다.
+        /// </summary>
+        public TitRequest AddEmptyDataset(string id)
+        {
+            _datasets.Append("<dataset id=\"").Append(id).Append("\"></dataset>");
+            return this;
+        }
+
+        /// <summary>
+        /// tit_CreateDataset + tit_AddColumn * n + tit_AddRow + tit_SetColumn * n 을 한 번에.
+        /// colinfo 는 웹의 tit_AddColumn 과 같은 형태(size 256 / summ default)로 낸다.
+        /// </summary>
+        public TitRequest AddInputDataset(string id, string[] cols, string[] values)
+        {
+            _datasets.Append("<dataset id=\"").Append(id).Append("\">");
+
+            for (int i = 0; i < cols.Length; i++)
+                _datasets.Append("<colinfo id=\"").Append(cols[i])
+                         .Append("\" size=\"256\" summ=\"default\" type=\"STRING\"/>");
+
+            _datasets.Append("<record>");
+            for (int i = 0; i < cols.Length; i++)
+            {
+                string v = (values == null || i >= values.Length) ? "" : values[i];
+                _datasets.Append("<").Append(cols[i]).Append(">")
+                         .Append(Esc(v))
+                         .Append("</").Append(cols[i]).Append(">");
+            }
+            _datasets.Append("</record></dataset>");
+            return this;
+        }
+
         private TitRequest AddRecord(string sqlId, string type)
         {
             _cmds.Append("<record>")
@@ -95,6 +129,11 @@ namespace HaimsPda.Net
             sb.Append("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><params>");
             sb.Append(_params);
             sb.Append("</params>");
+
+            // tit_CreateDataset 로 만든 입력/출력 데이터셋이 ds_cmd 보다 앞에 온다
+            // (웹이 tit_CreateDataset 를 먼저 부르기 때문. 순서까지 맞춰 둔다)
+            sb.Append(_datasets);
+
             if (_cmds.Length > 0)
             {
                 sb.Append("<dataset id=\"ds_cmd\">");

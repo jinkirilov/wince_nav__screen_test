@@ -21,7 +21,7 @@ namespace MobisHaims.Screens
             this.btnSortInboundSave = new System.Windows.Forms.Button();
             this.btnReserveList = new System.Windows.Forms.Button();
             this.btnWaitInquiry = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn142 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSiteClassify
@@ -96,22 +96,23 @@ namespace MobisHaims.Screens
             this.btnWaitInquiry.Text = "대기품목조회";
             this.btnWaitInquiry.Click += new System.EventHandler(this.OnMenuClick);
             // 
-            // button1
+            // btn142
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
-            this.button1.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(4, 311);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(232, 80);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "직입고저장";
+            this.btn142.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btn142.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
+            this.btn142.ForeColor = System.Drawing.Color.White;
+            this.btn142.Location = new System.Drawing.Point(4, 311);
+            this.btn142.Name = "btn142";
+            this.btn142.Size = new System.Drawing.Size(232, 80);
+            this.btn142.TabIndex = 6;
+            this.btn142.Text = "직입고저장";
+            this.btn142.Click += new System.EventHandler(this.OnMenuClick);
             // 
             // S100_InboundMenu
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(105)))), ((int)(((byte)(125)))));
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn142);
             this.Controls.Add(this.btnSiteClassify);
             this.Controls.Add(this.btnShopClassify);
             this.Controls.Add(this.btnInboundSave);
@@ -132,6 +133,6 @@ namespace MobisHaims.Screens
         private System.Windows.Forms.Button btnSortInboundSave;
         private System.Windows.Forms.Button btnReserveList;
         private System.Windows.Forms.Button btnWaitInquiry;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn142;
     }
 }

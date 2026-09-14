@@ -15,6 +15,10 @@ namespace HaimsPda.Ui
         public const string KeySaveYn = "USERID_SAVE_YN";
         public const string KeyUserId = "USR_USRID_AUTO";
 
+        // 호스트 설정 화면(HostForm)에서 쓴다
+        public const string KeyHostUrl = "HOST_URL";
+        public const string KeyHostTimeout = "HOST_TIMEOUT_SEC";
+
         private static Hashtable _map;
         private static string _path;
 

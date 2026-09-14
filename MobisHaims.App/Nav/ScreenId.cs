@@ -1,4 +1,4 @@
-namespace MobisHaims.Nav
+﻿namespace MobisHaims.Nav
 {
     // 요구사항의 화면ID 체계. JUMP 입력값(정수)과 1:1 매핑된다.
     public static class ScreenId
@@ -6,10 +6,15 @@ namespace MobisHaims.Nav
         public const int Main = 0;                 // [000] 메인메뉴
 
         // 입고관리 [100]
+        // 번호는 원본 웹화면 PL***_W01.xml 과 1:1 로 맞춘다(HAR 확인).
         public const int InboundMenu = 100;        // 입고메뉴
-        public const int SiteInboundClassify = 120;// 사업소입고분류
-        public const int InboundSave = 140;        // 입고저장
-        public const int SortInboundSave = 141;    // 정렬입고저장
+        public const int SiteInboundClassify = 120;// 일반입고분류      (PL120_W01)
+        public const int ShopInboundClassify = 121;// 전문점입고분류    (PL121_W01)
+        public const int WaitPartInquiry = 130;    // 대기품목조회      (PL130_W01)
+        public const int ReserveList = 131;        // 예약내역          (PL131_W01)
+        public const int InboundSave = 140;        // 입고저장          (PL140_W01)
+        public const int SortInboundSave = 141;    // 정렬입고저장      (PL141_W01, 원본 미확보)
+        public const int DirectInboundSave = 142;  // 직입고저장        (PL142_W01)
 
         // 출고관리 [200]
         public const int OutboundMenu = 200;

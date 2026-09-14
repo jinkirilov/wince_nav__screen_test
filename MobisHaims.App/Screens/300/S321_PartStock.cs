@@ -115,11 +115,19 @@ namespace MobisHaims.Screens
                         return;
                     }
 
-                    // 계열이 2건 이상이면 원본은 선택 팝업을 띄운다. 우선 첫 건으로 진행한다.
-                    _lep = (string)leps[0];
+                    // 계열이 2건 이상이면 선택 팝업을 띄운다 (원본 lep_popup)
+                    int idx = MobisHaims.Controls.LepSelect.Pick(
+                                  leps, "계열 선택 - " + PartNo.Display(txtPart.Text));
+                    if (idx < 0)
+                    {
+                        End("취소했습니다.", MsgLevel.Info);
+                        txtPart.Focus();
+                        txtPart.SelectAll();
+                        return;
+                    }
+
+                    _lep = (string)leps[idx];
                     lblPrefix.Text = _lep;
-                    if (leps.Count > 1)
-                        Msg("계열 " + leps.Count + "건 - 첫 건(" + _lep + ")으로 조회", MsgLevel.Info);
 
                     SearchPart(ptno);
                 });

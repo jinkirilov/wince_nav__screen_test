@@ -54,4 +54,26 @@ namespace HaimsPda.Net
         public static bool IsLoggedIn { get { return User != null; } }
         public static void Clear() { User = null; }
     }
+
+    /// <summary>
+    /// 로그인 시 내려오는 업체코드(ds_ven) 1건.
+    /// VNDSB 가 "00000" 이면 주업체, 아니면 그 주업체에 딸린 부업체다.
+    /// </summary>
+    public sealed class VendorInfo
+    {
+        public readonly string VndMn;   // 주업체코드
+        public readonly string VndSb;   // 부업체코드
+        public readonly string Name;    // 업체명
+
+        public VendorInfo(string mn, string sb, string nm)
+        {
+            VndMn = mn; VndSb = sb; Name = nm;
+        }
+
+        /// <summary>웹 콤보 표기와 동일하게 "코드|업체명"</summary>
+        public override string ToString()
+        {
+            return (VndSb == "00000" ? VndMn : VndSb) + "|" + Name;
+        }
+    }
 }

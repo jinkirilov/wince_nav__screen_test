@@ -56,6 +56,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\LepSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LepSelectForm.Designer.cs">
+      <DependentUpon>LepSelectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\VLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,10 +84,21 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HostForm.Designer.cs">
+      <DependentUpon>HostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Net\AuthService.cs" />
+    <Compile Include="Net\HostConfig.cs" />
     <Compile Include="Net\Formats.cs" />
     <Compile Include="Net\InboundService.cs" />
     <Compile Include="Net\StockService.cs" />
+    <Compile Include="Net\DirectInboundService.cs" />
+    <Compile Include="Net\ReserveService.cs" />
+    <Compile Include="Net\WaitPartService.cs" />
+    <Compile Include="Net\ClassifyService.cs" />
     <Compile Include="Net\LocStockService.cs" />
     <Compile Include="Net\PartInfoService.cs" />
     <Compile Include="Net\SHA256ManagedSimple.cs" />
@@ -140,17 +157,35 @@
     <Compile Include="Screens\100\S100_InboundMenu.Designer.cs">
       <DependentUpon>S100_InboundMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\100\S120_SiteInboundClassify.cs">
+    <Compile Include="Screens\100\S120_InboundClassify.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Screens\100\S120_SiteInboundClassify.Designer.cs">
-      <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
+    <Compile Include="Screens\100\S120_InboundClassify.Designer.cs">
+      <DependentUpon>S120_InboundClassify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S130_WaitPartInquiry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S130_WaitPartInquiry.Designer.cs">
+      <DependentUpon>S130_WaitPartInquiry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S131_ReserveList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S131_ReserveList.Designer.cs">
+      <DependentUpon>S131_ReserveList.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\100\S140_InboundSave.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Screens\100\S140_InboundSave.Designer.cs">
       <DependentUpon>S140_InboundSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S142_DirectInboundSave.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S142_DirectInboundSave.Designer.cs">
+      <DependentUpon>S142_DirectInboundSave.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\300\S300_StockMenu.cs">
       <SubType>UserControl</SubType>
@@ -204,9 +239,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\100\S100_InboundMenu.resx">
       <DependentUpon>S100_InboundMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Screens\100\S120_SiteInboundClassify.resx">
-      <DependentUpon>S120_SiteInboundClassify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\100\S140_InboundSave.resx">
       <DependentUpon>S140_InboundSave.cs</DependentUpon>

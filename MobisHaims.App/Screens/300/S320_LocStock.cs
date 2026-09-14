@@ -251,10 +251,27 @@ namespace MobisHaims.Screens
                 return;
             }
 
-            // 계열이 2건 이상이면 원본은 계열선택 팝업을 띄운다. 여기서는 첫 건으로 진행한다.
-            SelectRow((int)hit[0]);
-            if (hit.Count > 1)
-                Msg("계열 " + hit.Count + "건 - 첫 건(" + _lep + ")으로 진행", MsgLevel.Info);
+            // 계열이 2건 이상이면 선택 팝업을 띄운다 (원본 lep_popup).
+            // 여기서 고르는 것은 계열 문자열이 아니라 목록의 행이라
+            // 후보 행의 계열을 라벨로 만들어 넘기고 인덱스로 되돌린다.
+            ArrayList labels = new ArrayList();
+            for (int i = 0; i < hit.Count; i++)
+            {
+                LocPartRow p = lstLoc.Items[(int)hit[i]].Tag as LocPartRow;
+                string lep = (p == null || p.Lep.Length == 0) ? "H" : p.Lep;
+                labels.Add(lep);
+            }
+
+            int idx = MobisHaims.Controls.LepSelect.Pick(
+                          labels, "계열 선택 - " + PartNo.Display(txtPart.Text));
+            if (idx < 0)
+            {
+                Msg("취소했습니다.", MsgLevel.Info);
+                txtPart.Focus();
+                return;
+            }
+
+            SelectRow((int)hit[idx]);
 
             GoDetail();
         }

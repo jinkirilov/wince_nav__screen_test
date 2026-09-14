@@ -14,6 +14,13 @@ namespace HaimsPda.Net
         private const string ActionMobile = "HAIMS_MOBILE_ACTION";
         private const string ActionComm = "HAIMS_COMM_ACTION";
 
+        /// <summary>
+        /// 웹의 getMacAddress() 는 실제 MAC 을 읽지 않고 이 상수를 돌려준다.
+        /// 로그인 이후 모든 요청의 공통 파라미터로 붙는다 (HAR 실측 확인).
+        /// fn_Login 만 예외로 빈 값을 보낸다 — 이때는 아직 userInfo 가 비어 있기 때문.
+        /// </summary>
+        private const string MacUsim = "00-00-00-00-00-00";
+
         /// <summary>로그인 화면에서 붙는 공통 파라미터 (document.title == 'LoginPage' 분기)</summary>
         private static void AddLoginCommon(TitRequest r)
         {
@@ -62,6 +69,7 @@ namespace HaimsPda.Net
             r.AddParam("_ORG_USR_USRID", u == null ? "" : u["ORG_USR_USRID"]);
             r.AddParam("_MACHINE", "3");
             r.AddParam("_SESSION_NO", u == null ? HaimsHttp.NewSessionNo() : u.SessionNo);
+            r.AddParam("_MAC_USIM", MacUsim);
         }
 
         /// <summary>fn_Init - 서버명(_ServerName) 조회</summary>
@@ -136,12 +144,19 @@ namespace HaimsPda.Net
                 r.AddParam("SCRID", "LOGIN");
                 r.AddParam("USRIP", "");
                 r.AddParam("USRMAC", "MOBILEPDA");
-                AddLoginCommon(r);
 
-                // 지금 우선 막는다.
-                //HaimsHttp.PostStream("Login.xml", "fn_LogSave", r.Build(), null);
+                // 웹도 이 시점엔 _USR_* 공통값을 아직 비운 채로 보낸다 (HAR 실측).
+                // 사용자 식별은 위의 USRID / USR_USRID 파라미터로 한다.
+                AddLoginCommon(r);
+                r.AddParam("_MAC_USIM", MacUsim);
+
+                HaimsHttp.PostStream("Login.xml", "fn_LogSave", r.Build(), null);
             }
-            catch { /* 원본 JS 도 실패를 무시함 */ }
+            catch (Exception ex)
+            {
+                // 원본 JS 도 실패를 무시한다. 다만 흔적은 남긴다.
+                Log.Write("fn_LogSave 실패(무시): " + ex.Message);
+            }
         }
 
         /// <summary>fn_CheckIdPass - 비밀번호 변경 팝업의 현재 비밀번호 확인</summary>
@@ -201,6 +216,11 @@ namespace HaimsPda.Net
             r.AddSearch("common:HS00_W01_S03");   // 메시지
             r.AddSearch("common:HS00_W01_S04");   // 공통코드
             r.AddSearch("common:HS00_W01_S06");   // 업체코드
+
+            // 웹이 보내는 업무 파라미터. 이게 없으면 업체코드(S06)가 0건으로 돌아온다.
+            // 메뉴/메시지/공통코드는 없어도 나오기 때문에 빠진 걸 늦게 알아챘다.
+            r.AddParam("USER_ID", Session.User == null ? "" : Session.User.UserId);
+
             AddSessionCommon(r);
 
             CommonCache.Clear();
@@ -215,7 +235,7 @@ namespace HaimsPda.Net
             Log.Write("CommonCache menu=" + CommonCache.Menu.Count
                     + " msg=" + CommonCache.Message.Count
                     + " code=" + CommonCache.Code.Count
-                    + " ven=" + CommonCache.Vendor.Count
+                    + " ven=" + CommonCache.Vendors.Count
                     + " / MP101=" + CommonCache.Msg("MP101", "(없음)"));
 
             // LoadCommonData 끝에 임시로
@@ -237,11 +257,35 @@ namespace HaimsPda.Net
         public static readonly Hashtable MenuPath = new Hashtable();  // 화면ID -> 원본 xml 경로
         public static readonly Hashtable Message = new Hashtable();   // 메시지ID -> 메시지
         public static readonly Hashtable Code = new Hashtable();      // "대분류|중분류|코드" -> 코드명
-        public static readonly Hashtable Vendor = new Hashtable();    // 업체코드 -> 업체명
+        public static readonly ArrayList Vendors = new ArrayList();   // VendorInfo 목록 (주/부 업체)
+
+        /// <summary>주업체 목록 (VNDSB == "00000")</summary>
+        public static ArrayList MainVendors()
+        {
+            ArrayList r = new ArrayList();
+            for (int i = 0; i < Vendors.Count; i++)
+            {
+                VendorInfo v = (VendorInfo)Vendors[i];
+                if (v.VndSb == "00000") r.Add(v);
+            }
+            return r;
+        }
+
+        /// <summary>주업체코드에 딸린 부업체 목록</summary>
+        public static ArrayList SubVendors(string vndMn)
+        {
+            ArrayList r = new ArrayList();
+            for (int i = 0; i < Vendors.Count; i++)
+            {
+                VendorInfo v = (VendorInfo)Vendors[i];
+                if (v.VndMn == vndMn) r.Add(v);
+            }
+            return r;
+        }
 
         public static void Clear()
         {
-            Menu.Clear(); MenuPath.Clear(); Message.Clear(); Code.Clear(); Vendor.Clear();
+            Menu.Clear(); MenuPath.Clear(); Message.Clear(); Code.Clear(); Vendors.Clear();
         }
 
         internal static void Accept(string ds, Row row)
@@ -281,8 +325,11 @@ namespace HaimsPda.Net
             }
             else if (ds == "ds_ven")
             {
-                string cd = First(row, "VEN_CD", "AGT_CD", "CUST_CD");
-                if (cd.Length > 0) Vendor[cd] = First(row, "VEN_NM", "AGT_NM", "CUST_NM");
+                // PL142_W01.xml fn_setCustInfo 에서 확인한 실제 컬럼.
+                // VNDSB == "00000" 인 레코드가 주업체, 나머지가 그 아래 부업체다.
+                string mn = row["VNDMN"];
+                if (mn.Length > 0)
+                    Vendors.Add(new VendorInfo(mn, row["VNDSB"], row["VNDNM_VAL"]));
             }
         }
 

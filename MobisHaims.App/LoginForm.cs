@@ -41,15 +41,10 @@ namespace HaimsPda
 
         #endregion
 
-        #region 렌더링 상태
+        #region 상태
 
-        private Bitmap _buffer;        // 배경 + 정적 요소
-        private Bitmap _bgStrip;       // 가로 1줄 타일 (메모리 절약)
-        private Rectangle _rcLogo, _rcLock, _rcCar, _rcMgrp, _rcServer;
-        private Point _ptLoginText;
-        private int _copyY;
-        private bool _carVisible, _copyVisible;
-        private Font _fLogin, _fCopy, _fCtrl, _fBtn, _fServer;
+        // 화면 요소는 전부 디자이너(LoginForm.Designer.cs)가 잡는다.
+        // 직접 그리던 시절의 필드(_buffer/_rcLogo/_fLogin …)는 쓰이지 않아 제거했다.
         private string _serverName = "";
         private bool _busy;
 
@@ -99,9 +94,9 @@ namespace HaimsPda
                 delegate(object result, Exception error)
                 {
                     if (error != null) return;          // 서버명은 실패해도 무시
-                    _serverName = (result == null) ? "" : (string)result;
+                    _serverName = (result == null) ? "" : ((string)result).Trim();
                     Session.ServerName = _serverName;
-                    Invalidate(_rcServer);
+                    lblServer.Text = _serverName;
                 });
         }
 
@@ -111,9 +106,11 @@ namespace HaimsPda
 
         private void txtId_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && txtId.TextLength > 4)
+            // 원본(Login.xml)은 길이 조건 없이 바로 비밀번호로 넘어간다.
+            if (e.KeyCode == Keys.Enter)
             {
                 txtId.Text = txtId.Text.ToUpper();
+                txtId.SelectionStart = txtId.TextLength;
                 txtPw.Focus();
                 e.Handled = true;
             }
@@ -130,6 +127,24 @@ namespace HaimsPda
         }
 
         private void btnLogin_Click(object sender, EventArgs e) { DoLogin(); }
+
+        private void btnEnv_Click(object sender, EventArgs e)
+        {
+            if (_busy) return;
+
+            using (HostForm f = new HostForm())
+            {
+                if (f.ShowDialog() != DialogResult.OK) return;
+            }
+
+            // 주소가 바뀌었으니 서버명을 다시 받아 온다
+            lblServer.Text = "";
+            _serverName = "";
+            Session.ServerName = "";
+            FetchServerNameAsync();
+
+            txtId.Focus();
+        }
 
         private void btnChange_Click(object sender, EventArgs e)
         {

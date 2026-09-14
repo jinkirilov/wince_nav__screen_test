@@ -70,8 +70,13 @@ namespace MobisHaims
         {
             _registry.Register(ScreenId.Main, delegate { return new S000_MainMenu(); });
             _registry.Register(ScreenId.InboundMenu, delegate { return new S100_InboundMenu(); });
+            // 120 / 121 은 원본 소스가 거의 같아 한 화면 클래스를 모드로 나눠 쓴다.
             _registry.Register(ScreenId.SiteInboundClassify, delegate { return new S120_SiteInboundClassify(); });
+            _registry.Register(ScreenId.ShopInboundClassify, delegate { return new S121_ShopInboundClassify(); });
+            _registry.Register(ScreenId.WaitPartInquiry, delegate { return new S130_WaitPartInquiry(); });
+            _registry.Register(ScreenId.ReserveList, delegate { return new S131_ReserveList(); });
             _registry.Register(ScreenId.InboundSave, delegate { return new S140_InboundSave(); });
+            _registry.Register(ScreenId.DirectInboundSave, delegate { return new S142_DirectInboundSave(); });
             _registry.Register(ScreenId.StockMenu, delegate { return new S300_StockMenu(); });
             _registry.Register(ScreenId.StockByLoc, delegate { return new S320_LocStock(); });
             _registry.Register(ScreenId.StockByPart, delegate { return new S321_PartStock(); });

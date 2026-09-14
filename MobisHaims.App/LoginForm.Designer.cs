@@ -32,7 +32,17 @@ namespace HaimsPda
             this.btnExit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblServer = new MobisHaims.Controls.VLabel();
             this.SuspendLayout();
+            // 
+            // lblServer  (원본 Login.xml 의 txtServerName)
+            // 
+            this.lblServer.Align = MobisHaims.Controls.VAlign.MiddleRight;
+            this.lblServer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(218)))), ((int)(((byte)(224)))));
+            this.lblServer.Location = new System.Drawing.Point(8, 240);
+            this.lblServer.Name = "lblServer";
+            this.lblServer.Size = new System.Drawing.Size(464, 34);
+            this.lblServer.Text = "";
             // 
             // txtId
             // 
@@ -97,6 +107,7 @@ namespace HaimsPda
             this.btnEnv.Size = new System.Drawing.Size(142, 62);
             this.btnEnv.TabIndex = 8;
             this.btnEnv.Text = "호스트";
+            this.btnEnv.Click += new System.EventHandler(this.btnEnv_Click);
             // 
             // btnExit
             // 
@@ -131,6 +142,7 @@ namespace HaimsPda
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(64)))), ((int)(((byte)(106)))));
             this.ClientSize = new System.Drawing.Size(480, 588);
+            this.Controls.Add(this.lblServer);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExit);
@@ -152,5 +164,6 @@ namespace HaimsPda
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private MobisHaims.Controls.VLabel lblServer;
     }
 }

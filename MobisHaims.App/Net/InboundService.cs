@@ -37,6 +37,86 @@ namespace HaimsPda.Net
     }
 
     /// <summary>
+    /// 입고 커밋 1단계(fn_Save) 응답.
+    ///   PL100_W01_S03 -> ds_PL100_03 / VCHNO        증표번호
+    ///   PL100_W01_S05 -> ds_PL100_05 / *_FALG       업체집계내역(매입) 상태
+    /// </summary>
+    public sealed class CommitPrepare
+    {
+        public string Vchno = "";        // 새로 채번된 입고증표번호
+        public string EndMtFlag = "";    // END_MT_FALG     월마감여부
+        public string VndMtFlag = "";    // VND_MT_FALG     해당월 발생여부(거래처)
+        public string VndDtFlag = "";    // VND_DT_FALG     해당일자 발생여부(거래처)
+        public string LstValMpFlag = ""; // LST_VAL_MP_FALG 미지급금 마이너스
+    }
+
+    /// <summary>
+    /// 입고 커밋에 필요한 값 묶음.
+    /// 대부분 조회(ds_Output01) 레코드에서 그대로 옮겨 온 것이다.
+    /// </summary>
+    public sealed class CommitInput
+    {
+        public string Lep = "";
+        public string Ptno = "";
+        public string Whscd = "M";
+
+        public string WsfStat = "";      // N.미처리 1.도착보고 2.분류 3.입고처리
+        public string WsfSalecst = "";   // 원가
+        public string WsfQt = "";        // 할당수량
+        public string WsfId = "";        // 할당구분
+        public string WsfVndmn = "";     // 거래처 메인코드
+        public string WsfVndsb = "";     // 거래처 서브코드
+        public string WsfVchno = "";     // 할당번호
+        public string WsfVchno1 = "";    // 입고증표번호(이미 분류된 건)
+        public string WsfCarcd = "";     // 차종코드
+        public string WsfNoargQty = "";  // 재고무수량
+        public string WsfDt = "";        // 할당일자
+        public string WsfCasno = "";     // CASE 번호
+        public string WsfReqcd = "";     // 할당코드
+        public string WsfItscd = "";     // 지원센터코드
+        public string Locno = "";        // LOC
+        public string MinusHk = "";      // 마이너스재고 여부
+
+        public string VapSysdt = "";
+        public string VapSysdtL = "";
+        public string Vchym = "";
+
+        /// <summary>미수령 수량 / 사유코드. 미수령 화면이 없으면 0 / 빈값.</summary>
+        public int CtlQty;
+        public string CtlCd = "";
+
+        /// <summary>할당구분 M 이면 부가세 1.1 / 원가율 1.0, 아니면 반대</summary>
+        public string VatRate { get { return (WsfId == "M") ? "1.1" : "1.0"; } }
+        public string CstRate { get { return (WsfId == "M") ? "1.0" : "1.1"; } }
+
+        /// <summary>이미 분류(2)된 건은 증표를 새로 따지 않는다.</summary>
+        public bool IsClassified { get { return WsfStat == "2"; } }
+
+        public static CommitInput From(Row a)
+        {
+            CommitInput c = new CommitInput();
+            c.WsfStat = a["WSF_STAT"];
+            c.WsfSalecst = a["WSF_SALECST"];
+            c.WsfQt = a["WSF_WSFQT"];
+            c.WsfId = a["WSF_WSFID"];
+            c.WsfVndmn = a["WSF_VNDMN"];
+            c.WsfVndsb = a["WSF_VNDSB"];
+            c.WsfVchno = a["WSF_VCHNO"];
+            c.WsfVchno1 = a["WSF_VCHNO_1"];
+            c.WsfCarcd = a["WSF_CARCD"];
+            c.WsfNoargQty = a["WSF_NOARG_QTY"];
+            c.WsfDt = a["WSF_WSFDT"];
+            c.WsfCasno = a["WSF_CASNO"];
+            c.WsfReqcd = a["WSF_REQCD"];
+            c.WsfItscd = a["WSF_ITSCD"];
+            c.Locno = a["LOC_LOCNO"];
+            c.MinusHk = a["MINUS_HK"];
+            return c;
+        }
+    }
+
+
+    /// <summary>
     /// [140] 입고저장 서버 호출.
     ///
     /// 원본 : /ui/ws/plus/PL140_W01.xml 의 fn_* 함수들.
@@ -253,6 +333,196 @@ namespace HaimsPda.Net
             }
             return sb.ToString();
         }
+
+        // ==================================================================
+        // 입고 커밋 — 원본 fn_Save -> fn_Save_After -> fn_SaveAfter2
+        //
+        // 두 번의 서버 호출로 끝난다.
+        //   1) CommitPrepare : 증표번호 채번(S03) + 업체집계 상태 조회(S05)
+        //   2) Commit        : 1)의 결과에 따라 INSERT/UPDATE 문들을 한 번에 실행
+        //
+        // 두 번째 호출은 ds_cmd 에 SQL 을 여러 개 쌓아 순서대로 돌린다.
+        // 순서가 곧 실행 순서이므로 원본이 추가한 차례를 그대로 지킨다.
+        // ==================================================================
+
+        /// <summary>
+        /// 1단계. 이미 분류(WSF_STAT=="2")된 건은 증표를 새로 따지 않으므로
+        /// 원본도 조회 없이 넘어간다. 그 경우 호출자가 이 단계를 건너뛴다.
+        /// </summary>
+        public static CommitPrepare CommitPrepareCall(CommitInput c)
+        {
+            TitRequest r = new TitRequest();
+            r.AddSearch("plus:PL100_W01_S03");   // 증표번호
+            r.AddSearch("plus:PL100_W01_S05");   // 업체집계내역(매입) 상태
+
+            r.AddParam("VAP_SYSDT", c.VapSysdt);
+            r.AddParam("VAP_SYSDT_L", c.VapSysdtL);
+            r.AddParam("WSF_WSFQT", c.WsfQt);
+            r.AddParam("WSF_SALECST", c.WsfSalecst);
+            r.AddParam("WSF_STAT", c.WsfStat);
+            r.AddParam("WSFID", c.WsfId);
+            r.AddParam("AGTCD", Agt);
+            r.AddParam("PTNO", PartNo.Key(c.Ptno));
+            r.AddParam("LEP", c.Lep);
+            r.AddParam("CUR_STAT", "3");
+            r.AddParam("CTLQT", c.CtlQty.ToString());
+            r.AddParam("VAT_RATE", c.VatRate);
+            r.AddParam("CST_RATE", c.CstRate);
+            r.AddParam("VCHCD", "1");
+            r.AddParam("VCHYM", c.Vchym);
+            r.AddParam("WSF_WSFID", c.WsfId);
+            r.AddParam("WSF_VNDMN", c.WsfVndmn);
+            r.AddParam("WSF_VNDSB", c.WsfVndsb);
+            AuthService.AddSessionCommon(r);
+
+            CommitPrepare p = new CommitPrepare();
+            bool[] got03 = new bool[1];
+            bool[] got05 = new bool[1];
+
+            TitResult res = HaimsHttp.PostStream(Pgm, "fn_Save", r.Build(),
+                delegate(string ds, Row row)
+                {
+                    if (ds == "ds_PL100_03" && !got03[0])
+                    {
+                        got03[0] = true;
+                        p.Vchno = row["VCHNO"];
+                    }
+                    else if (ds == "ds_PL100_05" && !got05[0])
+                    {
+                        got05[0] = true;
+                        p.EndMtFlag = row["END_MT_FALG"];
+                        p.VndMtFlag = row["VND_MT_FALG"];
+                        p.VndDtFlag = row["VND_DT_FALG"];
+                        p.LstValMpFlag = row["LST_VAL_MP_FALG"];
+                    }
+                });
+
+            Check(res);
+            return p;
+        }
+
+        /// <summary>
+        /// 2단계. 실제 쓰기.
+        ///
+        /// 분류 완료건(WSF_STAT=="2")은 창고/LOC 갱신만 하고,
+        /// 그 외에는 업체집계(매입) 상태에 따라 수불 마스터/세부내역을 새로 만든다.
+        /// </summary>
+        public static void Commit(CommitInput c, CommitPrepare p)
+        {
+            if (p == null) p = new CommitPrepare();
+
+            string ptno = PartNo.Key(c.Ptno);
+            string whs = (c.Whscd == null || c.Whscd.Length == 0) ? "M" : c.Whscd;
+            string today = DateTime.Now.ToString("yyyyMMdd");
+
+            TitRequest r = new TitRequest();
+
+            // ---- 실행할 SQL 을 원본 순서대로 쌓는다 -----------------------
+            if (c.IsClassified)
+            {
+                r.AddSearch("plus:PL100_W01_U02");   // 수불마스터 창고코드
+                r.AddSearch("plus:PL100_W01_U03");   // 수불세부 창고/LOC
+            }
+            else
+            {
+                if (p.EndMtFlag == "N")
+                    throw new HaimsException(CommonCache.Msg("MP542", "VAP 작업 후 진행하십시오."));
+
+                if (p.VndMtFlag == "N")
+                {
+                    r.AddSearch("plus:PL100_W01_I03");
+                    r.AddSearch("plus:PL100_W01_I04");
+                }
+                else
+                {
+                    if (p.VndDtFlag == "N") r.AddSearch("plus:PL100_W01_I03");
+                    else r.AddSearch("plus:PL100_W01_U05");
+
+                    r.AddSearch("plus:PL100_W01_U06");
+                }
+
+                r.AddSearch("plus:PL100_W01_I01");   // 수불마스터
+                r.AddSearch("plus:PL100_W01_I02");   // 수불세부내역
+            }
+
+            r.AddSearch("plus:PL100_W01_U01");        // 재고 Master
+            r.AddSearch("plus:PL100_W01_U04");        // Location Master
+            r.AddSearch("plus:PL140_W01_U01");        // 할당내역
+
+            if (c.MinusHk == "Y")
+                r.AddSearch("plus:PL100_W01_P02");    // 마이너스재고 보정 프로시저
+
+            // ---- 파라미터 ------------------------------------------------
+            // 웹은 같은 id 를 여러 번 넣어도 마지막 값 하나만 남는다. 여기서도 한 번씩만 넣는다.
+            r.AddParam("AGTCD", Agt);
+            r.AddParam("USRID", Usr);
+            r.AddParam("PGM", "PL140");
+            r.AddParam("CUR_STAT", "3");
+            r.AddParam("LEP", c.Lep);
+            r.AddParam("PTNO", ptno);
+            r.AddParam("WHSCD", whs);
+            r.AddParam("LOCNO", c.Locno);
+            r.AddParam("CTLQT", c.CtlQty.ToString());
+            r.AddParam("CTLCD", c.CtlCd);
+            r.AddParam("WSF_CARCD", c.WsfCarcd);
+            r.AddParam("LST_VAL_MP_FALG", c.IsClassified ? "" : p.LstValMpFlag);
+
+            if (!c.IsClassified)
+                r.AddParam("HOLO_NO", "MOBILEPDA_140");
+
+            r.AddParam("VAP_SYSDT", c.VapSysdt);
+            r.AddParam("VAP_SYSDT_L", c.VapSysdtL);
+            r.AddParam("WSF_VNDMN", c.WsfVndmn);
+            r.AddParam("WSF_VNDSB", c.WsfVndsb);
+            r.AddParam("WSF_WSFQT", c.WsfQt);
+            r.AddParam("WSF_SALECST", c.WsfSalecst);
+            r.AddParam("WSF_WSFID", c.WsfId);
+            r.AddParam("WSF_VCHNO", c.WsfVchno);
+            r.AddParam("WSF_STAT", c.WsfStat);
+            r.AddParam("WSF_SNDDT", today);
+            r.AddParam("WSF_WSFDT", c.WsfDt);
+            r.AddParam("VAT_RATE", c.VatRate);
+            r.AddParam("CST_RATE", c.CstRate);
+            r.AddParam("USR_AGTCD_H", UsrCol("USR_AGTCD_H"));
+            r.AddParam("USR_AGTCD_K", UsrCol("USR_AGTCD_K"));
+
+            // 이동단가(ds_PL100_04)는 원본에서 조회가 주석 처리돼 있어 늘 빈 값이 나간다.
+            // 서버가 빈 값을 전제로 동작하므로 그대로 빈 값을 보낸다.
+            string[] cal = new string[] {
+                "CAL_AVLQT", "CAL_AVPRC", "CAL_INPD_QT", "CAL_INV_AMT", "CAL_ODAMT",
+                "CAL_ODQT_ITS", "CAL_ODAMT_MBS", "CAL_ODQT", "CAL_ODAMT_ITS",
+                "CAL_ODQT_MBS", "CAL_CTLQT", "CAL_NOIVC_QT"
+            };
+            for (int i = 0; i < cal.Length; i++) r.AddParam(cal[i], "");
+
+            // 증표번호. 분류 완료건은 이미 받아 둔 번호를, 아니면 방금 채번한 번호를 쓴다.
+            string vchnoSrc = c.IsClassified ? c.WsfVchno1 : p.Vchno;
+            r.AddParam("WSF_VCHNO_1", p.Vchno);
+            r.AddParam("VCHYM", Mid(vchnoSrc, 1, 6));
+            r.AddParam("VCHSEQ", Tail(vchnoSrc, 7));
+
+            AuthService.AddSessionCommon(r);
+
+            TitResult res = HaimsHttp.PostStream(Pgm, "fn_Save_After", r.Build(), null);
+
+            if (res.IsError)
+                throw new HaimsException("시스템 오류가 발생하였습니다. 시스템 관리자에게 문의하세요.");
+        }
+
+        /// <summary>증표번호에서 년월을 뗀다(웹의 substr(1,6)).</summary>
+        private static string Mid(string s, int start, int len)
+        {
+            if (s == null || s.Length < start + len) return "";
+            return s.Substring(start, len);
+        }
+
+        /// <summary>증표번호에서 일련번호를 뗀다(웹의 substr(7)).</summary>
+        private static string Tail(string s, int start)
+        {
+            if (s == null || s.Length <= start) return "";
+            return s.Substring(start);
+        }
+
 
         private static int ToInt(string s)
         {
