@@ -86,6 +86,11 @@ namespace MobisHaims
             _registry.Register(ScreenId.LocMenu, delegate { return new S400_LocMenu(); });
             _registry.Register(ScreenId.LocMove, delegate { return new S401_LocMove(); });
             _registry.Register(ScreenId.LocRegister, delegate { return new S410_LocRegister(); });
+            _registry.Register(ScreenId.PartLocSort, delegate { return new S420_PartLocSort(); });
+            _registry.Register(ScreenId.WhTransferOut, delegate { return new S430_TransferOut(); });
+            _registry.Register(ScreenId.WhTransferIn, delegate { return new S431_TransferIn(); });
+            _registry.Register(ScreenId.WhMigrateOut, delegate { return new S440_MigrateOut(); });
+            _registry.Register(ScreenId.WhMigrateIn, delegate { return new S441_MigrateIn(); });
         }
 
         // 로그인은 Program.Main 의 LoginForm 에서 이미 끝났다.

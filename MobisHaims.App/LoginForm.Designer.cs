@@ -71,9 +71,9 @@ namespace HaimsPda
             // 
             this.btnChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
             this.btnChange.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnChange.Location = new System.Drawing.Point(330, 372);
+            this.btnChange.Location = new System.Drawing.Point(330, 368);
             this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(142, 38);
+            this.btnChange.Size = new System.Drawing.Size(142, 41);
             this.btnChange.TabIndex = 6;
             this.btnChange.Text = "변경";
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);

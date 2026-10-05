@@ -11,12 +11,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MobisHaims</RootNamespace>
     <AssemblyName>MobisHaims.App</AssemblyName>
-    <PlatformFamilyName>PocketPC</PlatformFamilyName>
-    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
-    <OSVersion>5.2</OSVersion>
+    <PlatformFamilyName>WindowsCE</PlatformFamilyName>
+    <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
+    <OSVersion>5.00</OSVersion>
     <DeployDirSuffix>MobisHaims.App</DeployDirSuffix>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <NativePlatformName>Windows CE</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
   </PropertyGroup>
@@ -104,6 +104,10 @@
     <Compile Include="Net\OsdService.cs" />
     <Compile Include="Net\LocMoveService.cs" />
     <Compile Include="Net\LocRegisterService.cs" />
+    <Compile Include="Net\LocSortService.cs" />
+    <Compile Include="Net\TransferOutService.cs" />
+    <Compile Include="Net\TransferInService.cs" />
+    <Compile Include="Net\MigrateService.cs" />
     <Compile Include="Net\SHA256ManagedSimple.cs" />
     <Compile Include="Net\TitProtocol.cs" />
     <Compile Include="Program.cs" />
@@ -244,6 +248,36 @@
     <Compile Include="Screens\400\S410_LocRegister.Designer.cs">
       <DependentUpon>S410_LocRegister.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\400\S420_PartLocSort.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S420_PartLocSort.Designer.cs">
+      <DependentUpon>S420_PartLocSort.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S430_TransferOut.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S430_TransferOut.Designer.cs">
+      <DependentUpon>S430_TransferOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S431_TransferIn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S431_TransferIn.Designer.cs">
+      <DependentUpon>S431_TransferIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S440_MigrateOut.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S440_MigrateOut.Designer.cs">
+      <DependentUpon>S440_MigrateOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S441_MigrateIn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S441_MigrateIn.Designer.cs">
+      <DependentUpon>S441_MigrateIn.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DesignTimeAttributes.xmta" />
@@ -272,6 +306,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\400\S410_LocRegister.resx">
       <DependentUpon>S410_LocRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S420_PartLocSort.resx">
+      <DependentUpon>S420_PartLocSort.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S430_TransferOut.resx">
+      <DependentUpon>S430_TransferOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S431_TransferIn.resx">
+      <DependentUpon>S431_TransferIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S440_MigrateOut.resx">
+      <DependentUpon>S440_MigrateOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S441_MigrateIn.resx">
+      <DependentUpon>S441_MigrateIn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\S000_MainMenu.resx">
       <DependentUpon>S000_MainMenu.cs</DependentUpon>
