@@ -4,8 +4,8 @@ namespace HaimsPda
     {
         private System.ComponentModel.IContainer components = null;
 
-        private System.Windows.Forms.TextBox txtId;
-        private System.Windows.Forms.TextBox txtPw;
+        private MobisHaims.Controls.CustTextBox txtId;
+        private MobisHaims.Controls.CustTextBox txtPw;
         private System.Windows.Forms.CheckBox chkSave;
 
         protected override void Dispose(bool disposing)
@@ -23,8 +23,8 @@ namespace HaimsPda
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtId = new System.Windows.Forms.TextBox();
-            this.txtPw = new System.Windows.Forms.TextBox();
+            this.txtId = new MobisHaims.Controls.CustTextBox();
+            this.txtPw = new MobisHaims.Controls.CustTextBox();
             this.chkSave = new System.Windows.Forms.CheckBox();
             this.btnChange = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -41,7 +41,7 @@ namespace HaimsPda
             this.txtId.Location = new System.Drawing.Point(148, 322);
             this.txtId.MaxLength = 10;
             this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(178, 41);
+            this.txtId.Size = new System.Drawing.Size(178, 45);
             this.txtId.TabIndex = 0;
             this.txtId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtId_KeyDown);
             // 
@@ -52,7 +52,7 @@ namespace HaimsPda
             this.txtPw.MaxLength = 20;
             this.txtPw.Name = "txtPw";
             this.txtPw.PasswordChar = '*';
-            this.txtPw.Size = new System.Drawing.Size(178, 41);
+            this.txtPw.Size = new System.Drawing.Size(178, 45);
             this.txtPw.TabIndex = 1;
             this.txtPw.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPw_KeyDown);
             // 
@@ -142,7 +142,8 @@ namespace HaimsPda
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(480, 588);
+            this.ClientSize = new System.Drawing.Size(480, 640);
+            this.ControlBox = false;
             this.Controls.Add(this.lblServer);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -153,9 +154,13 @@ namespace HaimsPda
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.txtPw);
             this.Controls.Add(this.chkSave);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Location = new System.Drawing.Point(0, 52);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.Text = "LoginPage";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 
         }

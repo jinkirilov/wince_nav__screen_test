@@ -65,6 +65,9 @@
     <Compile Include="Controls\VLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\CustTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Core\DeviceInfo.cs" />
     <Compile Include="Devices\IScanner.cs" />
     <Compile Include="Devices\M3Scanner.cs" />
@@ -291,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\JumpForm.resx">
       <DependentUpon>JumpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostForm.resx">
+      <DependentUpon>HostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

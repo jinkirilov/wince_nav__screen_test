@@ -4,8 +4,8 @@ namespace HaimsPda
     {
         private System.ComponentModel.IContainer components = null;
 
-        private System.Windows.Forms.TextBox txtUrl;
-        private System.Windows.Forms.TextBox txtTimeout;
+        private MobisHaims.Controls.CustTextBox txtUrl;
+        private MobisHaims.Controls.CustTextBox txtTimeout;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnDefault;
         private System.Windows.Forms.Button btnSave;
@@ -29,8 +29,8 @@ namespace HaimsPda
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblUrlCap = new System.Windows.Forms.Label();
             this.lblTimeoutCap = new System.Windows.Forms.Label();
-            this.txtUrl = new System.Windows.Forms.TextBox();
-            this.txtTimeout = new System.Windows.Forms.TextBox();
+            this.txtUrl = new MobisHaims.Controls.CustTextBox();
+            this.txtTimeout = new MobisHaims.Controls.CustTextBox();
             this.lblResult = new System.Windows.Forms.Label();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnDefault = new System.Windows.Forms.Button();
@@ -40,7 +40,7 @@ namespace HaimsPda
             // 
             // lblTitle
             // 
-            this.lblTitle.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(8, 20);
             this.lblTitle.Name = "lblTitle";
@@ -55,15 +55,6 @@ namespace HaimsPda
             this.lblUrlCap.Size = new System.Drawing.Size(464, 36);
             this.lblUrlCap.Text = "서버 주소";
             // 
-            // txtUrl
-            // 
-            this.txtUrl.BackColor = System.Drawing.Color.White;
-            this.txtUrl.Location = new System.Drawing.Point(8, 124);
-            this.txtUrl.MaxLength = 200;
-            this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(464, 41);
-            this.txtUrl.TabIndex = 0;
-            // 
             // lblTimeoutCap
             // 
             this.lblTimeoutCap.ForeColor = System.Drawing.Color.White;
@@ -72,13 +63,22 @@ namespace HaimsPda
             this.lblTimeoutCap.Size = new System.Drawing.Size(250, 36);
             this.lblTimeoutCap.Text = "타임아웃(초)";
             // 
+            // txtUrl
+            // 
+            this.txtUrl.BackColor = System.Drawing.Color.White;
+            this.txtUrl.Location = new System.Drawing.Point(8, 124);
+            this.txtUrl.MaxLength = 200;
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.Size = new System.Drawing.Size(464, 45);
+            this.txtUrl.TabIndex = 0;
+            // 
             // txtTimeout
             // 
             this.txtTimeout.BackColor = System.Drawing.Color.White;
             this.txtTimeout.Location = new System.Drawing.Point(262, 174);
             this.txtTimeout.MaxLength = 3;
             this.txtTimeout.Name = "txtTimeout";
-            this.txtTimeout.Size = new System.Drawing.Size(210, 41);
+            this.txtTimeout.Size = new System.Drawing.Size(210, 45);
             this.txtTimeout.TabIndex = 1;
             // 
             // lblResult
@@ -87,7 +87,6 @@ namespace HaimsPda
             this.lblResult.Location = new System.Drawing.Point(8, 232);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(464, 110);
-            this.lblResult.Text = "";
             // 
             // btnTest
             // 
@@ -138,7 +137,7 @@ namespace HaimsPda
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(64)))), ((int)(((byte)(106)))));
-            this.ClientSize = new System.Drawing.Size(480, 588);
+            this.ClientSize = new System.Drawing.Size(476, 590);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnDefault);
@@ -152,7 +151,9 @@ namespace HaimsPda
             this.Location = new System.Drawing.Point(0, 52);
             this.Name = "HostForm";
             this.Text = "HostPage";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
+
         }
     }
 }

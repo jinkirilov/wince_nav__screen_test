@@ -130,11 +130,16 @@ namespace HaimsPda
 
         private void btnEnv_Click(object sender, EventArgs e)
         {
-            if (_busy) return;
+            if (_busy) 
+                return;
 
             using (HostForm f = new HostForm())
             {
-                if (f.ShowDialog() != DialogResult.OK) return;
+                if (f.ShowDialog() != DialogResult.OK)
+                {
+                    txtId.Focus();
+                    return;
+                }
             }
 
             // 주소가 바뀌었으니 서버명을 다시 받아 온다

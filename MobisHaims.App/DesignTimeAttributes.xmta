@@ -36,6 +36,20 @@
       <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
     </Property>
   </Class>
+  <Class Name="MobisHaims.Controls.CustTextBox">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+    <Property Name="FocusedBackColor">
+      <Browsable>true</Browsable>
+      <Category>Appearance</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+    <Property Name="SelectAllOnFocus">
+      <Browsable>true</Browsable>
+      <Category>Behavior</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+  </Class>
   <Class Name="MobisHaims.Screens.S140_InboundSave">
     <DesignTimeVisible>true</DesignTimeVisible>
     <DesktopCompatible>true</DesktopCompatible>
