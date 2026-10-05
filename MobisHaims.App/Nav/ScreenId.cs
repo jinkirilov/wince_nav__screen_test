@@ -37,18 +37,22 @@
         public const int InventoryTarget = 310;    // 재물조사대상조회
         public const int StockByLoc = 320;         // LOC별재고조회
         public const int StockByPart = 321;        // 파트별재고조회
-        public const int StockDetail = 322;        // 재고세부내역
+        public const int OsdControl = 322;         // 통제등록(OS&D)     (원본 PL212_W01, 메뉴 P138)
+        public const int StockDetail = 3201;       // 재고세부내역      (원본 PL320_P01 팝업, 322에서 이동)
         public const int PartMoveHist = 323;       // 부품수불이력조회
         public const int PartInfo = 324;           // 부품정보조회
         public const int StockAdjust = 330;        // 재고조정 (서버 메뉴 P190 기준)
 
         // LOC관리 [400]
         public const int LocMenu = 400;
-        public const int LocMove = 401;            // LOC재고이동
-        public const int LocRegister = 410;        // LOC등록
-        public const int PartLocSort = 420;        // 부품LOC정렬
-        public const int WhTransfer = 430;         // 창고이전(출고/입고)
-        public const int WhMigrate = 440;          // 창고이관(출고/입고)
+        // 번호는 원본 PL4**_W01.xml 과 1:1 (HAR 2026-10-05 10:44 확인, 서버 메뉴 1D00/P140)
+        public const int LocMove = 401;            // LOC재고이동           (PL401_W01, P145)
+        public const int LocRegister = 410;        // LOC등록               (PL410_W01, P141)
+        public const int PartLocSort = 420;        // 부품LOC정렬           (PL420_W01, P142)
+        public const int WhTransferOut = 430;      // 실시간창고이전(출고) (PL430_W01, P143)
+        public const int WhTransferIn = 431;       // 실시간창고이전(입고) (PL431_W01, P144)
+        public const int WhMigrateOut = 440;       // 실시간창고이관(출고) (PL440_W01, P180)
+        public const int WhMigrateIn = 441;        // 실시간창고이관(입고) (PL441_W01, P181)
 
         // 배송관리 [500]
         public const int DeliveryMenu = 500;        // 배송메뉴
@@ -57,5 +61,8 @@
         public const int InquiryMenu = 600;
         public const int CaseInquiry = 603;        // CASE내역조회
         public const int TagInquiry = 604;         // TAG내역조회
+
+        // 팔레트관리 [800]
+        public const int PalletMenu = 800;    
     }
 }

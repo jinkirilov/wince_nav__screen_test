@@ -1,6 +1,6 @@
 namespace MobisHaims.Screens
 {
-    partial class S322_StockDetail
+    partial class S3201_StockDetail
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -405,13 +405,13 @@ namespace MobisHaims.Screens
             this.btnClear.Text = "지움";
             this.btnClear.Click += new System.EventHandler(this.OnClear);
             // 
-            // S322_StockDetail
+            // S3201_StockDetail
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this._fields);
             this.Controls.Add(this._buttons);
-            this.Name = "S322_StockDetail";
+            this.Name = "S3201_StockDetail";
             this.Size = new System.Drawing.Size(480, 536);
             this._fields.ResumeLayout(false);
             this._buttons.ResumeLayout(false);

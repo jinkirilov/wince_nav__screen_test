@@ -27,7 +27,7 @@ namespace MobisHaims.Screens
             // 
             // btnPartStock
             // 
-            this.btnPartStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnPartStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnPartStock.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnPartStock.ForeColor = System.Drawing.Color.White;
             this.btnPartStock.Location = new System.Drawing.Point(4, 8);
@@ -39,7 +39,7 @@ namespace MobisHaims.Screens
             // 
             // btnLocStock
             // 
-            this.btnLocStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnLocStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnLocStock.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnLocStock.ForeColor = System.Drawing.Color.White;
             this.btnLocStock.Location = new System.Drawing.Point(245, 8);
@@ -51,7 +51,7 @@ namespace MobisHaims.Screens
             // 
             // btnPartInfo
             // 
-            this.btnPartInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnPartInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnPartInfo.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnPartInfo.ForeColor = System.Drawing.Color.White;
             this.btnPartInfo.Location = new System.Drawing.Point(4, 109);
@@ -63,7 +63,7 @@ namespace MobisHaims.Screens
             // 
             // btnMoveHist
             // 
-            this.btnMoveHist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnMoveHist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnMoveHist.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnMoveHist.ForeColor = System.Drawing.Color.White;
             this.btnMoveHist.Location = new System.Drawing.Point(245, 109);
@@ -75,7 +75,7 @@ namespace MobisHaims.Screens
             // 
             // btnInventory
             // 
-            this.btnInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnInventory.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnInventory.ForeColor = System.Drawing.Color.White;
             this.btnInventory.Location = new System.Drawing.Point(4, 210);
@@ -87,7 +87,7 @@ namespace MobisHaims.Screens
             // 
             // btnLocInventory
             // 
-            this.btnLocInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnLocInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnLocInventory.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnLocInventory.ForeColor = System.Drawing.Color.White;
             this.btnLocInventory.Location = new System.Drawing.Point(245, 210);
@@ -99,7 +99,7 @@ namespace MobisHaims.Screens
             // 
             // btnInvTarget
             // 
-            this.btnInvTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnInvTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnInvTarget.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnInvTarget.ForeColor = System.Drawing.Color.White;
             this.btnInvTarget.Location = new System.Drawing.Point(4, 311);
@@ -111,7 +111,7 @@ namespace MobisHaims.Screens
             // 
             // btnAdjust
             // 
-            this.btnAdjust.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(91)))), ((int)(((byte)(106)))));
+            this.btnAdjust.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnAdjust.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnAdjust.ForeColor = System.Drawing.Color.White;
             this.btnAdjust.Location = new System.Drawing.Point(245, 311);
@@ -124,7 +124,7 @@ namespace MobisHaims.Screens
             // S300_StockMenu
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(105)))), ((int)(((byte)(125)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Controls.Add(this.btnPartStock);
             this.Controls.Add(this.btnLocStock);
             this.Controls.Add(this.btnPartInfo);

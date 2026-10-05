@@ -7,25 +7,28 @@ using MobisHaims.Nav;
 
 namespace MobisHaims.Screens
 {
-    // [322] 재고세부내역 : [320]/[321] 에서 선택한 부품 한 건의 수량 내역을 보여준다.
+    // [3201] 재고세부내역 : [320]/[321] 에서 선택한 부품 한 건의 수량 내역을 보여준다.
     // 원본 웹화면 : /ui/ws/plus/PL320_P01.xml (320 의 상세내역 팝업)
+    // 화면번호 322 는 통제등록(OS&D, S322_OsdControl)에 넘겨주고 3201 로 옮겼다.
     //
     //   OnEnter(LEP/PTNO/LOCNO...) -> fn_Search(plus:PL320_W01_S02) -> ds_PartForLoc 1건
     //
     // 입력이 없는 표시 전용 화면이다. LOC/부번은 읽기전용으로 넘어온 값만 보여준다.
-    // 좌표/크기/색/폰트/TabIndex 는 전부 S322_StockDetail.Designer.cs 에서 관리한다.
-    public sealed partial class S322_StockDetail : ScreenBase
+    // 좌표/크기/색/폰트/TabIndex 는 전부 S3201_StockDetail.Designer.cs 에서 관리한다.
+    public sealed partial class S3201_StockDetail : ScreenBase
     {
         private const string MP_OK = "MP101";       // 정상 조회되었습니다
         private const string MP_NOSTOCK = "MP333";  // 해당부품에 대한 재고정보가 없습니다
 
         private string _lep = "H";
         private string _ptno = "";
+        private string _whscd = "";     // [322] 통제등록으로 넘길 값 (320 LinkArgs)
+        private string _expect = "";    // LOC 수량 (EXPECTQTY)
 
         public override int ScreenNo { get { return ScreenId.StockDetail; } }
         public override string ScreenName { get { return "재고세부내역"; } }
 
-        public S322_StockDetail()
+        public S3201_StockDetail()
         {
             InitializeComponent();
             if (IsDesignMode) return;
@@ -44,6 +47,8 @@ namespace MobisHaims.Screens
             txtLoc.Text = Loc.Display(Str((args == null) ? null : args.GetString("LOCNO")));
             lblClass.Text = Str((args == null) ? null : args.GetString("CLASS"));
             lblPartName.Text = Str((args == null) ? null : args.GetString("PTNM"));
+            _whscd = Str((args == null) ? null : args.GetString("WHSCD"));
+            _expect = Str((args == null) ? null : args.GetString("EXPECTQTY"));
 
             if (_ptno.Length == 0)
             {
@@ -98,7 +103,17 @@ namespace MobisHaims.Screens
         // ------------------------------------------------------------------
         private void OnControl(object sender, EventArgs e)
         {
-            Msg("OS&D(212) 연결 예정 - " + PartNo.Display(_ptno), MsgLevel.Info);
+            if (_ptno.Length == 0) { Msg("부품 정보가 없습니다.", MsgLevel.Warn); return; }
+
+            NavArgs a = new NavArgs();
+            a.Set("LEP", _lep);
+            a.Set("PTNO", _ptno);
+            a.Set("PTNM", lblPartName.Text);
+            a.Set("CLASS", lblClass.Text);
+            a.Set("LOCNO", Loc.Key(txtLoc.Text));
+            a.Set("WHSCD", _whscd);
+            a.Set("EXPECTQTY", _expect);
+            Shell.Navigate(ScreenId.OsdControl, a);      // [322] 통제등록
         }
 
         private void OnWealth(object sender, EventArgs e)
@@ -138,14 +153,14 @@ namespace MobisHaims.Screens
         {
             string text = CommonCache.Msg(code, fallback);
             End(text, lv);
-            if (code != MP_OK) MessageBox.Show(text, "[322] " + ScreenName);
+            if (code != MP_OK) MessageBox.Show(text, "[3201] " + ScreenName);
         }
 
         private bool Fail(Exception ex)
         {
             if (ex == null) return false;
             End(ex.Message, MsgLevel.Error);
-            MessageBox.Show(ex.Message, "[322] " + ScreenName);
+            MessageBox.Show(ex.Message, "[3201] " + ScreenName);
             return true;
         }
 

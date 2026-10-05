@@ -133,7 +133,7 @@ namespace HaimsPda.Net
 namespace HaimsPda.Net
 {
     /// <summary>
-    /// [322] 재고세부내역 서버 호출. 원본 : /ui/ws/plus/PL320_P01.xml (320 의 팝업)
+    /// [3201] 재고세부내역 서버 호출. 원본 : /ui/ws/plus/PL320_P01.xml (320 의 팝업)
     ///
     /// fn_Search -> plus:PL320_W01_S02 -> ds_PartForLoc (1건)
     ///

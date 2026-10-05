@@ -80,8 +80,12 @@ namespace MobisHaims
             _registry.Register(ScreenId.StockMenu, delegate { return new S300_StockMenu(); });
             _registry.Register(ScreenId.StockByLoc, delegate { return new S320_LocStock(); });
             _registry.Register(ScreenId.StockByPart, delegate { return new S321_PartStock(); });
-            _registry.Register(ScreenId.StockDetail, delegate { return new S322_StockDetail(); });
+            _registry.Register(ScreenId.OsdControl, delegate { return new S322_OsdControl(); });
+            _registry.Register(ScreenId.StockDetail, delegate { return new S3201_StockDetail(); });
             _registry.Register(ScreenId.PartInfo, delegate { return new S324_PartInfo(); });
+            _registry.Register(ScreenId.LocMenu, delegate { return new S400_LocMenu(); });
+            _registry.Register(ScreenId.LocMove, delegate { return new S401_LocMove(); });
+            _registry.Register(ScreenId.LocRegister, delegate { return new S410_LocRegister(); });
         }
 
         // 로그인은 Program.Main 의 LoginForm 에서 이미 끝났다.
@@ -150,7 +154,10 @@ namespace MobisHaims
         }
 
         // ---------------- IShellContext ----------------
-        public void Navigate(int screenId, NavArgs args) { _nav.Navigate(screenId, args); }
+        public void Navigate(int screenId, NavArgs args) 
+        { 
+            _nav.Navigate(screenId, args); 
+        }
         public void GoBack() { _nav.GoBack(); }
         public void ShowMessage(string text, MsgLevel level) { _footer.SetMessage(text, level); }
         public SessionContext Session { get { return _session; } }

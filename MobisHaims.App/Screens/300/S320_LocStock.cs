@@ -338,14 +338,14 @@ namespace MobisHaims.Screens
         {
             LocPartRow p = Selected;
             if (p == null) { Report(MP_NOSEL, "선택된 데이터가 없습니다.", MsgLevel.Warn); return; }
-            Shell.Navigate(ScreenId.StockDetail, LinkArgs(p));   // [322] 상세내역
+            Shell.Navigate(ScreenId.StockDetail, LinkArgs(p));   // [3201] 상세내역
         }
 
         private void OnControl(object sender, EventArgs e)
         {
             LocPartRow p = Selected;
             if (p == null) { Report(MP_NOSEL, "선택된 데이터가 없습니다.", MsgLevel.Warn); return; }
-            Msg("OS&D(212) 연결 예정 - " + PartNo.Display(p.Ptno) + " " + p.AvlQty, MsgLevel.Info);
+            Shell.Navigate(ScreenId.OsdControl, LinkArgs(p));    // [322] 통제등록(OS&D)
         }
 
         private void OnAdjust(object sender, EventArgs e)

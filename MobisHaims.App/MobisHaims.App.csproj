@@ -101,6 +101,9 @@
     <Compile Include="Net\ClassifyService.cs" />
     <Compile Include="Net\LocStockService.cs" />
     <Compile Include="Net\PartInfoService.cs" />
+    <Compile Include="Net\OsdService.cs" />
+    <Compile Include="Net\LocMoveService.cs" />
+    <Compile Include="Net\LocRegisterService.cs" />
     <Compile Include="Net\SHA256ManagedSimple.cs" />
     <Compile Include="Net\TitProtocol.cs" />
     <Compile Include="Program.cs" />
@@ -205,17 +208,41 @@
     <Compile Include="Screens\300\S321_PartStock.Designer.cs">
       <DependentUpon>S321_PartStock.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\300\S322_StockDetail.cs">
+    <Compile Include="Screens\300\S322_OsdControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Screens\300\S322_StockDetail.Designer.cs">
-      <DependentUpon>S322_StockDetail.cs</DependentUpon>
+    <Compile Include="Screens\300\S322_OsdControl.Designer.cs">
+      <DependentUpon>S322_OsdControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S3201_StockDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S3201_StockDetail.Designer.cs">
+      <DependentUpon>S3201_StockDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\300\S324_PartInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Screens\300\S324_PartInfo.Designer.cs">
       <DependentUpon>S324_PartInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S400_LocMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S400_LocMenu.Designer.cs">
+      <DependentUpon>S400_LocMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S401_LocMove.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S401_LocMove.Designer.cs">
+      <DependentUpon>S401_LocMove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\400\S410_LocRegister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\400\S410_LocRegister.Designer.cs">
+      <DependentUpon>S410_LocRegister.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +261,18 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S300_StockMenu.resx">
+      <DependentUpon>S300_StockMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S400_LocMenu.resx">
+      <DependentUpon>S400_LocMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S401_LocMove.resx">
+      <DependentUpon>S401_LocMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\400\S410_LocRegister.resx">
+      <DependentUpon>S410_LocRegister.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Screens\S000_MainMenu.resx">
       <DependentUpon>S000_MainMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -249,8 +288,8 @@
     <EmbeddedResource Include="Screens\300\S321_PartStock.resx">
       <DependentUpon>S321_PartStock.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Screens\300\S322_StockDetail.resx">
-      <DependentUpon>S322_StockDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Screens\300\S3201_StockDetail.resx">
+      <DependentUpon>S3201_StockDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\300\S324_PartInfo.resx">
       <DependentUpon>S324_PartInfo.cs</DependentUpon>

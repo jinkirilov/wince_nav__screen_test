@@ -35,15 +35,6 @@ namespace HaimsPda
             this.lblServer = new MobisHaims.Controls.VLabel();
             this.SuspendLayout();
             // 
-            // lblServer  (원본 Login.xml 의 txtServerName)
-            // 
-            this.lblServer.Align = MobisHaims.Controls.VAlign.MiddleRight;
-            this.lblServer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(218)))), ((int)(((byte)(224)))));
-            this.lblServer.Location = new System.Drawing.Point(8, 240);
-            this.lblServer.Name = "lblServer";
-            this.lblServer.Size = new System.Drawing.Size(464, 34);
-            this.lblServer.Text = "";
-            // 
             // txtId
             // 
             this.txtId.BackColor = System.Drawing.Color.White;
@@ -69,16 +60,16 @@ namespace HaimsPda
             // 
             this.chkSave.Checked = true;
             this.chkSave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.chkSave.ForeColor = System.Drawing.Color.Black;
             this.chkSave.Location = new System.Drawing.Point(148, 280);
             this.chkSave.Name = "chkSave";
             this.chkSave.Size = new System.Drawing.Size(178, 38);
             this.chkSave.TabIndex = 2;
-            this.chkSave.Text = "저장";
+            this.chkSave.Text = "사번 저장";
             // 
             // btnChange
             // 
-            this.btnChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
+            this.btnChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
             this.btnChange.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnChange.Location = new System.Drawing.Point(330, 372);
             this.btnChange.Name = "btnChange";
@@ -89,7 +80,7 @@ namespace HaimsPda
             // 
             // btnLogin
             // 
-            this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnLogin.Location = new System.Drawing.Point(8, 418);
             this.btnLogin.Name = "btnLogin";
@@ -100,7 +91,7 @@ namespace HaimsPda
             // 
             // btnEnv
             // 
-            this.btnEnv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnEnv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnEnv.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnEnv.Location = new System.Drawing.Point(169, 418);
             this.btnEnv.Name = "btnEnv";
@@ -111,7 +102,7 @@ namespace HaimsPda
             // 
             // btnExit
             // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnExit.Location = new System.Drawing.Point(330, 418);
             this.btnExit.Name = "btnExit";
@@ -122,7 +113,7 @@ namespace HaimsPda
             // 
             // label1
             // 
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(8, 324);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 40);
@@ -130,17 +121,27 @@ namespace HaimsPda
             // 
             // label2
             // 
-            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(8, 364);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(122, 40);
             this.label2.Text = "비밀번호";
             // 
+            // lblServer
+            // 
+            this.lblServer.Align = MobisHaims.Controls.VAlign.MiddleRight;
+            this.lblServer.BackColor = System.Drawing.Color.White;
+            this.lblServer.ForeColor = System.Drawing.Color.Black;
+            this.lblServer.Location = new System.Drawing.Point(8, 280);
+            this.lblServer.Name = "lblServer";
+            this.lblServer.Size = new System.Drawing.Size(134, 34);
+            this.lblServer.TabIndex = 0;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(64)))), ((int)(((byte)(106)))));
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(480, 588);
             this.Controls.Add(this.lblServer);
             this.Controls.Add(this.label2);

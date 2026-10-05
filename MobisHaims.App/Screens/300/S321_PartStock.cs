@@ -205,7 +205,22 @@ namespace MobisHaims.Screens
         // 버튼 : 선택 행을 들고 다른 화면으로 넘어간다 (원본 gfn_SetLinkInfo + gfn_GoToMenu)
         // ------------------------------------------------------------------
         private void OnWealth(object sender, EventArgs e) { GoWith(ScreenId.LocInventory, "재물조사(LOC)"); }
-        private void OnControl(object sender, EventArgs e) { GoWith(0, "OS&D(212)"); }
+        private void OnControl(object sender, EventArgs e)
+        {
+            // 원본 OnBtnControl : 1C03 링크정보 + WHSCD + EXPECTQTY(LOC_AVLQT) -> P138([212] OS&D)
+            LocStockRow l = Selected;
+            if (l == null) { Report(MP_NOSEL, "선택된 데이터가 없습니다.", MsgLevel.Warn); return; }
+
+            NavArgs a = new NavArgs();
+            a.Set("LEP", _lep);
+            a.Set("PTNO", PartNo.Key(txtPart.Text));
+            a.Set("PTNM", lblPartName.Text);
+            a.Set("CLASS", lblClass.Text);
+            a.Set("LOCNO", l.Locno);
+            a.Set("WHSCD", l.Whscd);
+            a.Set("EXPECTQTY", l.AvlQty);
+            Shell.Navigate(ScreenId.OsdControl, a);      // [322] 통제등록(OS&D)
+        }
         private void OnAdjust(object sender, EventArgs e) { GoWith(0, "재고조정(330)"); }
 
         private void GoWith(int screenId, string name)
