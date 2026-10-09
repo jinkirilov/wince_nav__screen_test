@@ -1,6 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobisHaims.App", "MobisHaims.App\MobisHaims.App.csproj", "{A1B2C3D4-1111-4E22-9A33-0123456789AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaimsPda.App", "HaimsPda.App.csproj", "{A1B2C3D4-1111-4E22-9A33-0123456789AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

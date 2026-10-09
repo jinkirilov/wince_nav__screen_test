@@ -47,5 +47,15 @@ namespace HaimsPda.Nav
         {
             get { return this.Site != null && this.Site.DesignMode; }
         }
+
+        public virtual void OnDialogShown() { /* IME 영문 고정 등 */ }
+
+        protected void CloseDialog(DialogResult r)
+        {
+            Control p = Parent;
+            while (p != null && !(p is Form)) p = p.Parent;
+            Form f = p as Form;
+            if (f != null) f.DialogResult = r;
+        }
     }
 }
