@@ -35,6 +35,19 @@ namespace HaimsPda.Nav
         public virtual bool OnBack() { return true; }   // false 반환 시 뒤로가기 취소
 
         /// <summary>
+        /// 자식 화면이 결과를 들고 돌아왔다. 결과가 없는 보통 뒤로가기에서는 불리지 않는다.
+        /// 저장 화면([322] [330] 등)은 성공하면 NavResult.Saved 를 담아 돌아온다.
+        /// 호출 화면은 여기서 다시 조회해 화면을 갱신한다.
+        /// </summary>
+        public virtual void OnReturn(NavArgs result) { }
+
+        /// <summary>
+        /// 이 화면에서 일반 뒤로가기(ESC/X)로 나갈 때 부모에 넘길 결과. 기본 null.
+        /// 예) [3201] 은 [322] 저장 후 되돌아가면 [320] 도 갱신되도록 Saved 를 넘긴다.
+        /// </summary>
+        public virtual NavArgs BackResult { get { return null; } }
+
+        /// <summary>
         /// 바코드 스캔 수신. 셸이 현재 화면에만 전달한다.
         /// 화면은 구독/해지를 신경 쓸 필요 없이 이것만 override 하면 된다.
         /// </summary>

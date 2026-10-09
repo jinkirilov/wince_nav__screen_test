@@ -29,22 +29,22 @@ namespace HaimsPda.Screens
             this.btnSiteClassify.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnSiteClassify.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnSiteClassify.ForeColor = System.Drawing.Color.White;
-            this.btnSiteClassify.Location = new System.Drawing.Point(4, 210);
+            this.btnSiteClassify.Location = new System.Drawing.Point(4, 208);
             this.btnSiteClassify.Name = "btnSiteClassify";
             this.btnSiteClassify.Size = new System.Drawing.Size(232, 80);
-            this.btnSiteClassify.TabIndex = 0;
-            this.btnSiteClassify.Text = "사업소입고분류";
+            this.btnSiteClassify.TabIndex = 4;
+            this.btnSiteClassify.Text = "일반입고분류";
             this.btnSiteClassify.Click += new System.EventHandler(this.OnMenuClick);
             // 
             // btnShopClassify
             // 
             this.btnShopClassify.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnShopClassify.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.btnShopClassify.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnShopClassify.Location = new System.Drawing.Point(248, 210);
+            this.btnShopClassify.ForeColor = System.Drawing.Color.White;
+            this.btnShopClassify.Location = new System.Drawing.Point(244, 208);
             this.btnShopClassify.Name = "btnShopClassify";
             this.btnShopClassify.Size = new System.Drawing.Size(232, 80);
-            this.btnShopClassify.TabIndex = 1;
+            this.btnShopClassify.TabIndex = 5;
             this.btnShopClassify.Text = "전문점입고분류";
             this.btnShopClassify.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -56,7 +56,7 @@ namespace HaimsPda.Screens
             this.btnInboundSave.Location = new System.Drawing.Point(4, 8);
             this.btnInboundSave.Name = "btnInboundSave";
             this.btnInboundSave.Size = new System.Drawing.Size(232, 80);
-            this.btnInboundSave.TabIndex = 2;
+            this.btnInboundSave.TabIndex = 0;
             this.btnInboundSave.Text = "입고저장";
             this.btnInboundSave.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -65,10 +65,10 @@ namespace HaimsPda.Screens
             this.btnSortInboundSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnSortInboundSave.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnSortInboundSave.ForeColor = System.Drawing.Color.White;
-            this.btnSortInboundSave.Location = new System.Drawing.Point(245, 8);
+            this.btnSortInboundSave.Location = new System.Drawing.Point(244, 8);
             this.btnSortInboundSave.Name = "btnSortInboundSave";
             this.btnSortInboundSave.Size = new System.Drawing.Size(232, 80);
-            this.btnSortInboundSave.TabIndex = 3;
+            this.btnSortInboundSave.TabIndex = 1;
             this.btnSortInboundSave.Text = "정렬입고 저장";
             this.btnSortInboundSave.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -77,10 +77,10 @@ namespace HaimsPda.Screens
             this.btnReserveList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnReserveList.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnReserveList.ForeColor = System.Drawing.Color.White;
-            this.btnReserveList.Location = new System.Drawing.Point(245, 109);
+            this.btnReserveList.Location = new System.Drawing.Point(244, 108);
             this.btnReserveList.Name = "btnReserveList";
             this.btnReserveList.Size = new System.Drawing.Size(232, 80);
-            this.btnReserveList.TabIndex = 4;
+            this.btnReserveList.TabIndex = 3;
             this.btnReserveList.Text = "예약내역";
             this.btnReserveList.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -89,10 +89,10 @@ namespace HaimsPda.Screens
             this.btnWaitInquiry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnWaitInquiry.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnWaitInquiry.ForeColor = System.Drawing.Color.White;
-            this.btnWaitInquiry.Location = new System.Drawing.Point(3, 109);
+            this.btnWaitInquiry.Location = new System.Drawing.Point(4, 108);
             this.btnWaitInquiry.Name = "btnWaitInquiry";
             this.btnWaitInquiry.Size = new System.Drawing.Size(232, 80);
-            this.btnWaitInquiry.TabIndex = 5;
+            this.btnWaitInquiry.TabIndex = 2;
             this.btnWaitInquiry.Text = "대기품목조회";
             this.btnWaitInquiry.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -101,7 +101,7 @@ namespace HaimsPda.Screens
             this.btn142.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btn142.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btn142.ForeColor = System.Drawing.Color.White;
-            this.btn142.Location = new System.Drawing.Point(4, 311);
+            this.btn142.Location = new System.Drawing.Point(4, 308);
             this.btn142.Name = "btn142";
             this.btn142.Size = new System.Drawing.Size(232, 80);
             this.btn142.TabIndex = 6;
@@ -112,13 +112,13 @@ namespace HaimsPda.Screens
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Controls.Add(this.btn142);
-            this.Controls.Add(this.btnSiteClassify);
-            this.Controls.Add(this.btnShopClassify);
             this.Controls.Add(this.btnInboundSave);
             this.Controls.Add(this.btnSortInboundSave);
-            this.Controls.Add(this.btnReserveList);
             this.Controls.Add(this.btnWaitInquiry);
+            this.Controls.Add(this.btnReserveList);
+            this.Controls.Add(this.btnSiteClassify);
+            this.Controls.Add(this.btnShopClassify);
+            this.Controls.Add(this.btn142);
             this.Name = "S100_InboundMenu";
             this.Size = new System.Drawing.Size(480, 536);
             this.ResumeLayout(false);

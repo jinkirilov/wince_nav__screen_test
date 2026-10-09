@@ -24,6 +24,7 @@ namespace HaimsPda.Screens
         private string _ptno = "";
         private string _whscd = "";     // [322] 통제등록으로 넘길 값 (320 LinkArgs)
         private string _expect = "";    // LOC 수량 (EXPECTQTY)
+        private bool _dirty;            // [322] 에서 저장하고 돌아왔다 -> 뒤로 갈 때 [320] 도 갱신
 
         public override int ScreenNo { get { return ScreenId.StockDetail; } }
         public override string ScreenName { get { return "재고세부내역"; } }
@@ -60,6 +61,22 @@ namespace HaimsPda.Screens
         }
 
         private static string Str(string s) { return (s == null) ? "" : s; }
+
+        // [322] 저장 후 복귀 : LOC 수량을 바뀐 값으로 두고 다시 조회한다
+        public override void OnReturn(NavArgs result)
+        {
+            if (!NavResult.IsSaved(result) || _ptno.Length == 0) return;
+            _dirty = true;
+            string q = result.GetString(NavResult.KeyLocQty);
+            if (q != null && q.Length > 0) _expect = q;
+            Search();
+        }
+
+        // 이 화면에서 저장이 있었으면 뒤로 갈 때 [320] 에도 알려 다시 조회하게 한다
+        public override NavArgs BackResult
+        {
+            get { return _dirty ? NavResult.Saved(ScreenNo) : null; }
+        }
 
         // ------------------------------------------------------------------
         private void Search()

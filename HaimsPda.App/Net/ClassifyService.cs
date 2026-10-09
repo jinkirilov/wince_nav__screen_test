@@ -208,6 +208,36 @@ namespace HaimsPda.Net
         }
 
         // ------------------------------------------------------------------
+        // [1301] 입고대기품목 팝업 조회 : PL130_P01.xml fn_SearchPTNO (메뉴 P118)
+        //   plus:PL130_W01_S02 -> ds_List
+        // 호출 화면이 121(1A05)이면 WSFID 를 비우고, 아니면 "M" 을 보낸다(원본 동일).
+        // 돌려주는 Row 가 그대로 커밋 입력(원본 dsInput)이 된다.
+        // ------------------------------------------------------------------
+        public const string PgmWaitPopup = "PL130_P01.xml";
+
+        public static ArrayList SearchWaitAllocs(ClassifyMode m, string lep, string ptno)
+        {
+            TitRequest r = new TitRequest();
+            r.AddSearch("plus:PL130_W01_S02");
+            r.AddParam("WSF_AGTCD", Agt);
+            r.AddParam("WSF_LEP", lep);
+            r.AddParam("WSF_PTNO", PartNo.Key(ptno));
+            r.AddParam("WSFID", m.Wsfid);
+            AuthService.AddSessionCommon(r);
+
+            ArrayList list = new ArrayList();
+
+            TitResult res = HaimsHttp.PostStream(PgmWaitPopup, "fn_SearchPTNO", r.Build(),
+                delegate(string ds, Row row)
+                {
+                    if (ds == "ds_List") list.Add(row);
+                });
+
+            Check(res);
+            return list;
+        }
+
+        // ------------------------------------------------------------------
         // fn_SaveChk : plus:PL130_W01_S04 -> ds_SaveChk
         // ------------------------------------------------------------------
         public static ClassifyCheckResult SaveCheck(ClassifyMode m, string lep, string ptno,
@@ -328,6 +358,13 @@ namespace HaimsPda.Net
             r.AddSearch("plus:PL100_W01_I01");   // 수불마스터
             r.AddSearch("plus:PL100_W01_I02");   // 수불세부내역
 
+            // 미수령([132])이 있으면 미수령내역 + 미수령 재고 반영 (원본 GV_Control)
+            if (c.HasControl)
+            {
+                r.AddSearch("plus:PL100_W01_I05");
+                r.AddSearch("plus:PL100_W01_I06");
+            }
+
             // ---- 파라미터 ------------------------------------------------
             r.AddParam("AGTCD", Agt);
             r.AddParam("USRID", Usr);
@@ -370,6 +407,15 @@ namespace HaimsPda.Net
                 "CAL_ODQT_MBS", "CAL_CTLQT", "CAL_NOIVC_QT"
             };
             for (int i = 0; i < cal.Length; i++) r.AddParam(cal[i], "");
+
+            // I05 에만 쓰이는 값. 미수령이 없을 때 원본은 보내지 않는다.
+            if (c.HasControl)
+            {
+                r.AddParam("WSF_ITSCD", c.WsfItscd);
+                r.AddParam("WSF_CASNO", c.WsfCasno);
+                r.AddParam("WSF_REQCD", c.WsfReqcd);
+                r.AddParam("WSF_NOARG_QTY", InboundService.NoArg(c.WsfNoargQty));
+            }
 
             r.AddParam("WSF_VCHNO_1", p.Vchno);
             r.AddParam("VCHYM", Mid(p.Vchno, 1, 6));

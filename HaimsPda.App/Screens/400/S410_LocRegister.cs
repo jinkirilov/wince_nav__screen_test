@@ -82,6 +82,14 @@ namespace HaimsPda.Screens
             LoadCombos(Arg(args, "WHSCD"), Arg(args, "LEP"), ptno);
         }
 
+        // [330] 에서 저장하고 돌아오면 같은 부번을 다시 조회한다
+        public override void OnReturn(NavArgs result)
+        {
+            if (!NavResult.IsSaved(result) || _busy) return;
+            if (PartNo.Key(txtPart.Text).Length == 0) return;
+            Search();
+        }
+
         private static string Arg(NavArgs a, string key)
         {
             string s = (a == null) ? null : a.GetString(key);

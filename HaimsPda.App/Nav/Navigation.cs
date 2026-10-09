@@ -23,6 +23,30 @@ namespace HaimsPda.Nav
         }
     }
 
+    /// <summary>
+    /// 저장 화면이 호출 화면으로 돌아갈 때 쓰는 결과 키.
+    ///   SAVED   "Y"  : 서버에 쓴 것이 있다 -> 호출 화면은 다시 조회한다
+    ///   FROM    화번  : 어느 화면에서 왔는지
+    ///   LOCNO / LOC_QTY : 저장 후 LOC 수량 (화면에 들고 있던 값을 바로 고칠 때)
+    /// </summary>
+    public static class NavResult
+    {
+        public const string KeySaved = "SAVED";
+        public const string KeyFrom = "FROM";
+        public const string KeyLocno = "LOCNO";
+        public const string KeyLocQty = "LOC_QTY";
+
+        public static NavArgs Saved(int from)
+        {
+            return new NavArgs().Set(KeySaved, "Y").Set(KeyFrom, from);
+        }
+
+        public static bool IsSaved(NavArgs a)
+        {
+            return a != null && a.GetString(KeySaved) == "Y";
+        }
+    }
+
     // 공정별 메뉴(헤더 햄버거 드로어) 항목
     public sealed class ProcessMenuItem
     {
@@ -84,11 +108,19 @@ namespace HaimsPda.Nav
             Raise();
         }
 
-        public bool GoBack()
+        public bool GoBack() { return GoBack(null); }
+
+        /// <summary>
+        /// 한 단계 뒤로. result 가 있거나 나가는 화면의 BackResult 가 있으면
+        /// 드러난 화면의 OnReturn 으로 넘긴다.
+        /// </summary>
+        public bool GoBack(NavArgs result)
         {
             if (_stack.Count <= 1) return false;
             ScreenBase top = Current;
             if (!top.OnBack()) return false;
+
+            if (result == null) result = top.BackResult;
 
             _stack.Pop();
             top.OnLeave();
@@ -98,6 +130,8 @@ namespace HaimsPda.Nav
             ScreenBase cur = Current;
             if (cur != null) { cur.Visible = true; cur.BringToFront(); }
             Raise();
+
+            if (cur != null && result != null) cur.OnReturn(result);
             return true;
         }
 

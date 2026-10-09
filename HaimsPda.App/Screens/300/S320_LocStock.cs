@@ -31,6 +31,8 @@ namespace HaimsPda.Screens
         private bool _stdOnly = true;        // btnGubun2 : true="표준유"    / false="표준무"
         private string _lep = "H";
         private string _focus = "";          // 원본 GV_FocusGbn : "LOCNO" / "PTNO"
+        private string _reselLep;            // 재조회 후 다시 고를 행 (OnReturn)
+        private string _reselPtno;
 
         public override int ScreenNo { get { return ScreenId.StockByLoc; } }
         public override string ScreenName { get { return "LOC별재고"; } }
@@ -49,6 +51,17 @@ namespace HaimsPda.Screens
         {
             ClearAll();
             LoadWarehouses(args);
+        }
+
+        // [3201] [322] [330] 에서 저장하고 돌아오면 같은 LOC 를 다시 조회하고 보던 행을 다시 고른다
+        public override void OnReturn(NavArgs result)
+        {
+            if (!NavResult.IsSaved(result)) return;
+            if (Loc.Key(txtLoc.Text).Length == 0) return;
+
+            LocPartRow p = Selected;
+            if (p != null) { _reselLep = p.Lep; _reselPtno = PartNo.Key(p.Ptno); }
+            LocSearch();
         }
 
         // ------------------------------------------------------------------
@@ -201,6 +214,9 @@ namespace HaimsPda.Screens
                 delegate { return LocStockService.Search(wh, send, pos, gubun); },
                 delegate(object r, Exception ex)
                 {
+                    string rLep = _reselLep, rPtno = _reselPtno;
+                    _reselLep = null; _reselPtno = null;
+
                     if (Fail(ex)) return;
 
                     ArrayList rows = (ArrayList)r;
@@ -213,6 +229,15 @@ namespace HaimsPda.Screens
 
                     FillGrid(rows);
                     txtCnt.Text = rows.Count.ToString();
+
+                    if (rPtno != null)
+                    {
+                        for (int i = 0; i < lstLoc.Items.Count; i++)
+                        {
+                            LocPartRow p = lstLoc.Items[i].Tag as LocPartRow;
+                            if (p != null && PartNo.Key(p.Ptno) == rPtno && p.Lep == rLep) { SelectRow(i); break; }
+                        }
+                    }
 
                     Report(MP_OK, "정상 조회되었습니다.", MsgLevel.Success);
                     txtPart.Focus();

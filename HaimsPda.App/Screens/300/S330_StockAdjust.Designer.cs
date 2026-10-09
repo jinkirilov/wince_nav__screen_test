@@ -1,6 +1,6 @@
 namespace HaimsPda.Screens
 {
-    partial class S322_OsdControl
+    partial class S330_StockAdjust
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -18,19 +18,19 @@ namespace HaimsPda.Screens
             this._fields = new System.Windows.Forms.Panel();
             this.lblLocCap = new HaimsPda.Controls.VLabel();
             this.txtLoc = new System.Windows.Forms.TextBox();
+            this.lblWhCap = new HaimsPda.Controls.VLabel();
+            this.lblWh = new HaimsPda.Controls.VLabel();
             this.lblPartCap = new HaimsPda.Controls.VLabel();
             this.lblPrefix = new HaimsPda.Controls.VLabel();
             this.txtPart = new System.Windows.Forms.TextBox();
             this.lblClass = new HaimsPda.Controls.VLabel();
             this.lblPartName = new HaimsPda.Controls.VLabel();
-            this.lblObjQtyCap = new HaimsPda.Controls.VLabel();
-            this.txtObjQty = new System.Windows.Forms.TextBox();
-            this.lblOsdQtyCap = new HaimsPda.Controls.VLabel();
-            this.txtOsdQty = new System.Windows.Forms.TextBox();
-            this.lblReasonCap = new HaimsPda.Controls.VLabel();
-            this.cboReason = new System.Windows.Forms.ComboBox();
-            this.lblDoQtyCap = new HaimsPda.Controls.VLabel();
-            this.txtDoQty = new System.Windows.Forms.TextBox();
+            this.lblLocQtyCap = new HaimsPda.Controls.VLabel();
+            this.txtLocQty = new System.Windows.Forms.TextBox();
+            this.lblAdjQtyCap = new HaimsPda.Controls.VLabel();
+            this.txtAdjQty = new System.Windows.Forms.TextBox();
+            this.lblAfterQtyCap = new HaimsPda.Controls.VLabel();
+            this.txtAfterQty = new System.Windows.Forms.TextBox();
             this._buttons = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnStock = new System.Windows.Forms.Button();
@@ -44,19 +44,19 @@ namespace HaimsPda.Screens
             this._fields.BackColor = System.Drawing.Color.White;
             this._fields.Controls.Add(this.lblLocCap);
             this._fields.Controls.Add(this.txtLoc);
+            this._fields.Controls.Add(this.lblWhCap);
+            this._fields.Controls.Add(this.lblWh);
             this._fields.Controls.Add(this.lblPartCap);
             this._fields.Controls.Add(this.lblPrefix);
             this._fields.Controls.Add(this.txtPart);
             this._fields.Controls.Add(this.lblClass);
             this._fields.Controls.Add(this.lblPartName);
-            this._fields.Controls.Add(this.lblObjQtyCap);
-            this._fields.Controls.Add(this.txtObjQty);
-            this._fields.Controls.Add(this.lblOsdQtyCap);
-            this._fields.Controls.Add(this.txtOsdQty);
-            this._fields.Controls.Add(this.lblReasonCap);
-            this._fields.Controls.Add(this.cboReason);
-            this._fields.Controls.Add(this.lblDoQtyCap);
-            this._fields.Controls.Add(this.txtDoQty);
+            this._fields.Controls.Add(this.lblLocQtyCap);
+            this._fields.Controls.Add(this.txtLocQty);
+            this._fields.Controls.Add(this.lblAdjQtyCap);
+            this._fields.Controls.Add(this.txtAdjQty);
+            this._fields.Controls.Add(this.lblAfterQtyCap);
+            this._fields.Controls.Add(this.txtAfterQty);
             this._fields.Dock = System.Windows.Forms.DockStyle.Fill;
             this._fields.Location = new System.Drawing.Point(0, 0);
             this._fields.Name = "_fields";
@@ -81,9 +81,32 @@ namespace HaimsPda.Screens
             this.txtLoc.Location = new System.Drawing.Point(62, 2);
             this.txtLoc.Name = "txtLoc";
             this.txtLoc.ReadOnly = true;
-            this.txtLoc.Size = new System.Drawing.Size(308, 23);
+            this.txtLoc.Size = new System.Drawing.Size(270, 46);
             this.txtLoc.TabIndex = 21;
             this.txtLoc.TabStop = false;
+            // 
+            // lblWhCap
+            // 
+            this.lblWhCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
+            this.lblWhCap.BackColor = System.Drawing.Color.White;
+            this.lblWhCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
+            this.lblWhCap.ForeColor = System.Drawing.Color.Black;
+            this.lblWhCap.Location = new System.Drawing.Point(336, 2);
+            this.lblWhCap.Name = "lblWhCap";
+            this.lblWhCap.Size = new System.Drawing.Size(60, 42);
+            this.lblWhCap.TabIndex = 22;
+            this.lblWhCap.Text = "창고";
+            // 
+            // lblWh
+            // 
+            this.lblWh.Align = HaimsPda.Controls.VAlign.MiddleCenter;
+            this.lblWh.BackColor = System.Drawing.Color.LightGray;
+            this.lblWh.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
+            this.lblWh.ForeColor = System.Drawing.Color.Black;
+            this.lblWh.Location = new System.Drawing.Point(400, 4);
+            this.lblWh.Name = "lblWh";
+            this.lblWh.Size = new System.Drawing.Size(76, 42);
+            this.lblWh.TabIndex = 23;
             // 
             // lblPartCap
             // 
@@ -91,11 +114,11 @@ namespace HaimsPda.Screens
             this.lblPartCap.BackColor = System.Drawing.Color.White;
             this.lblPartCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
             this.lblPartCap.ForeColor = System.Drawing.Color.Black;
-            this.lblPartCap.Location = new System.Drawing.Point(0, 48);
+            this.lblPartCap.Location = new System.Drawing.Point(0, 50);
             this.lblPartCap.Name = "lblPartCap";
             this.lblPartCap.Size = new System.Drawing.Size(56, 46);
-            this.lblPartCap.TabIndex = 22;
-            this.lblPartCap.Text = "부품";
+            this.lblPartCap.TabIndex = 24;
+            this.lblPartCap.Text = "부번";
             // 
             // lblPrefix
             // 
@@ -103,21 +126,21 @@ namespace HaimsPda.Screens
             this.lblPrefix.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(107)))), ((int)(((byte)(176)))));
             this.lblPrefix.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
             this.lblPrefix.ForeColor = System.Drawing.Color.White;
-            this.lblPrefix.Location = new System.Drawing.Point(61, 50);
+            this.lblPrefix.Location = new System.Drawing.Point(61, 52);
             this.lblPrefix.Name = "lblPrefix";
             this.lblPrefix.Size = new System.Drawing.Size(30, 42);
-            this.lblPrefix.TabIndex = 23;
+            this.lblPrefix.TabIndex = 25;
             this.lblPrefix.Text = "H";
             // 
             // txtPart
             // 
             this.txtPart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.txtPart.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.txtPart.Location = new System.Drawing.Point(93, 50);
+            this.txtPart.Location = new System.Drawing.Point(93, 52);
             this.txtPart.Name = "txtPart";
             this.txtPart.ReadOnly = true;
-            this.txtPart.Size = new System.Drawing.Size(277, 23);
-            this.txtPart.TabIndex = 24;
+            this.txtPart.Size = new System.Drawing.Size(277, 46);
+            this.txtPart.TabIndex = 26;
             this.txtPart.TabStop = false;
             // 
             // lblClass
@@ -125,11 +148,11 @@ namespace HaimsPda.Screens
             this.lblClass.Align = HaimsPda.Controls.VAlign.MiddleCenter;
             this.lblClass.BackColor = System.Drawing.Color.LightGray;
             this.lblClass.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
-            this.lblClass.ForeColor = System.Drawing.Color.Black;
-            this.lblClass.Location = new System.Drawing.Point(376, 50);
+            this.lblClass.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblClass.Location = new System.Drawing.Point(376, 52);
             this.lblClass.Name = "lblClass";
             this.lblClass.Size = new System.Drawing.Size(100, 42);
-            this.lblClass.TabIndex = 25;
+            this.lblClass.TabIndex = 27;
             // 
             // lblPartName
             // 
@@ -137,102 +160,85 @@ namespace HaimsPda.Screens
             this.lblPartName.BackColor = System.Drawing.Color.LightGray;
             this.lblPartName.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
             this.lblPartName.ForeColor = System.Drawing.Color.Black;
-            this.lblPartName.Location = new System.Drawing.Point(4, 98);
+            this.lblPartName.Location = new System.Drawing.Point(4, 100);
             this.lblPartName.Name = "lblPartName";
             this.lblPartName.Size = new System.Drawing.Size(472, 34);
-            this.lblPartName.TabIndex = 26;
+            this.lblPartName.TabIndex = 28;
             // 
-            // lblObjQtyCap
+            // lblLocQtyCap
             // 
-            this.lblObjQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
-            this.lblObjQtyCap.BackColor = System.Drawing.Color.White;
-            this.lblObjQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
-            this.lblObjQtyCap.ForeColor = System.Drawing.Color.Black;
-            this.lblObjQtyCap.Location = new System.Drawing.Point(0, 140);
-            this.lblObjQtyCap.Name = "lblObjQtyCap";
-            this.lblObjQtyCap.Size = new System.Drawing.Size(150, 40);
-            this.lblObjQtyCap.TabIndex = 27;
-            this.lblObjQtyCap.Text = "LOC수량";
+            this.lblLocQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
+            this.lblLocQtyCap.BackColor = System.Drawing.Color.White;
+            this.lblLocQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
+            this.lblLocQtyCap.ForeColor = System.Drawing.Color.Black;
+            this.lblLocQtyCap.Location = new System.Drawing.Point(0, 142);
+            this.lblLocQtyCap.Name = "lblLocQtyCap";
+            this.lblLocQtyCap.Size = new System.Drawing.Size(150, 40);
+            this.lblLocQtyCap.TabIndex = 29;
+            this.lblLocQtyCap.Text = "LOC수량";
             // 
-            // txtObjQty
+            // txtLocQty
             // 
-            this.txtObjQty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtObjQty.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.txtObjQty.Location = new System.Drawing.Point(156, 140);
-            this.txtObjQty.Name = "txtObjQty";
-            this.txtObjQty.ReadOnly = true;
-            this.txtObjQty.Size = new System.Drawing.Size(320, 23);
-            this.txtObjQty.TabIndex = 28;
-            this.txtObjQty.TabStop = false;
+            this.txtLocQty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtLocQty.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
+            this.txtLocQty.Location = new System.Drawing.Point(156, 142);
+            this.txtLocQty.Name = "txtLocQty";
+            this.txtLocQty.ReadOnly = true;
+            this.txtLocQty.Size = new System.Drawing.Size(320, 40);
+            this.txtLocQty.TabIndex = 30;
+            this.txtLocQty.TabStop = false;
+            this.txtLocQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // lblOsdQtyCap
+            // lblAdjQtyCap
             // 
-            this.lblOsdQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
-            this.lblOsdQtyCap.BackColor = System.Drawing.Color.White;
-            this.lblOsdQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
-            this.lblOsdQtyCap.ForeColor = System.Drawing.Color.Black;
-            this.lblOsdQtyCap.Location = new System.Drawing.Point(0, 188);
-            this.lblOsdQtyCap.Name = "lblOsdQtyCap";
-            this.lblOsdQtyCap.Size = new System.Drawing.Size(150, 46);
-            this.lblOsdQtyCap.TabIndex = 29;
-            this.lblOsdQtyCap.Text = "통제등록수량";
+            this.lblAdjQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
+            this.lblAdjQtyCap.BackColor = System.Drawing.Color.White;
+            this.lblAdjQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
+            this.lblAdjQtyCap.ForeColor = System.Drawing.Color.Black;
+            this.lblAdjQtyCap.Location = new System.Drawing.Point(0, 190);
+            this.lblAdjQtyCap.Name = "lblAdjQtyCap";
+            this.lblAdjQtyCap.Size = new System.Drawing.Size(150, 46);
+            this.lblAdjQtyCap.TabIndex = 31;
+            this.lblAdjQtyCap.Text = "조정처리수량";
             // 
-            // txtOsdQty
+            // txtAdjQty
             // 
-            this.txtOsdQty.BackColor = System.Drawing.Color.White;
-            this.txtOsdQty.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.txtOsdQty.Location = new System.Drawing.Point(156, 188);
-            this.txtOsdQty.MaxLength = 9;
-            this.txtOsdQty.Name = "txtOsdQty";
-            this.txtOsdQty.Size = new System.Drawing.Size(320, 23);
-            this.txtOsdQty.TabIndex = 0;
-            this.txtOsdQty.TextChanged += new System.EventHandler(this.OnOsdTextChanged);
-            this.txtOsdQty.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnOsdKeyDown);
-            this.txtOsdQty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnOsdKeyPress);
+            this.txtAdjQty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(190)))));
+            this.txtAdjQty.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold);
+            this.txtAdjQty.Location = new System.Drawing.Point(156, 188);
+            this.txtAdjQty.MaxLength = 9;
+            this.txtAdjQty.Name = "txtAdjQty";
+            this.txtAdjQty.Size = new System.Drawing.Size(320, 49);
+            this.txtAdjQty.TabIndex = 0;
+            this.txtAdjQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtAdjQty.TextChanged += new System.EventHandler(this.OnAdjTextChanged);
+            this.txtAdjQty.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnAdjKeyDown);
+            this.txtAdjQty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnAdjKeyPress);
             // 
-            // lblReasonCap
+            // lblAfterQtyCap
             // 
-            this.lblReasonCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
-            this.lblReasonCap.BackColor = System.Drawing.Color.White;
-            this.lblReasonCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
-            this.lblReasonCap.ForeColor = System.Drawing.Color.Black;
-            this.lblReasonCap.Location = new System.Drawing.Point(0, 238);
-            this.lblReasonCap.Name = "lblReasonCap";
-            this.lblReasonCap.Size = new System.Drawing.Size(150, 37);
-            this.lblReasonCap.TabIndex = 30;
-            this.lblReasonCap.Text = "통제사유";
+            this.lblAfterQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
+            this.lblAfterQtyCap.BackColor = System.Drawing.Color.White;
+            this.lblAfterQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
+            this.lblAfterQtyCap.ForeColor = System.Drawing.Color.Black;
+            this.lblAfterQtyCap.Location = new System.Drawing.Point(0, 246);
+            this.lblAfterQtyCap.Name = "lblAfterQtyCap";
+            this.lblAfterQtyCap.Size = new System.Drawing.Size(150, 40);
+            this.lblAfterQtyCap.TabIndex = 32;
+            this.lblAfterQtyCap.Text = "조정후수량";
             // 
-            // cboReason
+            // txtAfterQty
             // 
-            this.cboReason.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.cboReason.Location = new System.Drawing.Point(156, 242);
-            this.cboReason.Name = "cboReason";
-            this.cboReason.Size = new System.Drawing.Size(320, 23);
-            this.cboReason.TabIndex = 1;
-            this.cboReason.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnReasonKeyDown);
-            // 
-            // lblDoQtyCap
-            // 
-            this.lblDoQtyCap.Align = HaimsPda.Controls.VAlign.MiddleRight;
-            this.lblDoQtyCap.BackColor = System.Drawing.Color.White;
-            this.lblDoQtyCap.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular);
-            this.lblDoQtyCap.ForeColor = System.Drawing.Color.Black;
-            this.lblDoQtyCap.Location = new System.Drawing.Point(0, 296);
-            this.lblDoQtyCap.Name = "lblDoQtyCap";
-            this.lblDoQtyCap.Size = new System.Drawing.Size(150, 40);
-            this.lblDoQtyCap.TabIndex = 31;
-            this.lblDoQtyCap.Text = "통제후수량";
-            // 
-            // txtDoQty
-            // 
-            this.txtDoQty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtDoQty.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.txtDoQty.Location = new System.Drawing.Point(156, 296);
-            this.txtDoQty.Name = "txtDoQty";
-            this.txtDoQty.ReadOnly = true;
-            this.txtDoQty.Size = new System.Drawing.Size(320, 23);
-            this.txtDoQty.TabIndex = 32;
-            this.txtDoQty.TabStop = false;
+            this.txtAfterQty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtAfterQty.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
+            this.txtAfterQty.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
+            this.txtAfterQty.Location = new System.Drawing.Point(156, 246);
+            this.txtAfterQty.Name = "txtAfterQty";
+            this.txtAfterQty.ReadOnly = true;
+            this.txtAfterQty.Size = new System.Drawing.Size(320, 40);
+            this.txtAfterQty.TabIndex = 33;
+            this.txtAfterQty.TabStop = false;
+            this.txtAfterQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // _buttons
             // 
@@ -281,13 +287,13 @@ namespace HaimsPda.Screens
             this.btnClear.Text = "지움";
             this.btnClear.Click += new System.EventHandler(this.OnClear);
             // 
-            // S322_OsdControl
+            // S330_StockAdjust
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this._fields);
             this.Controls.Add(this._buttons);
-            this.Name = "S322_OsdControl";
+            this.Name = "S330_StockAdjust";
             this.Size = new System.Drawing.Size(480, 536);
             this._fields.ResumeLayout(false);
             this._buttons.ResumeLayout(false);
@@ -301,19 +307,19 @@ namespace HaimsPda.Screens
         private System.Windows.Forms.Panel _buttons;
         private HaimsPda.Controls.VLabel lblLocCap;
         private System.Windows.Forms.TextBox txtLoc;
+        private HaimsPda.Controls.VLabel lblWhCap;
+        private HaimsPda.Controls.VLabel lblWh;
         private HaimsPda.Controls.VLabel lblPartCap;
         private HaimsPda.Controls.VLabel lblPrefix;
         private System.Windows.Forms.TextBox txtPart;
         private HaimsPda.Controls.VLabel lblClass;
         private HaimsPda.Controls.VLabel lblPartName;
-        private HaimsPda.Controls.VLabel lblObjQtyCap;
-        private System.Windows.Forms.TextBox txtObjQty;
-        private HaimsPda.Controls.VLabel lblOsdQtyCap;
-        private System.Windows.Forms.TextBox txtOsdQty;
-        private HaimsPda.Controls.VLabel lblReasonCap;
-        private System.Windows.Forms.ComboBox cboReason;
-        private HaimsPda.Controls.VLabel lblDoQtyCap;
-        private System.Windows.Forms.TextBox txtDoQty;
+        private HaimsPda.Controls.VLabel lblLocQtyCap;
+        private System.Windows.Forms.TextBox txtLocQty;
+        private HaimsPda.Controls.VLabel lblAdjQtyCap;
+        private System.Windows.Forms.TextBox txtAdjQty;
+        private HaimsPda.Controls.VLabel lblAfterQtyCap;
+        private System.Windows.Forms.TextBox txtAfterQty;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnStock;
         private System.Windows.Forms.Button btnClear;

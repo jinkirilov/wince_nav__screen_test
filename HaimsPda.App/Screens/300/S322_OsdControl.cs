@@ -216,12 +216,16 @@ namespace HaimsPda.Screens
                         return;
                     }
 
+                    // 성공 : 결과 메시지창 -> 호출 화면으로 복귀. 호출 화면은 OnReturn 에서 다시 조회한다.
                     _saved = true;
-                    Report(MP_OK, "정상 처리되었습니다.", MsgLevel.Success);
-                    btnSave.Enabled = false;
-                    txtOsdQty.Enabled = false;
-                    cboReason.Enabled = false;
-                    btnStock.Focus();
+                    string ok = CommonCache.Msg(MP_OK, "정상 처리되었습니다.");
+                    End(ok, MsgLevel.Success);
+                    MessageBox.Show(ok + "\r\nLOC수량 " + i.ObjQty + " -> " + i.DoQty, "[322] " + ScreenName);
+
+                    NavArgs res = NavResult.Saved(ScreenNo);
+                    res.Set(NavResult.KeyLocno, Loc.Key(i.Locno));
+                    res.Set(NavResult.KeyLocQty, i.DoQty);
+                    Shell.GoBack(res);
                 });
         }
 

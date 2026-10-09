@@ -22,9 +22,12 @@ namespace HaimsPda.Screens
         private const string MP_PTNO = "MP303";   // 부품번호를 확인하세요
         private const string MP_NOLEP = "MP540";  // 할당정보가 없는 부품번호입니다(계열)
         private const string MP_NOALLOC = "MP532";// 할당정보가 없는 부품번호입니다
+        private const string MP_PREINPUT = "MP504";// 사업소 미발송 상태입니다. 선입고처리 하겠습니까?
 
         private string _lep = "H";
         private InboundSearchResult _search;
+        private ArrayList _picked;           // [1401] 에서 고른 할당 레코드 (원본 dsInput). null = 선택 안 함
+        private NotRecvResult _ctl;          // [132] 미수령 (원본 GV_Control / GV_NoInputQty / GV_NoInputRescd)
         private string _searchedPtno = "";   // 원본 GV_SelectSave
         private string _vchym = "";
         private string _vapSysdt = "";
@@ -84,10 +87,103 @@ namespace HaimsPda.Screens
             if (txtPart.Text.Trim().Length > 0) SearchPart();
         }
 
+        // 원본 fn_OnBtnAlloc : 할당내역 팝업(PL140_P01)을 연다
         private void OnAssignList(object sender, EventArgs e)
         {
-            if (_search == null || !_search.HasAlloc) { Msg("먼저 부번을 조회하세요.", MsgLevel.Warn); return; }
-            Msg("할당내역 " + _search.Allocs.Count + "건 (목록화면 준비중)", MsgLevel.Info);
+            if (_busy) return;
+            if (_search == null || !_search.HasAlloc)
+            {
+                Report(MP_NOLEP, "할당 정보가 없는 부품번호입니다.", MsgLevel.Warn);
+                txtPart.Focus();
+                return;
+            }
+
+            // 원본 fn_OnBtnAlloc : 미수령이 있으면 할당을 다시 고를 때 초기화된다고 묻는다(MP561)
+            if (_ctl != null)
+            {
+                if (!Confirm(CommonCache.Msg("MP561",
+                        "미수령데이터가 등록되었습니다. 할당내역을 선택하면 미수령등록 내역이 초기화 됩니다. 확인하시겠습니까?")))
+                    return;
+                _ctl = null;
+            }
+            OpenAllocPopup();
+        }
+
+        // ------------------------------------------------------------------
+        // [1401] 할당내역 선택 (PL140_P01)
+        //
+        // 팝업이 자체로 PL140_W01_S02 를 다시 부른다(WSFID=M). 여기서 고른 행이
+        // 그대로 커밋 입력이 되고, 수량란에는 선택 합계를 넣는다(원본 GV_Qty).
+        // 미수령(GV_Control)은 미구현이라 원본의 MP561 확인은 생략한다.
+        // ------------------------------------------------------------------
+        private void OpenAllocPopup()
+        {
+            string ptno = _searchedPtno;
+            string whscd = CurrentWh();
+            string lep = _lep;
+
+            Begin("할당내역 조회중...");
+            Async.Run(this,
+                delegate { return InboundService.SearchAllocs(lep, ptno, whscd); },
+                delegate(object r, Exception ex)
+                {
+                    if (Fail(ex)) return;
+
+                    ArrayList rows = (ArrayList)r;
+                    if (rows.Count == 0)
+                    {
+                        Report(MP_NOALLOC, "할당 정보가 없는 부품번호입니다.", MsgLevel.Warn);
+                        txtPart.Focus();
+                        return;
+                    }
+                    End("할당내역을 선택하세요.", MsgLevel.Info);
+
+                    string title = "[" + ScreenId.AllocSelect + "] 할당내역  " + _lep + " "
+                                 + PartNo.Display(ptno) + " " + lblClass.Text + "\r\n" + lblPartName.Text;
+                    ArrayList sel = AllocSelect.Pick(rows, title);
+                    if (sel == null)
+                    {
+                        Msg("할당내역 선택을 취소했습니다.", MsgLevel.Info);
+                        txtQty.Focus();
+                        return;
+                    }
+
+                    ApplyPicked(sel);
+                });
+        }
+
+        private void ApplyPicked(ArrayList sel)
+        {
+            _picked = sel;
+            int qty = InboundService.SumQty(sel);
+            txtQty.Text = qty.ToString();
+
+            Msg("할당 " + sel.Count + "건 선택 / 수량 " + qty, MsgLevel.Success);
+
+            // 원본 : 선택한 행 중 하나라도 PRE_INPUT_YN=Y 면 MP504 안내(확인 버튼만)
+            for (int i = 0; i < sel.Count; i++)
+            {
+                if (((Row)sel[i])["PRE_INPUT_YN"] == "Y")
+                {
+                    MessageBox.Show(CommonCache.Msg(MP_PREINPUT,
+                        "사업소 미발송 상태입니다. 선입고처리 하겠습니까?"), "[140] " + ScreenName);
+                    break;
+                }
+            }
+
+            txtQty.Focus();
+            txtQty.SelectAll();
+        }
+
+        /// <summary>
+        /// 커밋 대상. 원본 fn_SaveChk 와 같은 순서로 고른다.
+        ///   팝업에서 고른 것이 있으면 그것, 없고 할당이 1건이면 그 1건, 그 외는 null.
+        /// </summary>
+        private ArrayList Targets()
+        {
+            if (_picked != null && _picked.Count > 0) return _picked;
+            if (_search != null && _search.Allocs.Count == 1) return _search.Allocs;
+            return null;
         }
 
         // 원본 fn_OnBtnStock : 부번을 들고 [321] 파트별재고로 이동한다 (gfn_GoToMenu 'S','1C03')
@@ -134,12 +230,102 @@ namespace HaimsPda.Screens
             }
 
 
-            Msg(" (fn_Loc) 준비중", MsgLevel.Info); 
+            //Msg(" (fn_Loc) 준비중", MsgLevel.Info); 
+            GoLoc();
         }
 
-        private void OnNotRecv(object sender, EventArgs e) 
-        { 
-            Msg("미수령 (fn_MoveMisuryung) 준비중", MsgLevel.Info); 
+        private void GoLoc()
+        {
+            NavArgs a = new NavArgs();
+            a.Set("LEP", _lep);
+            a.Set("PTNO", PartNo.Key(txtPart.Text));
+            a.Set("PTNM", lblPartName.Text);
+            a.Set("CLASS", lblClass.Text);
+            a.Set("WHSCD", CurrentWh());
+            a.Set("RETURN", "Y");
+            Shell.Navigate(ScreenId.LocRegister, a);
+        }
+
+        // ------------------------------------------------------------------
+        // 원본 fn_MoveMisuryung -> [132] 미수령등록 (P119)
+        //
+        // 할당 1건에 대해서만 된다. 돌아오면 수량란에 입고수량(CAL_QT)을 넣고,
+        // 커밋 때 CTLQT/CTLCD 와 함께 PL100_W01_I05 + I06 이 붙는다.
+        // 입고대상수량은 할당 레코드의 수량을 쓴다(커밋의 WSF_WSFQT 와 같은 값).
+        // 원본은 화면 수량란을 넘겨 두 번 등록하면 줄어든 수량이 기준이 된다.
+        // ------------------------------------------------------------------
+        private void OnNotRecv(object sender, EventArgs e)
+        {
+            if (_busy) return;
+
+            if (PartNo.Key(txtPart.Text).Length == 0)
+            {
+                Report(MP_PTNO, "부품번호를 확인하세요!", MsgLevel.Warn);
+                txtPart.Focus();
+                return;
+            }
+            if (_search == null || !_search.HasAlloc)
+            {
+                Report(MP_NOALLOC, "할당 정보가 없는 부품번호입니다.", MsgLevel.Warn);
+                txtPart.Focus();
+                return;
+            }
+            if (_picked != null && _picked.Count > 1)
+            {
+                Report("MP539", "복수건 할당을 선택하면 미수령을 등록할 수 없습니다.", MsgLevel.Warn);
+                return;
+            }
+
+            ArrayList t = Targets();
+            if (t == null)
+            {
+                ReportText("할당내역이 " + _search.Allocs.Count + "건입니다.\r\n미수령할 할당을 먼저 1건 선택하세요.", MsgLevel.Warn);
+                return;
+            }
+
+            Row a = (Row)t[0];
+            string st = a["WSF_STAT"];
+            if (st == "1" || st == "2")
+            {
+                Report("MP618", "입고분류가 완료된 부품은 미수령을 등록할 수 없습니다.", MsgLevel.Warn);
+                txtPart.Focus();
+                return;
+            }
+
+            int wsfQty = InboundService.QtyOf(a);
+            string vchno = a["WSF_VCHNO"];
+            string title = "[" + ScreenId.NotRecv + "] 미수령등록  " + _lep + " "
+                         + PartNo.Display(_searchedPtno) + " " + lblClass.Text + "\r\n" + lblPartName.Text;
+
+            Begin("미수령 사유 조회중...");
+            Async.Run(this,
+                delegate { return NotRecvService.GetReasons(); },
+                delegate(object r, Exception ex)
+                {
+                    if (Fail(ex)) return;
+
+                    ArrayList reasons = (ArrayList)r;
+                    if (reasons.Count == 0)
+                    {
+                        ReportText("미수령 사유 코드를 가져오지 못했습니다.", MsgLevel.Error);
+                        return;
+                    }
+                    End("미수령 수량과 사유를 입력하세요.", MsgLevel.Info);
+
+                    NotRecvResult res = NotRecv.Show(title, vchno, wsfQty, reasons);
+                    if (res == null)
+                    {
+                        Msg("미수령 등록을 취소했습니다.", MsgLevel.Info);
+                        txtQty.Focus();
+                        return;
+                    }
+
+                    _ctl = res;
+                    txtQty.Text = res.InQty.ToString();
+                    Msg("미수령 " + res.NarQty + " (" + res.ReasonNm + ") / 입고 " + res.InQty, MsgLevel.Success);
+                    txtQty.Focus();
+                    txtQty.SelectAll();
+                });
         }
 
         private void OnClear(object sender, EventArgs e)
@@ -294,6 +480,10 @@ namespace HaimsPda.Screens
                     Report(MP_OK, "정상 조회되었습니다.", MsgLevel.Success);
                     txtQty.Focus();
                     txtQty.SelectAll();
+
+                    // 할당이 여러 건이면 고르지 않고는 저장할 수 없으므로 바로 팝업을 띄운다.
+                    // (원본은 GV_LinkChk 로 최초 조회 때는 건너뛰고 버튼으로만 열게 돼 있다)
+                    if (sr.Allocs.Count > 1) OpenAllocPopup();
                 });
         }
 
@@ -319,10 +509,18 @@ namespace HaimsPda.Screens
                 return;
             }
 
+            ArrayList targets = Targets();
+            if (targets == null)
+            {
+                ReportText("할당내역이 " + _search.Allocs.Count + "건입니다.\r\n입고할 할당내역을 선택하세요.", MsgLevel.Warn);
+                OpenAllocPopup();
+                return;
+            }
+
             string ptno = PartNo.Key(txtPart.Text);
-            Row a = _search.FirstAlloc;
-            string vchnoList = InboundService.QuoteVchnoList(_search.Allocs);
-            int allocCnt = _search.Allocs.Count;
+            Row a = _search.FirstAlloc;     // 거래처는 원본도 ds_Output01 첫 레코드에서 읽는다
+            string vchnoList = InboundService.QuoteVchnoList(targets);
+            int allocCnt = targets.Count;
 
             Begin("확인중...");
             Async.Run(this,
@@ -347,63 +545,94 @@ namespace HaimsPda.Screens
                     if (c.VchnoCnt > 0) { ClearAll(); ReportText("입고된 할당내역입니다. 헬프데스크에 문의하세요.", MsgLevel.Error); return; }
 
                     // 검증 통과. 이제 실제 커밋으로 넘어간다 (원본 fn_SaveChkAfter -> fn_Save).
-                    Commit();
+                    Commit(targets);
                 });
         }
 
         // ------------------------------------------------------------------
         // 입고 커밋 (fn_Save -> fn_Save_After -> fn_SaveAfter2)
         //
-        // 서버 호출 두 번. 1) 증표채번 + 업체집계 상태  2) 실제 쓰기.
-        // 두 호출을 한 작업 스레드에서 이어서 돌린다.
+        // 서버 호출은 건당 두 번. 1) 증표채번 + 업체집계 상태  2) 실제 쓰기.
+        //
+        // 다건(팝업 선택)은 원본 fn_Save 의 for 루프처럼 레코드마다 같은 두 호출을 반복한다.
+        // 원본 tit_CallService(..., true) 는 동기 호출이라 한 건씩 끝내고 다음 건으로 간다.
+        // 여기서도 한 작업 스레드에서 순서대로 돌리고, 중간에 실패하면 거기서 멈춘다.
+        // 건마다 서버 트랜잭션이 따로라 앞서 끝난 건은 되돌리지 못한다.
+        //
+        // 수량은 각 레코드의 WSF_WSFQT 를 그대로 쓴다. 화면 수량란은 표시용이다(원본 동일).
         // ------------------------------------------------------------------
-        private void Commit()
+        private void Commit(ArrayList targets)
         {
-            // 다건 할당은 원본이 할당내역 팝업(PL140_P01)이 넘겨준 dsInput 을 쓴다.
-            // 그 팝업이 아직 없으므로 여기서 막는다. 잘못 커밋하면 되돌릴 수 없다.
-            if (_search.Allocs.Count > 1)
+            ArrayList inputs = new ArrayList();
+            for (int i = 0; i < targets.Count; i++)
             {
-                ReportText("할당내역이 " + _search.Allocs.Count + "건입니다.\r\n"
-                         + "다건 입고는 할당내역 선택 화면이 있어야 합니다.", MsgLevel.Warn);
-                return;
+                CommitInput c = CommitInput.From((Row)targets[i]);
+                c.Lep = _lep;
+                c.Ptno = PartNo.Key(txtPart.Text);
+                c.Whscd = CurrentWh();
+                c.VapSysdt = _vapSysdt;
+                c.VapSysdtL = _vapSysdtL;
+                c.Vchym = _vchym;
+                // 미수령은 할당 1건일 때만 등록된다(MP539)
+                if (_ctl != null && targets.Count == 1)
+                {
+                    c.CtlQty = _ctl.NarQty;
+                    c.CtlCd = _ctl.ReasonCd;
+                }
+                inputs.Add(c);
             }
 
-            Row a = _search.FirstAlloc;
-
-            CommitInput c = CommitInput.From(a);
-            c.Lep = _lep;
-            c.Ptno = PartNo.Key(txtPart.Text);
-            c.Whscd = CurrentWh();
-            c.VapSysdt = _vapSysdt;
-            c.VapSysdtL = _vapSysdtL;
-            c.Vchym = _vchym;
-            c.CtlQty = 0;      // 미수령 화면 미구현
-            c.CtlCd = "";
+            CommitInput first = (CommitInput)inputs[0];
+            string what = (inputs.Count == 1)
+                ? "수량 " + first.WsfQt + " / LOC " + Loc.Display(first.Locno)
+                : "할당 " + inputs.Count + "건 / 수량 " + InboundService.SumQty(targets);
+            if (first.HasControl)
+                what += "\r\n미수령 " + first.CtlQty + " (" + _ctl.ReasonNm + ")";
 
             if (!Confirm("입고 저장하시겠습니까?\r\n"
-                       + "부번 " + PartNo.Display(c.Ptno) + " / 수량 " + c.WsfQt
-                       + " / 창고 " + c.Whscd + " / LOC " + Loc.Display(c.Locno)))
+                       + "부번 " + PartNo.Display(first.Ptno) + " / " + what
+                       + " / 창고 " + first.Whscd))
                 return;
+
+            int[] done = new int[1];
+            ArrayList vchnos = new ArrayList();
 
             Begin("저장중...");
             Async.Run(this,
                 delegate
                 {
-                    // 이미 분류(2)된 건은 증표를 새로 따지 않는다. 원본도 1단계를 건너뛴다.
-                    CommitPrepare p = c.IsClassified ? null
-                                                     : InboundService.CommitPrepareCall(c);
-                    InboundService.Commit(c, p);
-                    return p;
+                    for (int i = 0; i < inputs.Count; i++)
+                    {
+                        CommitInput c = (CommitInput)inputs[i];
+
+                        // 이미 분류(2)된 건은 증표를 새로 따지 않는다. 원본도 1단계를 건너뛴다.
+                        CommitPrepare p = c.IsClassified ? null
+                                                         : InboundService.CommitPrepareCall(c);
+                        InboundService.Commit(c, p);
+
+                        string v = (p == null) ? c.WsfVchno1 : p.Vchno;
+                        if (v != null && v.Length > 0) vchnos.Add(v);
+                        done[0]++;
+                    }
+                    return null;
                 },
                 delegate(object r, Exception ex)
                 {
-                    if (Fail(ex)) return;
+                    if (ex != null)
+                    {
+                        if (done[0] == 0) { Fail(ex); return; }
 
-                    CommitPrepare p = r as CommitPrepare;
-                    string vchno = (p == null) ? c.WsfVchno1 : p.Vchno;
+                        // 일부만 들어갔다. 화면 값은 더 이상 맞지 않으므로 비우고 재조회하게 한다.
+                        ClearAll();
+                        ReportText(inputs.Count + "건 중 " + done[0] + "건 저장 후 오류가 났습니다.\r\n"
+                                 + ex.Message + "\r\n부번을 다시 조회하세요.", MsgLevel.Error);
+                        txtPart.Focus();
+                        return;
+                    }
 
                     string msg = CommonCache.Msg("MP102", "정상 처리되었습니다.");
-                    if (vchno != null && vchno.Length > 0) msg += "  (증표 " + vchno + ")";
+                    if (inputs.Count > 1) msg += "  (" + inputs.Count + "건)";
+                    if (vchnos.Count > 0) msg += "\r\n증표 " + Join(vchnos);
 
                     // fn_SaveAfter2 : 성공하면 화면을 초기화하고 다음 부번을 받는다
                     ClearAll();
@@ -411,6 +640,17 @@ namespace HaimsPda.Screens
                     MessageBox.Show(msg, "[140] " + ScreenName);
                     txtPart.Focus();
                 });
+        }
+
+        private static string Join(ArrayList list)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (sb.Length > 0) sb.Append(", ");
+                sb.Append(list[i]);
+            }
+            return sb.ToString();
         }
 
         private bool Confirm(string text)
@@ -486,6 +726,8 @@ namespace HaimsPda.Screens
         private void ClearResult()
         {
             _search = null;
+            _picked = null;
+            _ctl = null;
             lblClass.Text = "";
             lblPartName.Text = "";
             txtAssignCnt.Text = "";

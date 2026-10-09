@@ -12,7 +12,7 @@ namespace HaimsPda.Net
     public static class AuthService
     {
         private const string ActionMobile = "HAIMS_MOBILE_ACTION";
-        private const string ActionComm = "HAIMS_COMM_ACTION";
+        internal const string ActionComm = "HAIMS_COMM_ACTION";
 
         /// <summary>
         /// 웹의 getMacAddress() 는 실제 MAC 을 읽지 않고 이 상수를 돌려준다.
@@ -51,8 +51,17 @@ namespace HaimsPda.Net
         /// <summary>로그인 후 화면에서 붙는 공통 파라미터</summary>
         internal static void AddSessionCommon(TitRequest r)
         {
+            AddSessionCommon(r, ActionMobile);
+        }
+
+        /// <summary>
+        /// actionName 을 지정하는 판. 원본이 HAIMS_COMM_ACTION 으로 부르는 화면([323] 등)에서 쓴다.
+        /// TitRequest.AddParam 은 같은 id 를 덮어쓰지 않고 덧붙이므로 여기서 두 번 넣지 않게 받는다.
+        /// </summary>
+        internal static void AddSessionCommon(TitRequest r, string actionName)
+        {
             UserInfo u = Session.User;
-            r.AddParam("actionName", ActionMobile);
+            r.AddParam("actionName", actionName);
             r.AddParam("cmd", "execute");
             r.AddParam("_USR_USRID", u == null ? "" : u["USR_USRID"]);
             r.AddParam("_USR_AGTCD", u == null ? "" : u["USR_AGTCD"]);

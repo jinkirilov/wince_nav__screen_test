@@ -11,9 +11,12 @@
         public const int SiteInboundClassify = 120;// 일반입고분류      (PL120_W01)
         public const int ShopInboundClassify = 121;// 전문점입고분류    (PL121_W01)
         public const int WaitPartInquiry = 130;    // 대기품목조회      (PL130_W01)
+        public const int WaitAllocSelect = 1301;   // 입고대기품목 선택 (PL130_P01, 메뉴 P118) — 모달 팝업, 120/121 에서 사용
         public const int ReserveList = 131;        // 예약내역          (PL131_W01)
+        public const int NotRecv = 132;            // 미수령등록        (PL132_W01, 메뉴 P119) — 모달 팝업, 140/120/121 에서 사용
         public const int InboundSave = 140;        // 입고저장          (PL140_W01)
-        public const int SortInboundSave = 141;    // 정렬입고저장      (PL141_W01, 원본 미확보)
+        public const int AllocSelect = 1401;       // 할당내역 선택     (PL140_P01, 메뉴 P179) — 모달 팝업, 셸 등록 없음
+        public const int SortInboundSave = 141;    // 정렬입고저장      (PL141_W01, 메뉴 1A07)
         public const int DirectInboundSave = 142;  // 직입고저장        (PL142_W01)
 
         // 출고관리 [200]

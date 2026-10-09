@@ -5,7 +5,7 @@ using HaimsPda.Nav;
 
 namespace HaimsPda.Screens
 {
-    // [100] 입고메뉴 : 일반입고분류/전문점입고분류/입고저장/정렬입고저장/예약내역/대기품목조회
+    // [100] 입고메뉴 : 입고저장/정렬입고저장/대기품목조회/예약내역/일반입고분류/전문점입고분류/직입고저장
     //
     // 좌표와 크기, 색, 폰트는 전부 S100_InboundMenu.Designer.cs (VS2008 디자이너)에서 관리한다.
     // QVGA 축소는 ShellForm 의 AutoScaleMode.Dpi 가 처리한다.

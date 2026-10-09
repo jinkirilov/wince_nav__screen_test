@@ -76,13 +76,16 @@ namespace HaimsPda
             _registry.Register(ScreenId.WaitPartInquiry, delegate { return new S130_WaitPartInquiry(); });
             _registry.Register(ScreenId.ReserveList, delegate { return new S131_ReserveList(); });
             _registry.Register(ScreenId.InboundSave, delegate { return new S140_InboundSave(); });
+            _registry.Register(ScreenId.SortInboundSave, delegate { return new S141_SortInboundSave(); });
             _registry.Register(ScreenId.DirectInboundSave, delegate { return new S142_DirectInboundSave(); });
             _registry.Register(ScreenId.StockMenu, delegate { return new S300_StockMenu(); });
             _registry.Register(ScreenId.StockByLoc, delegate { return new S320_LocStock(); });
             _registry.Register(ScreenId.StockByPart, delegate { return new S321_PartStock(); });
             _registry.Register(ScreenId.OsdControl, delegate { return new S322_OsdControl(); });
             _registry.Register(ScreenId.StockDetail, delegate { return new S3201_StockDetail(); });
+            _registry.Register(ScreenId.PartMoveHist, delegate { return new S323_PartMoveHist(); });
             _registry.Register(ScreenId.PartInfo, delegate { return new S324_PartInfo(); });
+            _registry.Register(ScreenId.StockAdjust, delegate { return new S330_StockAdjust(); });
             _registry.Register(ScreenId.LocMenu, delegate { return new S400_LocMenu(); });
             _registry.Register(ScreenId.LocMove, delegate { return new S401_LocMove(); });
             _registry.Register(ScreenId.LocRegister, delegate { return new S410_LocRegister(); });
@@ -164,6 +167,7 @@ namespace HaimsPda
             _nav.Navigate(screenId, args); 
         }
         public void GoBack() { _nav.GoBack(); }
+        public void GoBack(NavArgs result) { _nav.GoBack(result); }
         public void ShowMessage(string text, MsgLevel level) { _footer.SetMessage(text, level); }
         public SessionContext Session { get { return _session; } }
         public IfClient If { get { return _if; } }

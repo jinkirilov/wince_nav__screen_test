@@ -97,6 +97,8 @@
     <Compile Include="Net\HostConfig.cs" />
     <Compile Include="Net\Formats.cs" />
     <Compile Include="Net\InboundService.cs" />
+    <Compile Include="Net\SortInboundService.cs" />
+    <Compile Include="Net\NotRecvService.cs" />
     <Compile Include="Net\StockService.cs" />
     <Compile Include="Net\DirectInboundService.cs" />
     <Compile Include="Net\ReserveService.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Net\LocStockService.cs" />
     <Compile Include="Net\PartInfoService.cs" />
     <Compile Include="Net\OsdService.cs" />
+    <Compile Include="Net\StockAdjustService.cs" />
+    <Compile Include="Net\PartHistService.cs" />
     <Compile Include="Net\LocMoveService.cs" />
     <Compile Include="Net\LocRegisterService.cs" />
     <Compile Include="Net\LocSortService.cs" />
@@ -188,11 +192,29 @@
     <Compile Include="Screens\100\S131_ReserveList.Designer.cs">
       <DependentUpon>S131_ReserveList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\100\S132_NotRecvForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S132_NotRecvForm.Designer.cs">
+      <DependentUpon>S132_NotRecvForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\100\S140_InboundSave.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Screens\100\S140_InboundSave.Designer.cs">
       <DependentUpon>S140_InboundSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S141_SortInboundSave.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S141_SortInboundSave.Designer.cs">
+      <DependentUpon>S141_SortInboundSave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\100\S1401_AllocSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\100\S1401_AllocSelectForm.Designer.cs">
+      <DependentUpon>S1401_AllocSelectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\100\S142_DirectInboundSave.cs">
       <SubType>UserControl</SubType>
@@ -217,6 +239,18 @@
     </Compile>
     <Compile Include="Screens\300\S321_PartStock.Designer.cs">
       <DependentUpon>S321_PartStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S323_PartMoveHist.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S323_PartMoveHist.Designer.cs">
+      <DependentUpon>S323_PartMoveHist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S330_StockAdjust.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S330_StockAdjust.Designer.cs">
+      <DependentUpon>S330_StockAdjust.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\300\S322_OsdControl.cs">
       <SubType>UserControl</SubType>
@@ -306,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\300\S300_StockMenu.resx">
       <DependentUpon>S300_StockMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\300\S322_OsdControl.resx">
+      <DependentUpon>S322_OsdControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\400\S400_LocMenu.resx">
       <DependentUpon>S400_LocMenu.cs</DependentUpon>

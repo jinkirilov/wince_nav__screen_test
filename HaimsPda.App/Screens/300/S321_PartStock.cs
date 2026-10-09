@@ -23,6 +23,8 @@ namespace HaimsPda.Screens
         private string _lep = "H";
         private bool _hasStockOnly = true;   // btnGubun : true="재고유"(P), false="재고무"("")
         private bool _busy;
+        private string _reselWh;             // 재조회 후 다시 고를 LOC 행 (OnReturn)
+        private string _reselLoc;
 
         public override int ScreenNo { get { return ScreenId.StockByPart; } }
         public override string ScreenName { get { return "파트별재고"; } }
@@ -32,6 +34,8 @@ namespace HaimsPda.Screens
             InitializeComponent();
             if (IsDesignMode) 
                 return;
+            WinApi.GridLines(this.lstLoc.Handle, true);
+            WinApi.DoubleBuffering(this.lstLoc.Handle, true);
         }
 
         public override void OnEnter(NavArgs args)
@@ -60,6 +64,20 @@ namespace HaimsPda.Screens
         private static string Str(string s) 
         { 
             return (s == null) ? "" : s; 
+        }
+
+        // [322] [330] 에서 저장하고 돌아오면 같은 부번을 다시 조회하고 보던 LOC 행을 다시 고른다
+        public override void OnReturn(NavArgs result)
+        {
+            if (!NavResult.IsSaved(result) || _busy) return;
+            string ptno = PartNo.Key(txtPart.Text);
+            if (ptno.Length == 0) return;
+
+            LocStockRow l = Selected;
+            if (l != null) { _reselWh = l.Whscd; _reselLoc = Loc.Key(l.Locno); }
+
+            Begin("재조회중...");
+            SearchPart(ptno);
         }
 
         public override void OnScan(HaimsPda.Devices.ScanData data)
@@ -142,6 +160,9 @@ namespace HaimsPda.Screens
                 delegate { return StockService.SearchPart(_lep, ptno, Gubun); },
                 delegate(object r, Exception ex)
                 {
+                    string rWh = _reselWh, rLoc = _reselLoc;
+                    _reselWh = null; _reselLoc = null;
+
                     if (Fail(ex)) return;
 
                     PartStockResult sr = (PartStockResult)r;
@@ -165,6 +186,20 @@ namespace HaimsPda.Screens
                     txtStdIn.Text = i.StdInQty;
 
                     FillGrid(sr.Locs);
+
+                    if (rLoc != null)
+                    {
+                        for (int n = 0; n < lstLoc.Items.Count; n++)
+                        {
+                            LocStockRow l = (LocStockRow)lstLoc.Items[n].Tag;
+                            if (l.Whscd == rWh && Loc.Key(l.Locno) == rLoc)
+                            {
+                                lstLoc.Items[n].Selected = true;
+                                lstLoc.EnsureVisible(n);
+                                break;
+                            }
+                        }
+                    }
 
                     Report(MP_OK, "정상 조회되었습니다.", MsgLevel.Success);
                     txtPart.Focus();
@@ -204,7 +239,7 @@ namespace HaimsPda.Screens
         // ------------------------------------------------------------------
         // 버튼 : 선택 행을 들고 다른 화면으로 넘어간다 (원본 gfn_SetLinkInfo + gfn_GoToMenu)
         // ------------------------------------------------------------------
-        private void OnWealth(object sender, EventArgs e) { GoWith(ScreenId.LocInventory, "재물조사(LOC)"); }
+        private void OnWealth(object sender, EventArgs e) { GoWith(ScreenId.LocInventory); }   // [301] 미등록이면 셸이 안내
         private void OnControl(object sender, EventArgs e)
         {
             // 원본 OnBtnControl : 1C03 링크정보 + WHSCD + EXPECTQTY(LOC_AVLQT) -> P138([212] OS&D)
@@ -221,15 +256,24 @@ namespace HaimsPda.Screens
             a.Set("EXPECTQTY", l.AvlQty);
             Shell.Navigate(ScreenId.OsdControl, a);      // [322] 통제등록(OS&D)
         }
-        private void OnAdjust(object sender, EventArgs e) { GoWith(0, "재고조정(330)"); }
+        private void OnAdjust(object sender, EventArgs e) { GoWith(ScreenId.StockAdjust); }   // [330] 재고조정
 
-        private void GoWith(int screenId, string name)
+        /// <summary>선택 LOC 행을 들고 이동 (원본 ds_LinkInfo : LEP/PTNO/PTNM/CLASS/LOCNO/WHSCD/QTY)</summary>
+        private void GoWith(int screenId)
         {
+            if (_busy) return;
             LocStockRow l = Selected;
             if (l == null) { Report(MP_NOSEL, "선택된 데이터가 없습니다.", MsgLevel.Warn); return; }
 
-            // TODO: NavArgs 로 LEP/PTNO/PTNM/CLASS/LOCNO/WHSCD/AVLQT 전달 (ds_LinkInfo 대응)
-            Msg(name + " 연결 예정 - " + l.Whscd + " " + l.Locno + " " + l.AvlQty, MsgLevel.Info);
+            NavArgs a = new NavArgs();
+            a.Set("LEP", _lep);
+            a.Set("PTNO", PartNo.Key(txtPart.Text));
+            a.Set("PTNM", lblPartName.Text);
+            a.Set("CLASS", lblClass.Text);
+            a.Set("LOCNO", l.Locno);
+            a.Set("WHSCD", l.Whscd);
+            a.Set("QTY", l.AvlQty);
+            Shell.Navigate(screenId, a);
         }
 
         private void OnClear(object sender, EventArgs e)

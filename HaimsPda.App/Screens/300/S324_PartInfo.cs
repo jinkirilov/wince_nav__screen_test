@@ -191,11 +191,18 @@ namespace HaimsPda.Screens
             string wh = CurWh;
             string car = CurCar;
 
+            _hasLast = true;
+            _lastDir = dir;
+            _lastPtno = ptno;
+
             Begin("조회중...");
             Async.Run(this,
                 delegate { return PartInfoService.Search(lep, ptno, wh, car, dir); },
                 delegate(object r, Exception ex)
                 {
+                    string rPtno = _reselPtno, rLoc = _reselLoc;
+                    _reselPtno = null; _reselLoc = null;
+
                     if (Fail(ex)) return;
 
                     ArrayList rows = (ArrayList)r;
@@ -207,6 +214,20 @@ namespace HaimsPda.Screens
                     }
 
                     FillGrid(rows);
+
+                    if (rPtno != null)
+                    {
+                        for (int n = 0; n < lstPart.Items.Count; n++)
+                        {
+                            PartInfoRow q = lstPart.Items[n].Tag as PartInfoRow;
+                            if (q != null && PartNo.Key(q.Ptno) == rPtno && Loc.Key(q.Locno) == rLoc)
+                            {
+                                lstPart.Items[n].Selected = true;
+                                lstPart.EnsureVisible(n);
+                                break;
+                            }
+                        }
+                    }
 
                     // 원본 : 부번을 입력한 조회일 때만 품명/수불코드를 채운다
                     if (txtPart.Text.Trim().Length > 0)
@@ -278,6 +299,23 @@ namespace HaimsPda.Screens
             //    for (int c = 0; c < lstPart.Columns.Count; c++)
             //        lstPart.Columns[1].Width = -1;
             //}
+        }
+
+        // 마지막 조회 조건 (OnReturn 재조회용)
+        private bool _hasLast;
+        private PartInfoService.Dir _lastDir;
+        private string _lastPtno;
+        private string _reselPtno;      // 재조회 후 다시 고를 행
+        private string _reselLoc;
+
+        // [330] 에서 저장하고 돌아오면 같은 조건으로 다시 조회하고 보던 행을 다시 고른다
+        public override void OnReturn(NavArgs result)
+        {
+            if (!NavResult.IsSaved(result) || !_hasLast || _busy) return;
+
+            PartInfoRow p = Selected;
+            if (p != null) { _reselPtno = PartNo.Key(p.Ptno); _reselLoc = Loc.Key(p.Locno); }
+            Search(_lastDir, _lastPtno);
         }
 
         private PartInfoRow Selected

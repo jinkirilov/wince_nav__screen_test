@@ -44,6 +44,7 @@ namespace HaimsPda.Core
     {
         void Navigate(int screenId, NavArgs args);
         void GoBack();
+        void GoBack(HaimsPda.Nav.NavArgs result);        // 결과를 들고 복귀 -> 부모 OnReturn
         void ShowMessage(string text, MsgLevel level); // 푸터 갱신
         SessionContext Session { get; }
         IfClient If { get; }                            // 데몬 /if 통신

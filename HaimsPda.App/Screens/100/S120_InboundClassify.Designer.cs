@@ -39,6 +39,8 @@ namespace HaimsPda.Screens
             this.txtSaveQty = new System.Windows.Forms.TextBox();
             this.chkSale = new System.Windows.Forms.CheckBox();
             this._buttons = new System.Windows.Forms.Panel();
+            this.btnAlloc = new System.Windows.Forms.Button();
+            this.btnNotRecv = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoc = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -303,22 +305,48 @@ namespace HaimsPda.Screens
             // 
             // _buttons
             // 
-            this._buttons.Controls.Add(this.btnSave);
+            this._buttons.Controls.Add(this.btnAlloc);
+            this._buttons.Controls.Add(this.btnNotRecv);
             this._buttons.Controls.Add(this.btnLoc);
+            this._buttons.Controls.Add(this.btnSave);
             this._buttons.Controls.Add(this.btnClear);
             this._buttons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._buttons.Location = new System.Drawing.Point(0, 484);
             this._buttons.Name = "_buttons";
             this._buttons.Size = new System.Drawing.Size(480, 52);
             // 
+            // btnAlloc
+            // 
+            this.btnAlloc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
+            this.btnAlloc.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAlloc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnAlloc.Location = new System.Drawing.Point(3, 4);
+            this.btnAlloc.Name = "btnAlloc";
+            this.btnAlloc.Size = new System.Drawing.Size(92, 44);
+            this.btnAlloc.TabIndex = 11;
+            this.btnAlloc.Text = "할당내역";
+            this.btnAlloc.Click += new System.EventHandler(this.OnAlloc);
+            // 
+            // btnNotRecv
+            // 
+            this.btnNotRecv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
+            this.btnNotRecv.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
+            this.btnNotRecv.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnNotRecv.Location = new System.Drawing.Point(98, 4);
+            this.btnNotRecv.Name = "btnNotRecv";
+            this.btnNotRecv.Size = new System.Drawing.Size(92, 44);
+            this.btnNotRecv.TabIndex = 12;
+            this.btnNotRecv.Text = "미수령";
+            this.btnNotRecv.Click += new System.EventHandler(this.OnNotRecv);
+            // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(114)))));
             this.btnSave.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnSave.Location = new System.Drawing.Point(4, 4);
+            this.btnSave.Location = new System.Drawing.Point(288, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(155, 44);
+            this.btnSave.Size = new System.Drawing.Size(92, 44);
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "분류저장";
             this.btnSave.Click += new System.EventHandler(this.OnSave);
@@ -328,9 +356,9 @@ namespace HaimsPda.Screens
             this.btnLoc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnLoc.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
             this.btnLoc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnLoc.Location = new System.Drawing.Point(163, 4);
+            this.btnLoc.Location = new System.Drawing.Point(193, 4);
             this.btnLoc.Name = "btnLoc";
-            this.btnLoc.Size = new System.Drawing.Size(155, 44);
+            this.btnLoc.Size = new System.Drawing.Size(92, 44);
             this.btnLoc.TabIndex = 9;
             this.btnLoc.Text = "LOC등록";
             this.btnLoc.Click += new System.EventHandler(this.OnLoc);
@@ -340,9 +368,9 @@ namespace HaimsPda.Screens
             this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnClear.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
             this.btnClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnClear.Location = new System.Drawing.Point(321, 4);
+            this.btnClear.Location = new System.Drawing.Point(383, 4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(155, 44);
+            this.btnClear.Size = new System.Drawing.Size(92, 44);
             this.btnClear.TabIndex = 10;
             this.btnClear.Text = "지움";
             this.btnClear.Click += new System.EventHandler(this.OnClear);
@@ -386,6 +414,8 @@ namespace HaimsPda.Screens
         private HaimsPda.Controls.VLabel lblSaveQtyCap;
         private System.Windows.Forms.TextBox txtSaveQty;
         private System.Windows.Forms.CheckBox chkSale;
+        private System.Windows.Forms.Button btnAlloc;
+        private System.Windows.Forms.Button btnNotRecv;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoc;
         private System.Windows.Forms.Button btnClear;

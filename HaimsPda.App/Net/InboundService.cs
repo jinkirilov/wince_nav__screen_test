@@ -81,9 +81,12 @@ namespace HaimsPda.Net
         public string VapSysdtL = "";
         public string Vchym = "";
 
-        /// <summary>미수령 수량 / 사유코드. 미수령 화면이 없으면 0 / 빈값.</summary>
+        /// <summary>미수령 수량 / 사유코드 ([132] 결과). 없으면 0 / 빈값.</summary>
         public int CtlQty;
         public string CtlCd = "";
+
+        /// <summary>원본 GV_Control : 미수령 수량과 사유가 모두 있다</summary>
+        public bool HasControl { get { return CtlQty > 0 && CtlCd.Length > 0; } }
 
         /// <summary>할당구분 M 이면 부가세 1.1 / 원가율 1.0, 아니면 반대</summary>
         public string VatRate { get { return (WsfId == "M") ? "1.1" : "1.0"; } }
@@ -267,6 +270,63 @@ namespace HaimsPda.Net
         }
 
         // ------------------------------------------------------------------
+        // [1401] 할당내역 팝업 조회 : PL140_P01.xml fn_SearchPTNO
+        //   plus:PL140_W01_S02 -> ds_Output01
+        // 화면 조회(fn_Search)와 같은 SQL 이지만 팝업은 WSFID=M 을 더 보낸다(원본 동일).
+        // 돌려주는 Row 가 그대로 커밋 입력(원본 dsInput)이 된다.
+        // ------------------------------------------------------------------
+        public const string PgmAlloc = "PL140_P01.xml";
+
+        public static ArrayList SearchAllocs(string lep, string ptno, string whscd)
+        {
+            TitRequest r = new TitRequest();
+            r.AddSearch("plus:PL140_W01_S02");
+            r.AddParam("AGTCD", Agt);
+            r.AddParam("LEP", lep);
+            r.AddParam("PTNO", PartNo.Key(ptno));
+            r.AddParam("WHSCD", whscd);
+            r.AddParam("WSFID", "M");
+            AuthService.AddSessionCommon(r);
+
+            ArrayList list = new ArrayList();
+
+            TitResult res = HaimsHttp.PostStream(PgmAlloc, "fn_SearchPTNO", r.Build(),
+                delegate(string ds, Row row)
+                {
+                    if (ds == "ds_Output01") list.Add(row);
+                });
+
+            Check(res);
+            return list;
+        }
+
+        /// <summary>할당 레코드들의 WSF_WSFQT 합계.</summary>
+        public static int SumQty(ArrayList allocs)
+        {
+            int sum = 0;
+            if (allocs == null) return 0;
+            for (int i = 0; i < allocs.Count; i++)
+                sum += QtyOf((Row)allocs[i]);
+            return sum;
+        }
+
+        /// <summary>
+        /// 할당수량. 원본 그리드 포맷이 #,###.## 이라 "3.00" 처럼 올 수 있다.
+        /// int.Parse 는 이를 0 으로 만들어 버리므로 실수로 읽고 자른다(원본 parseInt 와 같은 결과).
+        /// </summary>
+        public static int QtyOf(Row a)
+        {
+            string s = a["WSF_WSFQT"].Replace(",", "");
+            if (s.Length == 0) return 0;
+            try
+            {
+                return (int)double.Parse(s, System.Globalization.NumberStyles.Float,
+                                         System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch { return 0; }
+        }
+
+        // ------------------------------------------------------------------
         // 저장 전 검증 : fn_SaveChk
         //   plus:PL140_W01_S07 -> ds_Output07
         //   plus:PL140_W01_S08 -> ds_Output08
@@ -443,6 +503,13 @@ namespace HaimsPda.Net
 
                 r.AddSearch("plus:PL100_W01_I01");   // 수불마스터
                 r.AddSearch("plus:PL100_W01_I02");   // 수불세부내역
+
+                // 미수령([132])이 있으면 미수령내역 + 미수령 재고 반영 (원본 GV_Control)
+                if (c.HasControl)
+                {
+                    r.AddSearch("plus:PL100_W01_I05");   // 미수령내역 KAPPTFLE.PFPRCNAR
+                    r.AddSearch("plus:PL100_W01_I06");
+                }
             }
 
             r.AddSearch("plus:PL100_W01_U01");        // 재고 Master
@@ -469,6 +536,15 @@ namespace HaimsPda.Net
 
             if (!c.IsClassified)
                 r.AddParam("HOLO_NO", "MOBILEPDA_140");
+
+            // I05 에만 쓰이는 값. 미수령이 없을 때 원본은 보내지 않는다.
+            if (!c.IsClassified && c.HasControl)
+            {
+                r.AddParam("WSF_ITSCD", c.WsfItscd);
+                r.AddParam("WSF_CASNO", c.WsfCasno);
+                r.AddParam("WSF_REQCD", c.WsfReqcd);
+                r.AddParam("WSF_NOARG_QTY", NoArg(c.WsfNoargQty));
+            }
 
             r.AddParam("VAP_SYSDT", c.VapSysdt);
             r.AddParam("VAP_SYSDT_L", c.VapSysdtL);
@@ -507,6 +583,19 @@ namespace HaimsPda.Net
 
             if (res.IsError)
                 throw new HaimsException("시스템 오류가 발생하였습니다. 시스템 관리자에게 문의하세요.");
+        }
+
+        /// <summary>원본 parseInt(WSF_NOARG_QTY) — 빈 값은 0 으로 보낸다.</summary>
+        internal static string NoArg(string s)
+        {
+            s = (s == null) ? "" : s.Trim().Replace(",", "");
+            if (s.Length == 0) return "0";
+            try
+            {
+                return ((int)double.Parse(s, System.Globalization.NumberStyles.Float,
+                                          System.Globalization.CultureInfo.InvariantCulture)).ToString();
+            }
+            catch { return "0"; }
         }
 
         /// <summary>증표번호에서 년월을 뗀다(웹의 substr(1,6)).</summary>
