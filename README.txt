@@ -4,7 +4,7 @@
 
 [열기/빌드]
 1) Visual Studio 2008 + Windows Mobile 6 Professional SDK + .NET CF 3.5 설치 확인
-2) MobisHaims.sln 열기
+2) HaimsPda.sln 열기
 3) 대상: "Windows Mobile 6 Professional SDK (ARMV4I)" 에뮬레이터 또는 실기기
 4) F5(배포/실행). 기본은 MockMode=true 이므로 데몬 없이 화면 동작 확인 가능
 

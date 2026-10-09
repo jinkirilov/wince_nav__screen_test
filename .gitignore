@@ -1,0 +1,10 @@
+/MobisHaims.App/bin
+/MobisHaims.App/obj
+.claude/settings.local.json
+/HaimsPda.App/.claude
+bin
+obj
+/HaimsPda.App/HaimsPda.App.suo
+/HaimsPda.App/HaimsPda.App.csproj.user
+/_rename142b.py
+/_rename142.py

@@ -1,0 +1,69 @@
+﻿<Classes xmlns="http://schemas.microsoft.com/VisualStudio/2004/03/SmartDevices/XMTA.xsd">
+  <Class Name="HaimsPda.Controls.HeaderControl">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Controls.FooterControl">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Nav.ScreenBase">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S000_MainMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S100_InboundMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S120_SiteInboundClassify">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Controls.VAlign">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Controls.VLabel">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+    <Property Name="Align">
+      <Browsable>true</Browsable>
+      <Category>Appearance</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+  </Class>
+  <Class Name="HaimsPda.Controls.CustTextBox">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+    <Property Name="FocusedBackColor">
+      <Browsable>true</Browsable>
+      <Category>Appearance</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+    <Property Name="SelectAllOnFocus">
+      <Browsable>true</Browsable>
+      <Category>Behavior</Category>
+      <DesignerSerializationVisibility>Visible</DesignerSerializationVisibility>
+    </Property>
+  </Class>
+  <Class Name="HaimsPda.Screens.S140_InboundSave">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S300_StockMenu">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S321_PartStock">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+  <Class Name="HaimsPda.Screens.S324_PartInfo">
+    <DesignTimeVisible>true</DesignTimeVisible>
+    <DesktopCompatible>true</DesktopCompatible>
+  </Class>
+</Classes>
