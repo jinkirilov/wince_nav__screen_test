@@ -19,7 +19,6 @@ namespace HaimsPda.Screens
             this.btnLocStock = new System.Windows.Forms.Button();
             this.btnPartInfo = new System.Windows.Forms.Button();
             this.btnMoveHist = new System.Windows.Forms.Button();
-            this.btnInventory = new System.Windows.Forms.Button();
             this.btnLocInventory = new System.Windows.Forms.Button();
             this.btnInvTarget = new System.Windows.Forms.Button();
             this.btnAdjust = new System.Windows.Forms.Button();
@@ -73,18 +72,6 @@ namespace HaimsPda.Screens
             this.btnMoveHist.Text = "부품수불이력";
             this.btnMoveHist.Click += new System.EventHandler(this.OnMenuClick);
             // 
-            // btnInventory
-            // 
-            this.btnInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
-            this.btnInventory.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
-            this.btnInventory.ForeColor = System.Drawing.Color.White;
-            this.btnInventory.Location = new System.Drawing.Point(4, 210);
-            this.btnInventory.Name = "btnInventory";
-            this.btnInventory.Size = new System.Drawing.Size(232, 80);
-            this.btnInventory.TabIndex = 4;
-            this.btnInventory.Text = "재물조사";
-            this.btnInventory.Click += new System.EventHandler(this.OnMenuClick);
-            // 
             // btnLocInventory
             // 
             this.btnLocInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
@@ -102,10 +89,10 @@ namespace HaimsPda.Screens
             this.btnInvTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnInvTarget.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnInvTarget.ForeColor = System.Drawing.Color.White;
-            this.btnInvTarget.Location = new System.Drawing.Point(4, 311);
+            this.btnInvTarget.Location = new System.Drawing.Point(4, 210);
             this.btnInvTarget.Name = "btnInvTarget";
             this.btnInvTarget.Size = new System.Drawing.Size(232, 80);
-            this.btnInvTarget.TabIndex = 6;
+            this.btnInvTarget.TabIndex = 4;
             this.btnInvTarget.Text = "재물조사대상";
             this.btnInvTarget.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -114,10 +101,10 @@ namespace HaimsPda.Screens
             this.btnAdjust.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(87)))), ((int)(((byte)(144)))));
             this.btnAdjust.Font = new System.Drawing.Font("굴림", 11F, System.Drawing.FontStyle.Bold);
             this.btnAdjust.ForeColor = System.Drawing.Color.White;
-            this.btnAdjust.Location = new System.Drawing.Point(245, 311);
+            this.btnAdjust.Location = new System.Drawing.Point(4, 311);
             this.btnAdjust.Name = "btnAdjust";
             this.btnAdjust.Size = new System.Drawing.Size(232, 80);
-            this.btnAdjust.TabIndex = 7;
+            this.btnAdjust.TabIndex = 6;
             this.btnAdjust.Text = "재고조정";
             this.btnAdjust.Click += new System.EventHandler(this.OnMenuClick);
             // 
@@ -129,7 +116,6 @@ namespace HaimsPda.Screens
             this.Controls.Add(this.btnLocStock);
             this.Controls.Add(this.btnPartInfo);
             this.Controls.Add(this.btnMoveHist);
-            this.Controls.Add(this.btnInventory);
             this.Controls.Add(this.btnLocInventory);
             this.Controls.Add(this.btnInvTarget);
             this.Controls.Add(this.btnAdjust);
@@ -145,7 +131,6 @@ namespace HaimsPda.Screens
         private System.Windows.Forms.Button btnLocStock;
         private System.Windows.Forms.Button btnPartInfo;
         private System.Windows.Forms.Button btnMoveHist;
-        private System.Windows.Forms.Button btnInventory;
         private System.Windows.Forms.Button btnLocInventory;
         private System.Windows.Forms.Button btnInvTarget;
         private System.Windows.Forms.Button btnAdjust;

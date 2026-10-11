@@ -63,6 +63,27 @@ namespace HaimsPda.Net
             return this;
         }
 
+        /// <summary>
+        /// tit_AddInputParamData 와 똑같이 동작한다 : 같은 id 가 이미 있으면 자리는 그대로 두고 값만 덮어쓴다.
+        /// 원본이 SQL 여러 개에 같은 파라미터를 다시 넣는 화면([302] 저장 등)에서 쓴다.
+        /// (AddParam 은 그대로 덧붙인다. 기존 화면 동작을 바꾸지 않기 위해 따로 둔다.)
+        /// </summary>
+        public TitRequest SetParam(string id, string value)
+        {
+            string head = "<param id=\"" + id + "\" type=\"STRING\">";
+            string s = _params.ToString();
+            int p = s.IndexOf(head);
+            if (p < 0) return AddParam(id, value);
+
+            int vs = p + head.Length;
+            int ve = s.IndexOf("</param>", vs);
+            if (ve < 0) return AddParam(id, value);
+
+            _params.Remove(vs, ve - vs);
+            _params.Insert(vs, Esc(value));
+            return this;
+        }
+
         /// <summary>tit_AddSearchActionInfo</summary>
         public TitRequest AddSearch(string sqlId)
         {

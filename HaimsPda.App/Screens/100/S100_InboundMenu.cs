@@ -35,8 +35,18 @@ namespace HaimsPda.Screens
             
             if (c == null || c.Tag == null || Shell == null) 
                 return;
-            
-            Shell.Navigate(Convert.ToInt32(c.Tag), NavArgs.Empty);
+
+            int id = Convert.ToInt32(c.Tag);
+
+            // 원본 Sub.xml : 1A05(121) 은 USR_USRTY != "A"(전문점) 이면 막는다.
+            // 개발 중(UserKind.Enforce = false)에는 막지 않는다.
+            if (id == ScreenId.ShopInboundClassify)
+            {
+                string block = HaimsPda.Net.UserKind.AgencyOnlyBlock();
+                if (block != null) { MessageBox.Show(block, "[100] " + ScreenName); return; }
+            }
+
+            Shell.Navigate(id, NavArgs.Empty);
         }
 
         public override void OnEnter(NavArgs args)

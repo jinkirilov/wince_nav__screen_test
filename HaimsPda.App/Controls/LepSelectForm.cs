@@ -18,8 +18,16 @@ namespace HaimsPda.Controls
         public int SelectedIdx = -1;
 
         public LepSelectForm(ArrayList items, string title)
+            : this(items, title, null)
+        {
+        }
+
+        /// <summary>header : 목록 열 제목 (null 이면 디자이너 값 "계열")</summary>
+        public LepSelectForm(ArrayList items, string title, string header)
         {
             InitializeComponent();
+
+            if (header != null && header.Length > 0) colLep.Text = header;
 
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
@@ -104,6 +112,21 @@ namespace HaimsPda.Controls
             if (items.Count == 1) return 0;
 
             using (LepSelectForm f = new LepSelectForm(items, title))
+            {
+                f.ShowDialog();
+                return f.SelectedIdx;
+            }
+        }
+
+        /// <summary>
+        /// 1건이어도 반드시 팝업을 띄워 고르게 한다. 0건 -> -1, 취소 -> -1.
+        /// 계열이 아닌 코드 목록(예 : [301]/[302] 이상코드 selectcode_popwrap)에 쓴다.
+        /// </summary>
+        public static int Choose(ArrayList items, string title, string header)
+        {
+            if (items == null || items.Count == 0) return -1;
+
+            using (LepSelectForm f = new LepSelectForm(items, title, header))
             {
                 f.ShowDialog();
                 return f.SelectedIdx;

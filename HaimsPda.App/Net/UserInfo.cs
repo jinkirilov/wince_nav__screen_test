@@ -56,6 +56,35 @@ namespace HaimsPda.Net
     }
 
     /// <summary>
+    /// 대리점 / 전문점 구분. 원본 /ui/ws/main/Sub.xml 메뉴 클릭 처리 :
+    ///   USR_USRTY == "A"  -> 대리점. 203·204·250 (1B10·1B11·1B05) 차단 "대리점은 사용할 수 없는 메뉴입니다."
+    ///   USR_USRTY != "A"  -> 전문점. 121 (1A05) 차단 "전문점은 사용할 수 없는 메뉴입니다."
+    /// 개발 중에는 Enforce = false 로 두어 구분 없이 모든 메뉴를 연다.
+    /// </summary>
+    public static class UserKind
+    {
+        /// <summary>false : 개발 모드. 메뉴를 구분 없이 모두 연다. 운영 배포 때 true 로 바꾼다.</summary>
+        public static bool Enforce = false;
+
+        public static bool IsAgency
+        {
+            get { UserInfo u = Session.User; return u != null && u["USR_USRTY"].Trim() == "A"; }
+        }
+
+        /// <summary>전문점 전용 메뉴를 막아야 하면 안내 문구, 아니면 null</summary>
+        public static string ShopOnlyBlock()
+        {
+            return (Enforce && IsAgency) ? "대리점은 사용할 수 없는 메뉴입니다." : null;
+        }
+
+        /// <summary>대리점 전용 메뉴를 막아야 하면 안내 문구, 아니면 null</summary>
+        public static string AgencyOnlyBlock()
+        {
+            return (Enforce && !IsAgency) ? "전문점은 사용할 수 없는 메뉴입니다." : null;
+        }
+    }
+
+    /// <summary>
     /// 로그인 시 내려오는 업체코드(ds_ven) 1건.
     /// VNDSB 가 "00000" 이면 주업체, 아니면 그 주업체에 딸린 부업체다.
     /// </summary>

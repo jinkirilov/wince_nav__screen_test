@@ -109,6 +109,8 @@
     <Compile Include="Net\OsdService.cs" />
     <Compile Include="Net\StockAdjustService.cs" />
     <Compile Include="Net\PartHistService.cs" />
+    <Compile Include="Net\OutboundService.cs" />
+    <Compile Include="Net\InventoryService.cs" />
     <Compile Include="Net\LocMoveService.cs" />
     <Compile Include="Net\LocRegisterService.cs" />
     <Compile Include="Net\LocSortService.cs" />
@@ -246,11 +248,116 @@
     <Compile Include="Screens\300\S323_PartMoveHist.Designer.cs">
       <DependentUpon>S323_PartMoveHist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\200\WorkScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S200_OutboundMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S200_OutboundMenu.Designer.cs">
+      <DependentUpon>S200_OutboundMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S201_PickTarget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S201_PickTarget.Designer.cs">
+      <DependentUpon>S201_PickTarget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S202_PickDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S202_PickDetail.Designer.cs">
+      <DependentUpon>S202_PickDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S210_Picking.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S210_Picking.Designer.cs">
+      <DependentUpon>S210_Picking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S211_PickReturn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S211_PickReturn.Designer.cs">
+      <DependentUpon>S211_PickReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S220_SlipPicking.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S220_SlipPicking.Designer.cs">
+      <DependentUpon>S220_SlipPicking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S221_SlipSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S221_SlipSelect.Designer.cs">
+      <DependentUpon>S221_SlipSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S251_CaseClassify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S251_CaseClassify.Designer.cs">
+      <DependentUpon>S251_CaseClassify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S260_SlipClassify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S260_SlipClassify.Designer.cs">
+      <DependentUpon>S260_SlipClassify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S261_SlipClassifySelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S261_SlipClassifySelect.Designer.cs">
+      <DependentUpon>S261_SlipClassifySelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S262_SlipClassifyDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S262_SlipClassifyDetail.Designer.cs">
+      <DependentUpon>S262_SlipClassifyDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S203_ShopPickTarget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S203_ShopPickTarget.Designer.cs">
+      <DependentUpon>S203_ShopPickTarget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S204_ShopPickTarget2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S204_ShopPickTarget2.Designer.cs">
+      <DependentUpon>S204_ShopPickTarget2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\200\S250_TagClassify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\200\S250_TagClassify.Designer.cs">
+      <DependentUpon>S250_TagClassify.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\300\S330_StockAdjust.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Screens\300\S330_StockAdjust.Designer.cs">
       <DependentUpon>S330_StockAdjust.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S301_LocInventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S301_LocInventory.Designer.cs">
+      <DependentUpon>S301_LocInventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S302_Inventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S302_Inventory.Designer.cs">
+      <DependentUpon>S302_Inventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\300\S310_InventoryTarget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Screens\300\S310_InventoryTarget.Designer.cs">
+      <DependentUpon>S310_InventoryTarget.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\300\S322_OsdControl.cs">
       <SubType>UserControl</SubType>

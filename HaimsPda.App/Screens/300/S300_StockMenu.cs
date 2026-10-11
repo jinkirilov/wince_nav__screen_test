@@ -9,7 +9,8 @@ namespace HaimsPda.Screens
     //
     // 항목과 화면번호는 서버 메뉴(ds_Menu)의 실제 값을 따랐다.
     //   P133 파트별재고 321 / P132 LOC별재고 320 / P135 부품정보조회 324 / P134 부품수불이력 323
-    //   P192 재물조사 302 / P188 재물조사(LOC) 301 / P131 재물조사대상 310 / P190 재고조정 330
+    //   P131 재물조사대상 310 / P188 재물조사(LOC) 301 / P190 재고조정 330
+    //   P192 재물조사 302 는 메뉴 항목이 아니다(서버 메뉴 up 없음). [310] 에서 골라서만 들어간다.
     //
     // 좌표와 크기, 색, 폰트는 전부 S300_StockMenu.Designer.cs 에서 관리한다.
     public sealed partial class S300_StockMenu : ScreenBase
@@ -26,7 +27,6 @@ namespace HaimsPda.Screens
             btnLocStock.Tag = ScreenId.StockByLoc;
             btnPartInfo.Tag = ScreenId.PartInfo;
             btnMoveHist.Tag = ScreenId.PartMoveHist;
-            btnInventory.Tag = ScreenId.Inventory;
             btnLocInventory.Tag = ScreenId.LocInventory;
             btnInvTarget.Tag = ScreenId.InventoryTarget;
             btnAdjust.Tag = ScreenId.StockAdjust;

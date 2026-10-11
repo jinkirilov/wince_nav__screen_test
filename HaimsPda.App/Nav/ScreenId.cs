@@ -20,18 +20,26 @@
         public const int DirectInboundSave = 142;  // 직입고저장        (PL142_W01)
 
         // 출고관리 [200]
+        // 번호는 원본 PL2**_W01.xml 과 1:1 (서버 메뉴 1B00 / P12x·P18x 기준).
+        // 메뉴 버튼은 201/203/204/220/221/250/251/261 8개. 나머지는 하위 화면이다.
         public const int OutboundMenu = 200;
-        public const int PickTargetAgency = 201;   // 피킹대상조회(대리점)
-        public const int PickTargetShop = 203;     // 전문점 피킹대상 조회
-        public const int PickTargetRoute = 204;    // 전문점 노선/지역 피킹대상조회
-        public const int PickResult = 210;         // 피킹실적처리
-        public const int ReturnProc = 211;         // 반품처리
-        public const int PickBySlip = 220;         // 피킹(판매증표출고)
-        public const int SlipSelect = 221;         // 판매증표선택
-        public const int ListPick = 230;           // 리스트피킹처리
-        public const int LocPickTag = 240;         // 배송분류(TAG)/LOC피킹
-        public const int PickClassifyTag = 250;    // 피킹분류(TAG)
-        public const int SlipClassifyCheck = 260;  // 판매증표분류확인(배송분류)
+        public const int PickTarget = 201;         // 피킹대상/처리          (PL201_W01, P126)
+        public const int PickDetail = 202;         // 피킹세부내역           (PL202_W01, P171) — 201 하위
+        public const int PickTargetShop = 203;     // 피킹대상조회(전문점)   (PL203_W01, P182) — 전문점 전용
+        public const int PickTargetShop2 = 204;    // 피킹대상(전문점)       (PL204_W01, P183) — 전문점 전용
+        public const int Picking = 210;            // 피킹실적처리           (PL210_W01, P121) — 201 하위
+        public const int PickReturn = 211;         // 반품(OS&D 피킹)        (PL211_W01, P172) — 210/280 하위
+        public const int SlipPicking = 220;        // 피킹(판매증표출고)     (PL220_W01, P122)
+        public const int SlipSelect = 221;         // 판매증표선택           (PL221_W01, P184)
+        public const int ShopPicking = 230;        // 피킹실적처리(전문점)   (PL230_W01, P123)
+        public const int LocPicking = 240;         // LOC별 피킹실적처리     (PL240_W01, P124)
+        public const int TagClassify = 250;        // 피킹분류(TAG)          (PL250_W01, P125) — 전문점 전용
+        public const int CaseClassify = 251;       // 배송분류(CASE)         (PL251_W01, P198)
+        public const int SlipClassify = 260;       // 배송분류(판매증표)     (PL260_W01, P185) — 261 하위
+        public const int SlipClassifySelect = 261; // 피킹분류(증표)         (PL261_W01, P186)
+        public const int SlipClassifyDetail = 262; // 증표분류세부           (PL262_W01, P191) — 260 하위
+        public const int ListPicking = 280;        // 리스트피킹             (PL280_W01, P147) — 201 하위
+        public const int ShopListPicking = 281;    // 리스트피킹(전문점)     (PL281_W01, P187)
 
         // 재고관리 [300]
         public const int StockMenu = 300;
